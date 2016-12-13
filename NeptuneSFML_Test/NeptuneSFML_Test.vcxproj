@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{23E0074C-E3EB-4181-9C85-9369A2F834E8}</ProjectGuid>
+    <RootNamespace>NeptuneSFML_Test</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\NeptuneSFML\include;..\..\SFML-2.4.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\SFML-2.4.0\lib;..\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-system-d.lib;sfml-network-d.lib;sfml-audio-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;NeptuneSFML-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\NeptuneSFML\include;..\..\SFML-2.4.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\SFML-2.4.0\lib;..\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-system.lib;sfml-network.lib;sfml-audio.lib;sfml-window.lib;sfml-graphics.lib;NeptuneSFML.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="CreeperWorld\CreeperMap\CreeperMap.cpp" />
+    <ClCompile Include="CreeperWorld\CreeperWorldGame.cpp" />
+    <ClCompile Include="FFTA\Battle\FFTABattle.cpp" />
+    <ClCompile Include="FFTA\Battle\FFTACharacterInfos.cpp" />
+    <ClCompile Include="FFTA\Battle\FFTAHighligthedTile.cpp" />
+    <ClCompile Include="FFTA\FFTACharacter.cpp" />
+    <ClCompile Include="FFTA\FFTAGame.cpp" />
+    <ClCompile Include="FFTA\Battle\FFTAMap.cpp" />
+    <ClCompile Include="FFTA\Battle\FFTABattleCursor.cpp" />
+    <ClCompile Include="Isaac\Floor.cpp" />
+    <ClCompile Include="Isaac\IsaacGame.cpp" />
+    <ClCompile Include="Isaac\Room.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Particles\ParticlesGame.cpp" />
+    <ClCompile Include="PathFinding\AStar.cpp" />
+    <ClCompile Include="PathFinding\Map.cpp" />
+    <ClCompile Include="PathFinding\PathFindingGame.cpp" />
+    <ClCompile Include="Shmup\Bullet.cpp" />
+    <ClCompile Include="Shmup\BulletsManager.cpp" />
+    <ClCompile Include="Shmup\Player.cpp" />
+    <ClCompile Include="Shmup\ShmupGame.cpp" />
+    <ClCompile Include="Shmup\Shot\DoubleShot.cpp" />
+    <ClCompile Include="Shmup\Shot\SimpleShot.cpp" />
+    <ClCompile Include="Sonic\Level.cpp" />
+    <ClCompile Include="Sonic\Sonic.cpp" />
+    <ClCompile Include="Sonic\SonicGame.cpp" />
+    <ClCompile Include="Zelda\ZeldaGame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CreeperWorld\CreeperMap\CreeperMap.h" />
+    <ClInclude Include="CreeperWorld\CreeperWorldGame.h" />
+    <ClInclude Include="FFTA\Battle\FFTABattle.h" />
+    <ClInclude Include="FFTA\Battle\FFTACharacterInfos.h" />
+    <ClInclude Include="FFTA\Battle\FFTAHighligthedTile.h" />
+    <ClInclude Include="FFTA\FFTACharacter.h" />
+    <ClInclude Include="FFTA\FFTAGame.h" />
+    <ClInclude Include="FFTA\Battle\FFTAMap.h" />
+    <ClInclude Include="FFTA\Battle\FFTABattleCursor.h" />
+    <ClInclude Include="Isaac\Floor.h" />
+    <ClInclude Include="Isaac\IsaacGame.h" />
+    <ClInclude Include="Isaac\Room.h" />
+    <ClInclude Include="Particles\ParticlesGame.h" />
+    <ClInclude Include="PathFinding\AStar.h" />
+    <ClInclude Include="PathFinding\Map.h" />
+    <ClInclude Include="PathFinding\PathFindingGame.h" />
+    <ClInclude Include="Shmup\Bullet.h" />
+    <ClInclude Include="Shmup\BulletsManager.h" />
+    <ClInclude Include="Shmup\Player.h" />
+    <ClInclude Include="Shmup\ShmupGame.h" />
+    <ClInclude Include="Shmup\Shot\DoubleShot.h" />
+    <ClInclude Include="Shmup\Shot\ShotInterface.h" />
+    <ClInclude Include="Shmup\Shot\SimpleShot.h" />
+    <ClInclude Include="Sonic\Level.h" />
+    <ClInclude Include="Sonic\Sonic.h" />
+    <ClInclude Include="Sonic\SonicGame.h" />
+    <ClInclude Include="Zelda\ZeldaGame.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

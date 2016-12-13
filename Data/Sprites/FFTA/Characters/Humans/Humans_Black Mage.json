@@ -1,0 +1,119 @@
+{
+	"textureName": "Humans_Black Mage",
+	"portaitRect":
+	{
+		"x": 416,
+		"y": 744,
+		"width": -64,
+		"height": 88
+	},
+	"animations":
+	[{
+		"state": "Walking",
+		"origin":
+		{
+			"x": 8,
+			"y": 27
+		},
+		"framesTimes": [0.3, 0.1, 0.3, 0.1],
+		"framesRects":
+		[
+			[{
+				"x": 32,
+				"y": 13,
+				"width": 16,
+				"height": 30
+			},
+			{
+				"x": 56,
+				"y": 13,
+				"width": 16,
+				"height": 30
+			},
+			{
+				"x": 80,
+				"y": 13,
+				"width": 16,
+				"height": 30
+			},
+			{
+				"x": 56,
+				"y": 13,
+				"width": 16,
+				"height": 30
+			}],
+			[{
+				"x": 128,
+				"y": 15,
+				"width": 16,
+				"height": 28
+			},
+			{
+				"x": 152,
+				"y": 15,
+				"width": 16,
+				"height": 28
+			},
+			{
+				"x": 176,
+				"y": 15,
+				"width": 16,
+				"height": 28
+			},
+			{
+				"x": 152,
+				"y": 15,
+				"width": 16,
+				"height": 28
+			}],
+			[{
+				"x": 144,
+				"y": 15,
+				"width": -16,
+				"height": 28
+			},
+			{
+				"x": 168,
+				"y": 15,
+				"width": -16,
+				"height": 28
+			},
+			{
+				"x": 192,
+				"y": 15,
+				"width": -16,
+				"height": 28
+			},
+			{
+				"x": 168,
+				"y": 15,
+				"width": -16,
+				"height": 28
+			}],
+			[{
+				"x": 48,
+				"y": 13,
+				"width": -16,
+				"height": 30
+			},
+			{
+				"x": 72,
+				"y": 13,
+				"width": -16,
+				"height": 30
+			},
+			{
+				"x": 96,
+				"y": 13,
+				"width": -16,
+				"height": 30
+			},
+			{
+				"x": 72,
+				"y": 13,
+				"width": -16,
+				"height": 30
+			}]
+		]
+	}]
+}

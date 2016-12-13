@@ -1,0 +1,47 @@
+{
+	"textureName": "AisenField",
+	"backgroundRects":
+	[{
+		"x": 3,
+		"y": 322,
+		"width": 400,
+		"height": 289
+	},
+	{
+		"x": 427,
+		"y": 322,
+		"width": 400,
+		"height": 289
+	},
+	{
+		"x": 3,
+		"y": 634,
+		"width": 400,
+		"height": 289
+	},
+	{
+		"x": 428,
+		"y": 634,
+		"width": 400,
+		"height": 289
+	}],
+	"backgroundFrameTime": 0.25,
+	"foregroundRect":
+	{
+		"x": 3,
+		"y": 925,
+		"width": 400,
+		"height": 289
+	},
+	"backgroundColor":
+	{
+		"r": 88,
+		"g": 120,
+		"b": 192
+	},
+	"mapWidth": ,
+	"mapHeight": ,
+	"heightMap":
+	[0, 1, 2, 3, 4
+	]
+}
