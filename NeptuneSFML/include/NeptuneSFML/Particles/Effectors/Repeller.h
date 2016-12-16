@@ -10,7 +10,7 @@ namespace nep
 	class NEPTUNE_API Repeller :  public nep::ParticleEffector, public sf::CircleShape
 	{
 	public:
-		void Init(const sf::Vector2f& _position, float _strength);
+		void Init(const sf::Vector2f& _position, float _strength, bool _activated = true);
 
 		virtual void Apply(class Particle * const _particle);
 

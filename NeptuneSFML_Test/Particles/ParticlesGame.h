@@ -4,6 +4,7 @@
 
 #include <NeptuneSFML\Particles\Systems\VertexParticleSystem.h>
 #include <NeptuneSFML\Particles\Effectors\Repeller.h>
+#include <NeptuneSFML\Particles\Effectors\ColorByVelocity.h>
 
 class ParticlesGame : public nep::Game
 {
@@ -15,9 +16,9 @@ public:
 	virtual void Draw(sf::RenderTarget& _target);
 
 private:
-	std::vector<nep::Repeller> m_repellers;
+	nep::Repeller m_repeller;
+	nep::ColorByVelocity m_colorByVelocity;
 	nep::VertexParticleSystem m_vertexParticleSystem;
-	sf::Vector2f m_gravity;
 };
 
 #endif //PARTICLES_GAME_H

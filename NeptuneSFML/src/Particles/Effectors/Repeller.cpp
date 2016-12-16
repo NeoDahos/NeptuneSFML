@@ -4,8 +4,9 @@
 
 namespace nep
 {
-	void Repeller::Init(const sf::Vector2f& _position, float _strength)
+	void Repeller::Init(const sf::Vector2f& _position, float _strength, bool _activated)
 	{
+		m_isActive = _activated;
 		m_strength = _strength;
 		if(m_strength > 0.f)
 			setFillColor(sf::Color::Red);
@@ -19,20 +20,23 @@ namespace nep
 
 	void Repeller::Apply(class Particle * const _particle)
 	{
-		sf::Vector2f direction = getPosition() - _particle->GetPosition();
-		_particle->AddForce(VectorNormalization(direction) * (-m_strength));
+		if (m_isActive)
+		{
+			sf::Vector2f direction = getPosition() - _particle->GetPosition();
+			_particle->AddForce(VectorNormalization(direction) * (-m_strength));
 
-		/*sf::Vector2f direction = getPosition() - _particle->GetPosition();
-		float magnitudeSq = VectorLengthSq(direction);
-		float force;
+			/*sf::Vector2f direction = getPosition() - _particle->GetPosition();
+			float magnitudeSq = VectorLengthSq(direction);
+			float force;
 
-		VectorNormalize(direction);
-		magnitudeSq = Clamp(magnitudeSq, 500.f, 10000.f);
+			VectorNormalize(direction);
+			magnitudeSq = Clamp(magnitudeSq, 500.f, 10000.f);
 
-		force = -m_strength / magnitudeSq;
-		direction *= force;
+			force = -m_strength / magnitudeSq;
+			direction *= force;
 
-		return VectorNormalization(direction) * -m_strength;*/
+			return VectorNormalization(direction) * -m_strength;*/
+		}
 	}
 
 	void Repeller::SetStrength(float _newStrength)

@@ -11,7 +11,7 @@ namespace nep
 	class NEPTUNE_API ColorByVelocity : public nep::ParticleEffector
 	{
 	public:
-		void Init(const sf::Color& _startColor, const sf::Color& _endColor, float _minVelocity, float _maxVelocity);
+		void Init(const sf::Color& _startColor, const sf::Color& _endColor, float _minVelocity, float _maxVelocity, bool _activated = true);
 
 		virtual void Apply(class Particle * const _particle);
 
