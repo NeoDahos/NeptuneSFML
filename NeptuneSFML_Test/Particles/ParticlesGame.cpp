@@ -7,9 +7,11 @@
 void ParticlesGame::Init(sf::RenderWindow& _window)
 {
 	m_vertexParticleSystem.Init(static_cast<sf::Vector2f>(_window.getSize()) / 2.f, static_cast<sf::Vector2f>(_window.getSize()));
-	
-	for (int i = 0; i < 200000; i++)
+
+	for (int i = 0; i < 1000000; i++)
+	{
 		m_vertexParticleSystem.AddParticle(sf::Vector2f(cos(DegToRad(i % 36000)) * (rand() % 32), sin(DegToRad(i % 36000)) * (rand() % 32)), 1.f, sf::Color::Red);
+	}
 
 	m_repeller.Init(static_cast<sf::Vector2f>(_window.getSize()) / 2.f, -15.f, false);
 	m_vertexParticleSystem.AddEffector(&m_repeller);

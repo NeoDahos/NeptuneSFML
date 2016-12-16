@@ -2,12 +2,88 @@
 #include <NeptuneSFML\Particles\Effectors\ParticleEffector.h>
 #include <NeptuneSFML\Particles\VertexParticle.h>
 
-#include <SFML\Graphics\VertexArray.hpp>
+#include <Windows.h>
 
 namespace nep
 {
+	template<int ThreadCount>
+	void ThreadData<ThreadCount>::CopyToVertexArray(int _idThread, ThreadData<ThreadCount>& _data)
+	{
+		// Condition's mutex.
+		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
+		int particleCountPerThread;
+		int indexStart;
+
+		while (1)
+		{
+			// Waiting condition.
+			while (!_data.restartThread[_idThread] && !_data.stopThreads)
+				_data.condition.wait(lock);
+
+			// If asked to quit thread, exit of the function.
+			if (_data.stopThreads)
+				return;
+
+			// Otherwise process the particles.
+			particleCountPerThread = _data.particles.size() / ThreadCount;
+			indexStart = particleCountPerThread * _idThread;
+
+			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
+				_data.varray[i] = *(_data.particles[i]);
+
+			// Indicate that we finished to process particles and go to the wait.
+			_data.restartThread[_idThread] = false;
+		}
+	}
+
+	template<int ThreadCount>
+	void ThreadData<ThreadCount>::UpdateParticle(int _idThread, ThreadData& _data)
+	{
+		// Condition's mutex.
+		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
+		size_t effectorCount;
+		int particleCountPerThread;
+		int indexStart;
+
+		while (1)
+		{
+			// Waiting condition.
+			while (!_data.restartThread[_idThread] && !_data.stopThreads)
+				_data.condition.wait(lock);
+
+			// If asked to quit thread, exit of the function.
+			if (_data.stopThreads)
+				return;
+
+			// Otherwise process the particles.
+			effectorCount = _data.effectors.size();
+			particleCountPerThread = _data.particles.size() / ThreadCount;
+			indexStart = particleCountPerThread * _idThread;
+
+			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
+			{
+				_data.particles[i]->Update(_data.deltaTime);
+
+				for (size_t j = 0; j < effectorCount; j++)
+					_data.effectors[j]->Apply(_data.particles[i]);
+			}
+
+			// Indicate that we finished to process particles and go to the wait.
+			_data.restartThread[_idThread] = false;
+		}
+	}
+
+	VertexParticleSystem::VertexParticleSystem() : m_vertices(sf::PrimitiveType::Points),
+		m_threadDataCopy(m_vertices, m_particles, m_effectors, ThreadData<4>::CopyToVertexArray), m_threadDataUpdate(m_vertices, m_particles, m_effectors, ThreadData<4>::UpdateParticle)
+	{
+	}
+
+
 	VertexParticleSystem::~VertexParticleSystem()
 	{
+		m_threadDataCopy.Stop();
+		m_threadDataUpdate.Stop();
+
 		int particleCount = static_cast<int>(m_particles.size());
 		for (int i = 0; i < particleCount; i++)
 			delete m_particles[i];
@@ -26,14 +102,14 @@ namespace nep
 		size_t effectorCount = m_effectors.size();
 		int particleCount = static_cast<int>(m_particles.size());
 		sf::Vector2f newPosition;
+		m_threadDataUpdate.deltaTime = _deltaTime;
+
+		m_threadDataUpdate.Process();
+		while (m_threadDataUpdate.IsProcessing())
+			Sleep(1);
 
 		for (int i = particleCount - 1; i >= 0; i--)
 		{
-			m_particles[i]->Update(_deltaTime);
-
-			for (size_t j = 0; j < effectorCount; j++)
-				m_effectors[j]->Apply(m_particles[i]);
-
 			if (m_particles[i]->IsDead())
 			{
 				delete m_particles[i];
@@ -60,20 +136,17 @@ namespace nep
 
 	void VertexParticleSystem::Draw(sf::RenderTarget & _target)
 	{
-		size_t particleCount = m_particles.size();
+		int particleCount = static_cast<int>(m_particles.size());
 
 		if (particleCount > 0)
 		{
-			sf::VertexArray vertices(sf::PrimitiveType::Points);
-			VertexParticle** currentParticle = m_particles.data();
+			m_vertices.resize(particleCount);
 
-			for (size_t i = 0; i < particleCount; i++)
-			{
-				vertices.append(**currentParticle);
-				currentParticle++;
-			}
+			m_threadDataCopy.Process();
+			while (m_threadDataCopy.IsProcessing())
+				Sleep(1);
 
-			_target.draw(vertices);
+			_target.draw(m_vertices);
 		}
 	}
 
