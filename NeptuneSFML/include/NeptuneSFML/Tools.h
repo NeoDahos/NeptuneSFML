@@ -3,6 +3,7 @@
 #include <NeptuneSFML\Export.h>
 
 #include <SFML\System\Vector2.hpp>
+#include <SFML\Graphics\Color.hpp>
 
 namespace nep
 {
@@ -22,6 +23,8 @@ namespace nep
 	NEPTUNE_API sf::Vector2f VectorNormalization(sf::Vector2f& _v);
 	NEPTUNE_API void VectorNormalize(sf::Vector2f& _vector);
 
+	NEPTUNE_API sf::Color LerpColor(const sf::Color& _min, const sf::Color& _max, float _time);
+
 	template <typename T>
 	T Clamp(T _value, T _min, T _max)
 	{
@@ -31,6 +34,12 @@ namespace nep
 			return _max;
 
 		return _value;
+	}
+
+	template<typename T>
+	T Lerp(T _min, T _max, float _time)
+	{
+		return static_cast<T>(_min + _time * (_max - _min));
 	}
 
 	template <typename T>

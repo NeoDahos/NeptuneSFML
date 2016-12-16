@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Particles\Effectors\ColorByVelocity.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="src\Animation\AnimationSheet.cpp" />
     <ClCompile Include="src\Dialog\Dialog.cpp" />
@@ -180,6 +181,8 @@
     <ClInclude Include="include\NeptuneSFML\Object\SpriteBatch.h" />
     <ClInclude Include="include\NeptuneSFML\Object\Transform.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\CircleShapeParticle.h" />
+    <ClInclude Include="include\NeptuneSFML\Particles\Effectors\ColorByVelocity.h" />
+    <ClInclude Include="include\NeptuneSFML\Particles\Effectors\ParticleEffector.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\Effectors\Repeller.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\Particle.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\Systems\ParticleSystem.h" />

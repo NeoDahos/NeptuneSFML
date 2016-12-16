@@ -10,9 +10,9 @@ namespace nep
 	class NEPTUNE_API Particle
 	{
 	public:
-		Particle() {}
+		virtual ~Particle() {}
 
-		virtual void Init(const sf::Vector2f& _position, const sf::Vector2f& _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::String& _texturename = "");
+		virtual void Init(const sf::Vector2f& _position, const sf::Vector2f& _initialForce = sf::Vector2f(), float _mass = 1.f);
 		virtual void Update(float _deltaTime);
 		virtual void Draw(sf::RenderTarget& _target) = 0;
 
@@ -20,12 +20,16 @@ namespace nep
 
 		bool IsDead() const;
 		virtual sf::Vector2f GetPosition() const;
+		sf::Vector2f GetVelocity() const;
+		virtual void SetColor(const sf::Color& _color) {}
 
 	protected:
 		sf::Vector2f m_acceleration;
 		sf::Vector2f m_velocity;
 		sf::Vector2f m_position;
 		float m_mass;
+		float m_lifeTime;
+		bool m_isAlive;
 	};
 }
 

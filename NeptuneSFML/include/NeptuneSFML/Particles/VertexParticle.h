@@ -10,11 +10,14 @@ namespace nep
 	class NEPTUNE_API VertexParticle : public nep::Particle, public sf::Vertex
 	{
 	public:
-		virtual void Init(const sf::Vector2f& _position, const sf::Vector2f& _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::String& _texturename = "");
+		virtual ~VertexParticle() {}
+
+		virtual void Init(const sf::Vector2f& _position, const sf::Vector2f& _initialForce = sf::Vector2f(), float _mass = 1.f);
 		virtual void Update(float _deltaTime);
 		virtual void Draw(sf::RenderTarget& _target);
 
 		void SetPosition(const sf::Vector2f& _newPosition);
+		void SetColor(const sf::Color& _color);
 	};
 }
 

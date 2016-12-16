@@ -54,4 +54,9 @@ namespace nep
 			_vector.y /= length;
 		}
 	}
+
+	sf::Color LerpColor(const sf::Color& _min, const sf::Color& _max, float _time)
+	{
+		return sf::Color(Lerp(_min.r, _max.r, _time), Lerp(_min.g, _max.g, _time), Lerp(_min.b, _max.b, _time), Lerp(_min.a, _max.a, _time));
+	}
 }

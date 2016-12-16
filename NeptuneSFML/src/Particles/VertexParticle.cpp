@@ -1,8 +1,9 @@
 #include <NeptuneSFML\Particles\VertexParticle.h>
+#include <NeptuneSFML\Tools.h>
 
 namespace nep
 {
-	void VertexParticle::Init(const sf::Vector2f& _position, const sf::Vector2f& _initialForce, float _mass, const sf::String& _texturename)
+	void VertexParticle::Init(const sf::Vector2f& _position, const sf::Vector2f& _initialForce, float _mass)
 	{
 		Particle::Init(_position, _initialForce, _mass);
 		position = m_position;
@@ -24,5 +25,10 @@ namespace nep
 	{
 		m_position = _newPosition;
 		position = m_position;
+	}
+
+	void VertexParticle::SetColor(const sf::Color& _color)
+	{
+		color = _color;
 	}
 }

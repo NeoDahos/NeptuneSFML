@@ -1,4 +1,5 @@
 #include <NeptuneSFML\Particles\Effectors\Repeller.h>
+#include <NeptuneSFML\Particles\Particle.h>
 #include <NeptuneSFML\Tools.h>
 
 namespace nep
@@ -16,17 +17,26 @@ namespace nep
 		setOrigin(getRadius(), getRadius());
 	}
 
-	sf::Vector2f Repeller::ComputeRepelForce(const Particle* _particle)
+	void Repeller::Apply(class Particle * const _particle)
 	{
 		sf::Vector2f direction = getPosition() - _particle->GetPosition();
+		_particle->AddForce(VectorNormalization(direction) * (-m_strength));
+
+		/*sf::Vector2f direction = getPosition() - _particle->GetPosition();
 		float magnitudeSq = VectorLengthSq(direction);
 		float force;
 
 		VectorNormalize(direction);
-		magnitudeSq = Clamp(magnitudeSq, 100.f, 10000.f);
+		magnitudeSq = Clamp(magnitudeSq, 500.f, 10000.f);
 
-		force = -1.f * m_strength / magnitudeSq;
+		force = -m_strength / magnitudeSq;
 		direction *= force;
-		return direction;
+
+		return VectorNormalization(direction) * -m_strength;*/
+	}
+
+	void Repeller::SetStrength(float _newStrength)
+	{
+		m_strength = _newStrength;
 	}
 }
