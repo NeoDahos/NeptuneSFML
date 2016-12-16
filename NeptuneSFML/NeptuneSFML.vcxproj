@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Particles\Effectors\ParticleEffector.cpp" />
     <ClCompile Include="src\Particles\Effectors\ColorByVelocity.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="src\Animation\AnimationSheet.cpp" />
