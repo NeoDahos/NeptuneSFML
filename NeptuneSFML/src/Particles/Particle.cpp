@@ -34,6 +34,11 @@ namespace nep
 		return !m_isAlive;
 	}
 
+	void Particle::SetPosition(const sf::Vector2f & _newPosition)
+	{
+		m_position = _newPosition;
+	}
+
 	sf::Vector2f Particle::GetPosition() const
 	{
 		return m_position;

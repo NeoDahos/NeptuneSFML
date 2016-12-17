@@ -19,6 +19,7 @@ namespace nep
 		void AddForce(sf::Vector2f _force);
 
 		bool IsDead() const;
+		virtual void SetPosition(const sf::Vector2f& _newPosition);
 		virtual sf::Vector2f GetPosition() const;
 		sf::Vector2f GetVelocity() const;
 		virtual void SetColor(const sf::Color& _color) {}

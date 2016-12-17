@@ -6,9 +6,10 @@
 
 void ParticlesGame::Init(sf::RenderWindow& _window)
 {
-	m_vertexParticleSystem.Init(static_cast<sf::Vector2f>(_window.getSize()) / 2.f, static_cast<sf::Vector2f>(_window.getSize()));
+	sf::Vector2f windowSize = static_cast<sf::Vector2f>(_window.getSize());
+	m_vertexParticleSystem.Init(windowSize / 2.f, windowSize);
 
-	for (int i = 0; i < 1000000; i++)
+	for (int i = 0; i < 500000; i++)
 	{
 		m_vertexParticleSystem.AddParticle(sf::Vector2f(cos(DegToRad(i % 36000)) * (rand() % 32), sin(DegToRad(i % 36000)) * (rand() % 32)), 1.f, sf::Color::Red);
 	}
@@ -18,6 +19,9 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 
 	m_colorByVelocity.Init(sf::Color(255, 255, 0), sf::Color(255, 0, 0), 0.f, 50.f);
 	m_vertexParticleSystem.AddEffector(&m_colorByVelocity);
+
+	m_loopZone.Init(sf::FloatRect({ 0.f, 0.f }, windowSize));
+	m_vertexParticleSystem.AddEffector(&m_loopZone);
 }
 
 void ParticlesGame::DeInit()

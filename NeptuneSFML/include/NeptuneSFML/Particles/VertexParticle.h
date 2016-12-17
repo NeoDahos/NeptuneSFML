@@ -16,8 +16,8 @@ namespace nep
 		virtual void Update(float _deltaTime);
 		virtual void Draw(sf::RenderTarget& _target);
 
-		void SetPosition(const sf::Vector2f& _newPosition);
-		void SetColor(const sf::Color& _color);
+		virtual void SetPosition(const sf::Vector2f& _newPosition);
+		virtual void SetColor(const sf::Color& _color);
 	};
 }
 

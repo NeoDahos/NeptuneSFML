@@ -7,10 +7,60 @@
 namespace nep
 {
 	template<int ThreadCount>
-	void ThreadData<ThreadCount>::CopyToVertexArray(int _idThread, ThreadData<ThreadCount>& _data)
+	VertexParticleSystem::ThreadData<ThreadCount>::ThreadData(sf::VertexArray & _array, std::vector<VertexParticle*>& _particles, std::vector<ParticleEffector*>& _effectors,
+		void(*_fct)(int _idThread, ThreadData<ThreadCount>&_data)) : varray(_array), particles(_particles), effectors(_effectors), stopThreads(false)
+	{
+		for (int i = 0; i < ThreadCount; i++)
+		{
+			restartThread[i] = false;
+			threads[i] = new std::thread(_fct, i, std::ref<ThreadData<ThreadCount>>(*this));
+		}
+	}
+
+	template<int ThreadCount>
+	VertexParticleSystem::ThreadData<ThreadCount>::~ThreadData()
+	{
+		for (int i = 0; i < ThreadCount; i++)
+			delete threads[i];
+	}
+
+	template<int ThreadCount>
+	void VertexParticleSystem::ThreadData<ThreadCount>::Process()
+	{
+		// Verify waiting conditions.
+		for (int i = 0; i < ThreadCount; i++)
+			restartThread[i] = true;
+
+		// Wake up threads.
+		condition.notify_all();
+	}
+
+	template<int ThreadCount>
+	bool VertexParticleSystem::ThreadData<ThreadCount>::IsProcessing() const
+	{
+		for (int i = 0; i < ThreadCount; i++)
+			if (restartThread[i])
+				return true;
+
+		return false;
+	}
+
+	template<int ThreadCount>
+	void nep::VertexParticleSystem::ThreadData<ThreadCount>::Stop()
+	{
+		stopThreads = true;
+		condition.notify_all();
+
+		for (int i = 0; i < ThreadCount; i++)
+			threads[i]->join();
+	}
+
+	template<int ThreadCount>
+	void VertexParticleSystem::ThreadData<ThreadCount>::CopyToVertexArray(int _idThread, ThreadData<ThreadCount>& _data)
 	{
 		// Condition's mutex.
 		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
+		VertexParticle** currentParticle = nullptr;
 		int particleCountPerThread;
 		int indexStart;
 
@@ -27,9 +77,14 @@ namespace nep
 			// Otherwise process the particles.
 			particleCountPerThread = _data.particles.size() / ThreadCount;
 			indexStart = particleCountPerThread * _idThread;
+			currentParticle = _data.particles.data() + indexStart;
 
 			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
-				_data.varray[i] = *(_data.particles[i]);
+			{
+				_data.varray[i] = **currentParticle;
+				//_data.varray[i] = *(_data.particles[i]);
+				currentParticle++;
+			}
 
 			// Indicate that we finished to process particles and go to the wait.
 			_data.restartThread[_idThread] = false;
@@ -37,10 +92,11 @@ namespace nep
 	}
 
 	template<int ThreadCount>
-	void ThreadData<ThreadCount>::UpdateParticle(int _idThread, ThreadData& _data)
+	void VertexParticleSystem::ThreadData<ThreadCount>::UpdateParticle(int _idThread, ThreadData& _data)
 	{
 		// Condition's mutex.
 		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
+		VertexParticle** currentParticle = nullptr;
 		size_t effectorCount;
 		int particleCountPerThread;
 		int indexStart;
@@ -59,19 +115,24 @@ namespace nep
 			effectorCount = _data.effectors.size();
 			particleCountPerThread = _data.particles.size() / ThreadCount;
 			indexStart = particleCountPerThread * _idThread;
+			currentParticle = _data.particles.data() + indexStart;
 
 			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
 			{
-				_data.particles[i]->Update(_data.deltaTime);
-
+				//_data.particles[i]->Update(_data.deltaTime);
+				(*currentParticle)->Update(_data.deltaTime);
 				for (size_t j = 0; j < effectorCount; j++)
-					_data.effectors[j]->Apply(_data.particles[i]);
+					_data.effectors[j]->Apply((*currentParticle));
+					//_data.effectors[j]->Apply(_data.particles[i]);
+				currentParticle++;
 			}
 
 			// Indicate that we finished to process particles and go to the wait.
 			_data.restartThread[_idThread] = false;
 		}
 	}
+
+// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	VertexParticleSystem::VertexParticleSystem() : m_vertices(sf::PrimitiveType::Points),
 		m_threadDataCopy(m_vertices, m_particles, m_effectors, ThreadData<4>::CopyToVertexArray), m_threadDataUpdate(m_vertices, m_particles, m_effectors, ThreadData<4>::UpdateParticle)
@@ -115,21 +176,6 @@ namespace nep
 				delete m_particles[i];
 				m_particles[i] = m_particles.back();
 				m_particles.pop_back();
-			}
-			else
-			{
-				newPosition = m_particles[i]->position;
-				if (newPosition.x < 0)
-					newPosition.x += m_windowSize.x;
-				else if (newPosition.x >= m_windowSize.x)
-					newPosition.x -= m_windowSize.x;
-
-				if (newPosition.y < 0)
-					newPosition.y += m_windowSize.y;
-				else if (newPosition.y >= m_windowSize.y)
-					newPosition.y -= m_windowSize.y;
-
-				m_particles[i]->SetPosition(newPosition);
 			}
 		}
 	}

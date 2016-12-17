@@ -5,6 +5,7 @@
 #include <NeptuneSFML\Particles\Systems\VertexParticleSystem.h>
 #include <NeptuneSFML\Particles\Effectors\Repeller.h>
 #include <NeptuneSFML\Particles\Effectors\ColorByVelocity.h>
+#include <NeptuneSFML\Particles\Effectors\LoopZone.h>
 
 class ParticlesGame : public nep::Game
 {
@@ -18,6 +19,7 @@ public:
 private:
 	nep::Repeller m_repeller;
 	nep::ColorByVelocity m_colorByVelocity;
+	nep::LoopZone m_loopZone;
 	nep::VertexParticleSystem m_vertexParticleSystem;
 };
 

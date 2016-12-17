@@ -105,6 +105,9 @@
     <ClCompile Include="src\Particles\Effectors\ParticleEffector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Particles\Effectors\LoopZone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NeptuneSFML\Physic\RigidBody.h">
@@ -213,6 +216,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NeptuneSFML\Particles\Effectors\ColorByVelocity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeptuneSFML\Particles\Effectors\LoopZone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
