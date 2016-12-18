@@ -7,7 +7,7 @@
 
 namespace nep
 {
-	class NEPTUNE_API SpriteParticle : public nep::Particle, public sf::Sprite
+	class NEPTUNE_API SpriteParticle : public sf::Sprite, public nep::Particle
 	{
 	public:
 		virtual ~SpriteParticle() {}
@@ -15,6 +15,9 @@ namespace nep
 		virtual void Init(const sf::Vector2f& _position, sf::Vector2f _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::String& _texturename = "");
 		virtual void Update(float _deltaTime);
 		virtual void Draw(sf::RenderTarget& _target);
+
+		virtual void SetPosition(const sf::Vector2f& _newPosition);
+		virtual void SetColor(const sf::Color& _color);
 	};
 }
 

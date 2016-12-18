@@ -5,11 +5,12 @@
 #include <SFML\Graphics\RenderTarget.hpp>
 #include <SFML\System\String.hpp>
 
-#include <NeptuneSFML\Object\SpriteBatch.h>
+#include <vector>
 
 namespace nep
 {
 	class SpriteParticle;
+	class ParticleEffector;
 
 	class NEPTUNE_API SpriteParticleSystem
 	{
@@ -22,6 +23,7 @@ namespace nep
 		void Draw(sf::RenderTarget& _target);
 
 		void AddParticle(sf::Vector2f _initialForce = sf::Vector2f(), float _mass = 1.f);
+		void AddEffector(ParticleEffector * const _effector);
 
 		void AddForce(sf::Vector2f _force);
 
@@ -29,7 +31,7 @@ namespace nep
 
 	private:
 		std::vector<SpriteParticle*> m_particles;
-		SpriteBatch m_spriteBatch;
+		std::vector<ParticleEffector *> m_effectors;
 		sf::Vector2f m_position;
 		const sf::Texture* m_texture;
 	};

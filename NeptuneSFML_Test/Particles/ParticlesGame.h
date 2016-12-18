@@ -3,6 +3,7 @@
 #include <NeptuneSFML\Game.h>
 
 #include <NeptuneSFML\Particles\Systems\VertexParticleSystem.h>
+//#include <NeptuneSFML\Particles\Systems\SpriteParticleSystem.h>
 #include <NeptuneSFML\Particles\Effectors\Repeller.h>
 #include <NeptuneSFML\Particles\Effectors\ColorByVelocity.h>
 #include <NeptuneSFML\Particles\Effectors\LoopZone.h>
@@ -21,6 +22,7 @@ private:
 	nep::ColorByVelocity m_colorByVelocity;
 	nep::LoopZone m_loopZone;
 	nep::VertexParticleSystem m_vertexParticleSystem;
+	//nep::SpriteParticleSystem m_spriteParticleSystem;
 };
 
 #endif //PARTICLES_GAME_H

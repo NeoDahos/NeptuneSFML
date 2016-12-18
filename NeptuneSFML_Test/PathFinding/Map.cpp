@@ -43,7 +43,7 @@ void Map::Init(const sf::String & _path, float _scale)
 
 void Map::Draw(sf::RenderTarget & _target)
 {
-	nep::SpriteBatch::Draw(_target, m_tiles, m_terrainTexture);
+	nep::SpriteBatch::GetInstance().Draw(_target, m_tiles, m_terrainTexture);
 }
 
 void Map::SetWalkability(const sf::Vector2i & _position, unsigned short _walkability)

@@ -96,10 +96,133 @@ namespace nep
 		ThreadData<4> m_threadDataCopy;
 		ThreadData<4> m_threadDataUpdate;
 		sf::Vector2f m_position;
-		sf::Vector2f m_windowSize;
 	};
+
+	template<int ThreadCount>
+	VertexParticleSystem::ThreadData<ThreadCount>::ThreadData(sf::VertexArray & _array, std::vector<VertexParticle*>& _particles, std::vector<ParticleEffector*>& _effectors,
+		void(*_fct)(int _idThread, ThreadData<ThreadCount>&_data)) : varray(_array), particles(_particles), effectors(_effectors), stopThreads(false)
+	{
+		for (int i = 0; i < ThreadCount; i++)
+		{
+			restartThread[i] = false;
+			threads[i] = new std::thread(_fct, i, std::ref<ThreadData<ThreadCount>>(*this));
+		}
+	}
+
+	template<int ThreadCount>
+	VertexParticleSystem::ThreadData<ThreadCount>::~ThreadData()
+	{
+		for (int i = 0; i < ThreadCount; i++)
+			delete threads[i];
+	}
+
+	template<int ThreadCount>
+	void VertexParticleSystem::ThreadData<ThreadCount>::Process()
+	{
+		// Verify waiting conditions.
+		for (int i = 0; i < ThreadCount; i++)
+			restartThread[i] = true;
+
+		// Wake up threads.
+		condition.notify_all();
+	}
+
+	template<int ThreadCount>
+	bool VertexParticleSystem::ThreadData<ThreadCount>::IsProcessing() const
+	{
+		for (int i = 0; i < ThreadCount; i++)
+			if (restartThread[i])
+				return true;
+
+		return false;
+	}
+
+	template<int ThreadCount>
+	void VertexParticleSystem::ThreadData<ThreadCount>::Stop()
+	{
+		stopThreads = true;
+		condition.notify_all();
+
+		for (int i = 0; i < ThreadCount; i++)
+			threads[i]->join();
+	}
+
+	template<int ThreadCount>
+	void VertexParticleSystem::ThreadData<ThreadCount>::CopyToVertexArray(int _idThread, ThreadData<ThreadCount>& _data)
+	{
+		// Condition's mutex.
+		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
+		VertexParticle** currentParticle = nullptr;
+		int particleCountPerThread;
+		int indexStart;
+
+		while (1)
+		{
+			// Waiting condition.
+			while (!_data.restartThread[_idThread] && !_data.stopThreads)
+				_data.condition.wait(lock);
+
+			// If asked to quit thread, exit of the function.
+			if (_data.stopThreads)
+				return;
+
+			// Otherwise process the particles.
+			particleCountPerThread = _data.particles.size() / ThreadCount;
+			indexStart = particleCountPerThread * _idThread;
+			currentParticle = _data.particles.data() + indexStart;
+
+			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
+			{
+				_data.varray[i] = **currentParticle;
+				//_data.varray[i] = *(_data.particles[i]);
+				currentParticle++;
+			}
+
+			// Indicate that we finished to process particles and go to the wait.
+			_data.restartThread[_idThread] = false;
+		}
+	}
+
+	template<int ThreadCount>
+	void VertexParticleSystem::ThreadData<ThreadCount>::UpdateParticle(int _idThread, ThreadData& _data)
+	{
+		// Condition's mutex.
+		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
+		VertexParticle** currentParticle = nullptr;
+		size_t effectorCount;
+		int particleCountPerThread;
+		int indexStart;
+
+		while (1)
+		{
+			// Waiting condition.
+			while (!_data.restartThread[_idThread] && !_data.stopThreads)
+				_data.condition.wait(lock);
+
+			// If asked to quit thread, exit of the function.
+			if (_data.stopThreads)
+				return;
+
+			// Otherwise process the particles.
+			effectorCount = _data.effectors.size();
+			particleCountPerThread = _data.particles.size() / ThreadCount;
+			indexStart = particleCountPerThread * _idThread;
+			currentParticle = _data.particles.data() + indexStart;
+
+			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
+			{
+				//_data.particles[i]->Update(_data.deltaTime);
+				(*currentParticle)->Update(_data.deltaTime);
+				for (size_t j = 0; j < effectorCount; j++)
+					_data.effectors[j]->Apply((*currentParticle));
+				//_data.effectors[j]->Apply(_data.particles[i]);
+				currentParticle++;
+			}
+
+			// Indicate that we finished to process particles and go to the wait.
+			_data.restartThread[_idThread] = false;
+		}
+	}
 }
-
-
 
 #endif // VERTEX_PARTICLE_SYSTEM_H

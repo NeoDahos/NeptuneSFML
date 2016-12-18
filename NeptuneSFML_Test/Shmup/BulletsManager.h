@@ -1,7 +1,6 @@
 #pragma once
 
 #include <NeptuneSFML\Object\ObjectPool.h>
-#include <NeptuneSFML\Object\SpriteBatch.h>
 
 #include <SFML\System\Vector2.hpp>
 #include <SFML\Graphics\Rect.hpp>
@@ -30,7 +29,6 @@ public:
 private:
 	static const unsigned short s_poolSize = 1000;
 	nep::ObjectPool<Bullet, s_poolSize> m_bulletPool;
-	nep::SpriteBatch m_spriteBatch;
 	std::vector<Bullet*> m_bullets;
 
 	sf::Texture * m_bulletTexture;

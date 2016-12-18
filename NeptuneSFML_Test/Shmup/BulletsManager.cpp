@@ -3,6 +3,7 @@
 
 #include <SFML\Graphics\RenderTarget.hpp>
 
+#include <NeptuneSFML\Object\SpriteBatch.h>
 #include <NeptuneSFML\EngineCore.h>
 
 void BulletsManager::Init()
@@ -51,5 +52,5 @@ void BulletsManager::Update(float _deltaTime)
 
 void BulletsManager::Draw(sf::RenderTarget& _target)
 {
-	nep::SpriteBatch::Draw<Bullet>(_target, m_bullets, m_bulletTexture);
+	nep::SpriteBatch::GetInstance().Draw<Bullet>(_target, m_bullets, m_bulletTexture);
 }
