@@ -30,6 +30,6 @@ namespace nep
 	void RigidBody::Update(float _deltaTime)
 	{
 		if(m_isAffectedByGravity)
-			AddForce(sf::Vector2f(0.f, GRAVITY), _deltaTime);
+			AddForce(sf::Vector2f(0.f, 10.f), _deltaTime);
 	}
 }

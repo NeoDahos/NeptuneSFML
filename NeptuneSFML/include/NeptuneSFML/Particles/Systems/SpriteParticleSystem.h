@@ -2,37 +2,33 @@
 #define SPRITE_PARTICLE_SYSTEM_H
 #include <NeptuneSFML\Export.h>
 
-#include <SFML\Graphics\RenderTarget.hpp>
-#include <SFML\System\String.hpp>
+#include <NeptuneSFML\Particles\Systems\ParticleSystem.h>
 
-#include <vector>
+#include <SFML\System\String.hpp>
 
 namespace nep
 {
 	class SpriteParticle;
 	class ParticleEffector;
 
-	class NEPTUNE_API SpriteParticleSystem
+	class NEPTUNE_API SpriteParticleSystem : public ParticleSystem
 	{
 	public:
 		SpriteParticleSystem() {}
-		~SpriteParticleSystem();
+		virtual ~SpriteParticleSystem();
 
 		void Init(const sf::Vector2f& _position, const sf::String& _texturename);
-		void Update(float _deltaTime);
-		void Draw(sf::RenderTarget& _target);
+		virtual void Update(float _deltaTime);
+		virtual void Draw(sf::RenderTarget& _target);
 
-		void AddParticle(sf::Vector2f _initialForce = sf::Vector2f(), float _mass = 1.f);
-		void AddEffector(ParticleEffector * const _effector);
+		virtual void AddParticle(const sf::Vector2f & _position = sf::Vector2f(), const sf::Vector2f & _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::Color & _color = sf::Color::White);
 
-		void AddForce(sf::Vector2f _force);
+		virtual void AddForce(sf::Vector2f _force);
 
-		size_t GetParticleCount() const;
+		virtual size_t GetParticleCount() const;
 
 	private:
 		std::vector<SpriteParticle*> m_particles;
-		std::vector<ParticleEffector *> m_effectors;
-		sf::Vector2f m_position;
 		const sf::Texture* m_texture;
 	};
 }

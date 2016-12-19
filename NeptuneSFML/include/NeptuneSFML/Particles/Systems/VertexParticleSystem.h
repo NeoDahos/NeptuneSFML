@@ -2,10 +2,10 @@
 #define VERTEX_PARTICLE_SYSTEM_H
 #include <NeptuneSFML\Export.h>
 
-#include <SFML\Graphics\RenderTarget.hpp>
+#include <NeptuneSFML\Particles\Systems\ParticleSystem.h>
+
 #include <SFML\Graphics\VertexArray.hpp>
 
-#include <vector>
 #include <thread>
 #include <condition_variable>
 
@@ -14,22 +14,21 @@ namespace nep
 	class VertexParticle;
 	class ParticleEffector;
 
-	class NEPTUNE_API VertexParticleSystem
+	class NEPTUNE_API VertexParticleSystem : public ParticleSystem
 	{
 	public:
 		VertexParticleSystem();
-		~VertexParticleSystem();
+		virtual ~VertexParticleSystem();
 
-		void Init(const sf::Vector2f& _position, const sf::Vector2f& _windowSize);
-		void Update(float _deltaTime);
-		void Draw(sf::RenderTarget& _target);
+		void Init(const sf::Vector2f& _position);
+		virtual void Update(float _deltaTime);
+		virtual void Draw(sf::RenderTarget& _target);
 
-		void AddParticle(sf::Vector2f _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::Color& _color = sf::Color::White);
-		void AddEffector(ParticleEffector * const _effector);
+		virtual void AddParticle(const sf::Vector2f & _position = sf::Vector2f(), const sf::Vector2f & _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::Color & _color = sf::Color::White);
 
-		void AddForce(sf::Vector2f _force);
+		virtual void AddForce(sf::Vector2f _force);
 
-		size_t GetParticleCount() const;
+		virtual size_t GetParticleCount() const;
 
 	protected:
 		template<int ThreadCount>
@@ -91,11 +90,9 @@ namespace nep
 
 	private:
 		std::vector<VertexParticle *> m_particles;
-		std::vector<ParticleEffector *> m_effectors;
 		sf::VertexArray m_vertices;
 		ThreadData<4> m_threadDataCopy;
 		ThreadData<4> m_threadDataUpdate;
-		sf::Vector2f m_position;
 	};
 
 	template<int ThreadCount>

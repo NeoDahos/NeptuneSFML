@@ -78,16 +78,10 @@
     <ClCompile Include="src\Particles\Particle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Particles\CircleShapeParticle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Particles\SpriteParticle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Particles\VertexParticle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Particles\Systems\ParticleSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Particles\Systems\VertexParticleSystem.cpp">
@@ -106,6 +100,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Particles\Effectors\LoopZone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Particles\Emitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,16 +188,10 @@
     <ClInclude Include="include\NeptuneSFML\Particles\Particle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\NeptuneSFML\Particles\CircleShapeParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\NeptuneSFML\Particles\SpriteParticle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NeptuneSFML\Particles\VertexParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\NeptuneSFML\Particles\Systems\ParticleSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NeptuneSFML\Particles\Systems\VertexParticleSystem.h">
@@ -219,6 +210,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NeptuneSFML\Particles\Effectors\LoopZone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeptuneSFML\Particles\Emitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeptuneSFML\Particles\Systems\ParticleSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

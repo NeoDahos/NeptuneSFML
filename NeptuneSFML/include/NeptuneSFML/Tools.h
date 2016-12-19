@@ -7,12 +7,13 @@
 
 namespace nep
 {
-#define PI 3.14159265359f
-#define EPSILON 0.00001f
-#define GRAVITY 10.f
+const float PI = 3.14159265359f;;
+const float PI2 = PI / 2.f;
+const float TWO_PI = 2.f * PI;
+const float EPSILON = 0.00001f;
 #define SQUARE( Arg ) ( (Arg) * (Arg) )
-#define DegToRad(Angle) ((Angle * PI) / 180.f)
-#define RadToDeg(Angle) ((Angle * 180.f) / PI)
+#define DegToRad(Angle) ((Angle * nep::PI) / 180.f)
+#define RadToDeg(Angle) ((Angle * 180.f) / nep::PI)
 
 	NEPTUNE_API float VectorAngle(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);
 	NEPTUNE_API float VectorOrientedAngle(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);

@@ -3,7 +3,7 @@
 #include <NeptuneSFML\Game.h>
 
 #include <NeptuneSFML\Particles\Systems\VertexParticleSystem.h>
-//#include <NeptuneSFML\Particles\Systems\SpriteParticleSystem.h>
+#include <NeptuneSFML\Particles\Emitter.h>
 #include <NeptuneSFML\Particles\Effectors\Repeller.h>
 #include <NeptuneSFML\Particles\Effectors\ColorByVelocity.h>
 #include <NeptuneSFML\Particles\Effectors\LoopZone.h>
@@ -11,6 +11,8 @@
 class ParticlesGame : public nep::Game
 {
 public:
+	//ParticlesGame() {}
+
 	virtual void Init(sf::RenderWindow& _window);
 	virtual void DeInit();
 	virtual void HandleEvent(sf::Event& _event);
@@ -18,11 +20,11 @@ public:
 	virtual void Draw(sf::RenderTarget& _target);
 
 private:
+	nep::Emitter m_emitter;
 	nep::Repeller m_repeller;
 	nep::ColorByVelocity m_colorByVelocity;
 	nep::LoopZone m_loopZone;
 	nep::VertexParticleSystem m_vertexParticleSystem;
-	//nep::SpriteParticleSystem m_spriteParticleSystem;
 };
 
 #endif //PARTICLES_GAME_H

@@ -23,8 +23,12 @@ namespace nep
 
 	void SpriteParticleSystem::Update(float _deltaTime)
 	{
-		size_t effectorCount = m_effectors.size();
-		int particleCount = static_cast<int>(m_particles.size());
+		const size_t effectorCount = m_effectors.size();
+		const int particleCount = static_cast<int>(m_particles.size());
+		const int emitterCount = static_cast<int>(m_emitters.size());
+
+		for (int i = 0; i < emitterCount; i++)
+			m_emitters[i]->Update(_deltaTime);
 
 		for (int i = particleCount - 1; i >= 0; i--)
 		{
@@ -46,17 +50,13 @@ namespace nep
 		SpriteBatch::GetInstance().Draw<SpriteParticle>(_target, m_particles, m_texture);
 	}
 
-	void SpriteParticleSystem::AddParticle(sf::Vector2f _initialForce, float _mass)
+	void SpriteParticleSystem::AddParticle(const sf::Vector2f & _position, const sf::Vector2f & _initialForce, float _mass, const sf::Color & _color)
 	{
 		SpriteParticle* newParticle = new SpriteParticle();
-		newParticle->Init(m_position, _initialForce, _mass);
+		newParticle->Init(m_position + _position, _initialForce, _mass);
 		newParticle->setTexture(*m_texture);
+		newParticle->setColor(_color);
 		m_particles.push_back(newParticle);
-	}
-
-	void SpriteParticleSystem::AddEffector(ParticleEffector * const _effector)
-	{
-		m_effectors.push_back(_effector);
 	}
 
 	void SpriteParticleSystem::AddForce(sf::Vector2f _force)

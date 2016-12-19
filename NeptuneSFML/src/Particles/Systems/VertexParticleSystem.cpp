@@ -1,5 +1,4 @@
 #include <NeptuneSFML\Particles\Systems\VertexParticleSystem.h>
-#include <NeptuneSFML\Particles\Effectors\ParticleEffector.h>
 #include <NeptuneSFML\Particles\VertexParticle.h>
 
 #include <SFML\System\Sleep.hpp>
@@ -24,7 +23,7 @@ namespace nep
 		m_particles.clear();
 	}
 
-	void VertexParticleSystem::Init(const sf::Vector2f& _position, const sf::Vector2f& _windowSize)
+	void VertexParticleSystem::Init(const sf::Vector2f& _position)
 	{
 		m_position = _position;
 	}
@@ -32,9 +31,13 @@ namespace nep
 	void VertexParticleSystem::Update(float _deltaTime)
 	{
 		size_t effectorCount = m_effectors.size();
-		int particleCount = static_cast<int>(m_particles.size());
+		const int particleCount = static_cast<int>(m_particles.size());
+		const int emitterCount = static_cast<int>(m_emitters.size());
 		sf::Vector2f newPosition;
 		m_threadDataUpdate.deltaTime = _deltaTime;
+
+		for (int i = 0; i < emitterCount; i++)
+			m_emitters[i]->Update(_deltaTime);
 
 		m_threadDataUpdate.Process();
 		while (m_threadDataUpdate.IsProcessing())
@@ -67,17 +70,12 @@ namespace nep
 		}
 	}
 
-	void VertexParticleSystem::AddParticle(sf::Vector2f _initialForce, float _mass, const sf::Color & _color)
+	void VertexParticleSystem::AddParticle(const sf::Vector2f & _position, const sf::Vector2f & _initialForce, float _mass, const sf::Color & _color)
 	{
 		VertexParticle* newParticle = new VertexParticle();
-		newParticle->Init(m_position, _initialForce, _mass);
+		newParticle->Init(m_position + _position, _initialForce, _mass);
 		newParticle->color = _color;
 		m_particles.push_back(newParticle);
-	}
-
-	void VertexParticleSystem::AddEffector(ParticleEffector * const _effector)
-	{
-		m_effectors.push_back(_effector);
 	}
 
 	void VertexParticleSystem::AddForce(sf::Vector2f _force)

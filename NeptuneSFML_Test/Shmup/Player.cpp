@@ -142,7 +142,7 @@ void Player::SpriralShot(float _angle)
 	nep::VectorNormalize(shotDirection);
 	m_bulletsMng->AddBullet(m_spriteCenter, shotDirection, m_shotVelocity);
 
-	m_shotAngle += _angle * (PI / 180);
+	m_shotAngle += _angle * (nep::PI / 180);
 }
 
 void Player::SpriralShotAroundCircle(float _spiralAngle, float _circleAngle, float _circleRadius)
@@ -166,8 +166,8 @@ void Player::SpriralShotAroundCircle(float _spiralAngle, float _circleAngle, flo
 
 	m_bulletsMng->AddBullet(m_spriteCenter + shotCirclePosition, shotDirection, m_shotVelocity);
 
-	m_shotAngle += _spiralAngle * (PI / 180);
-	m_circleShotAngle += _circleAngle * (PI / 180);
+	m_shotAngle += _spiralAngle * (nep::PI / 180);
+	m_circleShotAngle += _circleAngle * (nep::PI / 180);
 }
 
 void Player::CirlceShotAroundCircle(float _c1Angle, float _c1Radius, float _c2Angle, float _c2Radius)
@@ -192,6 +192,6 @@ void Player::CirlceShotAroundCircle(float _c1Angle, float _c1Radius, float _c2An
 
 	m_bulletsMng->AddBullet(m_spriteCenter + shotCirclePosition, shotDirection, m_shotVelocity);
 
-	m_shotAngle += _c1Angle * (PI / 180);
-	m_circleShotAngle += _c2Angle * (PI / 180);
+	m_shotAngle += _c1Angle * (nep::PI / 180);
+	m_circleShotAngle += _c2Angle * (nep::PI / 180);
 }
