@@ -61,6 +61,7 @@ namespace nep
 		m_type = EmitterType::Pulse;
 		m_typeData.pulseRate = _pulseRate;
 		m_typeData.quantity = _quantity;
+		m_timeSinceLastEmission = _pulseRate;
 	}
 
 	void Emitter::SetShapePoint(const sf::Vector2f & _position)

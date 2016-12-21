@@ -112,9 +112,8 @@ namespace nep
 			return m_objects[_index];
 
 		return nullptr;
-#else #ifdef _RELEASE
+#else
 		return m_objects[_index];
 #endif
-
 	}
 }

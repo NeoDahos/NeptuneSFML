@@ -23,9 +23,10 @@ namespace nep
 		m_particles.clear();
 	}
 
-	void VertexParticleSystem::Init(const sf::Vector2f& _position)
+	void VertexParticleSystem::Init(const sf::Vector2f& _position, int _maxParticleCount)
 	{
 		m_position = _position;
+		m_maxParticleCount = _maxParticleCount;
 	}
 
 	void VertexParticleSystem::Update(float _deltaTime)
@@ -41,7 +42,7 @@ namespace nep
 
 		m_threadDataUpdate.Process();
 		while (m_threadDataUpdate.IsProcessing())
-			sf::sleep(sf::microseconds(100));
+			sf::sleep(sf::microseconds(10));
 
 		for (int i = particleCount - 1; i >= 0; i--)
 		{
@@ -64,7 +65,7 @@ namespace nep
 
 			m_threadDataCopy.Process();
 			while (m_threadDataCopy.IsProcessing())
-				sf::sleep(sf::microseconds(100));
+				sf::sleep(sf::microseconds(10));
 
 			_target.draw(m_vertices);
 		}
@@ -72,10 +73,13 @@ namespace nep
 
 	void VertexParticleSystem::AddParticle(const sf::Vector2f & _position, const sf::Vector2f & _initialForce, float _mass, const sf::Color & _color)
 	{
-		VertexParticle* newParticle = new VertexParticle();
-		newParticle->Init(m_position + _position, _initialForce, _mass);
-		newParticle->color = _color;
-		m_particles.push_back(newParticle);
+		if (m_particles.size() < m_maxParticleCount)
+		{
+			VertexParticle* newParticle = new VertexParticle();
+			newParticle->Init(m_position + _position, _initialForce, _mass);
+			newParticle->color = _color;
+			m_particles.push_back(newParticle);
+		}
 	}
 
 	void VertexParticleSystem::AddForce(sf::Vector2f _force)

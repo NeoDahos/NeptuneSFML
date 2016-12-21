@@ -20,7 +20,7 @@ namespace nep
 		VertexParticleSystem();
 		virtual ~VertexParticleSystem();
 
-		void Init(const sf::Vector2f& _position);
+		void Init(const sf::Vector2f& _position, int _maxParticleCount);
 		virtual void Update(float _deltaTime);
 		virtual void Draw(sf::RenderTarget& _target);
 
@@ -93,6 +93,7 @@ namespace nep
 		sf::VertexArray m_vertices;
 		ThreadData<4> m_threadDataCopy;
 		ThreadData<4> m_threadDataUpdate;
+		int m_maxParticleCount;
 	};
 
 	template<int ThreadCount>
@@ -171,7 +172,6 @@ namespace nep
 			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
 			{
 				_data.varray[i] = **currentParticle;
-				//_data.varray[i] = *(_data.particles[i]);
 				currentParticle++;
 			}
 
@@ -208,11 +208,9 @@ namespace nep
 
 			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
 			{
-				//_data.particles[i]->Update(_data.deltaTime);
 				(*currentParticle)->Update(_data.deltaTime);
 				for (size_t j = 0; j < effectorCount; j++)
 					_data.effectors[j]->Apply((*currentParticle));
-				//_data.effectors[j]->Apply(_data.particles[i]);
 				currentParticle++;
 			}
 

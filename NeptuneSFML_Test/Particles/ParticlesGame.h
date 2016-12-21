@@ -25,6 +25,7 @@ private:
 	nep::ColorByVelocity m_colorByVelocity;
 	nep::LoopZone m_loopZone;
 	nep::VertexParticleSystem m_vertexParticleSystem;
+	sf::RenderWindow * m_window;
 };
 
 #endif //PARTICLES_GAME_H

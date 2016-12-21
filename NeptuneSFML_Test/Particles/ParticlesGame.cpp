@@ -3,17 +3,21 @@
 #include <NeptuneSFML\Particles\VertexParticle.h>
 #include <NeptuneSFML\EngineCore.h>
 #include <NeptuneSFML\Tools.h>
-#include <NeptuneSFML\Object\SpriteBatch.h>
 
 void ParticlesGame::Init(sf::RenderWindow& _window)
 {
 	sf::Vector2f windowSize = static_cast<sf::Vector2f>(_window.getSize());
-	nep::SpriteBatch::GetInstance();
-	m_vertexParticleSystem.Init(windowSize / 2.f);
 
-	m_emitter.Init(&m_vertexParticleSystem, 15.f, 15.f);
+	m_window = &_window;
+
+	m_vertexParticleSystem.Init(windowSize / 2.f, 100000);
+
+	m_emitter.Init(&m_vertexParticleSystem, 5.f, 15.f);
 	m_emitter.SetTypeContinuous(0.001f);
-	m_emitter.SetShapeLine({ -100.f, 0.f }, { 100.f, 0.f });
+	//m_emitter.SetTypePulse(0.5f, 10000);
+	m_emitter.SetShapePoint({ 0.f, 0.f });
+	//m_emitter.SetShapeCircle({ 0.f, 0.f }, 50.f);
+	//m_emitter.SetShapeLine({ -100.f, 50.f }, { 100.f, -50.f });
 	m_vertexParticleSystem.AddEmitter(&m_emitter);
 
 	m_repeller.Init(static_cast<sf::Vector2f>(_window.getSize()) / 2.f, -15.f, false);
@@ -41,7 +45,7 @@ void ParticlesGame::HandleEvent(sf::Event & _event)
 	}
 	else if (_event.type == sf::Event::MouseButtonPressed)
 	{
-		m_repeller.setPosition(static_cast<float>(_event.mouseButton.x), static_cast<float>(_event.mouseButton.y));
+		m_repeller.SetPosition(m_window->mapPixelToCoords({ _event.mouseButton.x, _event.mouseButton.y }));
 		m_repeller.Activate();
 	}
 	else if (_event.type == sf::Event::MouseButtonReleased)
@@ -50,7 +54,7 @@ void ParticlesGame::HandleEvent(sf::Event & _event)
 	}
 	else if (_event.type == sf::Event::MouseMoved)
 	{
-		m_repeller.setPosition(static_cast<float>(_event.mouseMove.x), static_cast<float>(_event.mouseMove.y));
+		m_repeller.SetPosition(m_window->mapPixelToCoords({ _event.mouseMove.x, _event.mouseMove.y }));
 	}
 }
 
