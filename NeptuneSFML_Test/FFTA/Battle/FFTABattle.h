@@ -16,17 +16,17 @@ class FFTABattle
 public:
 	void Init(sf::RenderWindow & _window);
 	void DeInit();
-	void HandleEvent(sf::Event& _event);
+	void HandleEvent(const sf::Event& _event);
 	void Update(float _deltaTime);
 	void Draw(sf::RenderTarget & _target);
 
 private:
 	static bool SortCharacters(FFTACharacter * _left, FFTACharacter * _rigth);
 
-	void HandleEvent_SelectDispatchCharacter(sf::Event& _event);
-	void HandleEvent_DispatchCharacter(sf::Event& _event);
-	void HandleEvent_OrientDispatchCharacter(sf::Event& _event);
-	void HandleEvent_ViewMode(sf::Event& _event);
+	void HandleEvent_SelectDispatchCharacter(const sf::Event& _event);
+	void HandleEvent_DispatchCharacter(const sf::Event& _event);
+	void HandleEvent_OrientDispatchCharacter(const sf::Event& _event);
+	void HandleEvent_ViewMode(const sf::Event& _event);
 
 	enum BattleState {SelectDispatchCharacter = 0, DispatchCharacter, OrientDispatchCharacter, SelectCharacter, OrientCharacter, SelectAction, MoveCharacter, CharacterMoving,
 		SelectAttackTarget, CharacterAttacking, ViewMode, BattleStateCount};

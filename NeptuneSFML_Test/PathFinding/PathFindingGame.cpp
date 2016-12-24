@@ -19,7 +19,7 @@ void PathFindingGame::DeInit()
 {
 }
 
-void PathFindingGame::HandleEvent(sf::Event & _event)
+void PathFindingGame::HandleEvent(const sf::Event & _event)
 {
 	if (_event.type == sf::Event::KeyPressed)
 	{

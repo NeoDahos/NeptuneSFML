@@ -15,8 +15,6 @@ namespace nep
 	public:
 		enum EmitterShape { Point = 0, Line, Circle };
 		enum EmitterType { Continuous = 0, Pulse };
-		
-		//Emitter() {}
 
 		void Init(ParticleSystem * _particleSystem, float _minInitialForce, float _maxInitialForce);
 		void Update(float _deltaTime);

@@ -28,14 +28,19 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 
 	m_loopZone.Init(sf::FloatRect({ 0.f, 0.f }, windowSize));
 	m_vertexParticleSystem.AddEffector(&m_loopZone);
+
+	m_button.SetPosition({ 50.f, 100.f });
+	m_button.SetOnClickFct(std::bind(&ParticlesGame::ButtonOnClick, this, std::placeholders::_1));
 }
 
 void ParticlesGame::DeInit()
 {
 }
 
-void ParticlesGame::HandleEvent(sf::Event & _event)
+void ParticlesGame::HandleEvent(const sf::Event & _event)
 {
+	bool isEventConsumed = m_button.HandleEvent(_event);
+
 	if (_event.type == sf::Event::KeyPressed)
 	{
 		if (_event.key.code == sf::Keyboard::Space)
@@ -43,7 +48,7 @@ void ParticlesGame::HandleEvent(sf::Event & _event)
 			printf("Particle count : %d\n", m_vertexParticleSystem.GetParticleCount());
 		}
 	}
-	else if (_event.type == sf::Event::MouseButtonPressed)
+	else if (_event.type == sf::Event::MouseButtonPressed && !isEventConsumed)
 	{
 		m_repeller.SetPosition(m_window->mapPixelToCoords({ _event.mouseButton.x, _event.mouseButton.y }));
 		m_repeller.Activate();
@@ -66,4 +71,11 @@ void ParticlesGame::Update(float _deltaTime)
 void ParticlesGame::Draw(sf::RenderTarget& _target)
 {
 	m_vertexParticleSystem.Draw(_target);
+
+	m_button.Draw(_target);
+}
+
+void ParticlesGame::ButtonOnClick(sf::Event::MouseButtonEvent _buttonEvent)
+{
+	printf("Click !\n");
 }

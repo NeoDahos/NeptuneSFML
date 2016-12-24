@@ -13,7 +13,7 @@ class CreeperWorldGame : public nep::Game
 public:
 	virtual void Init(sf::RenderWindow& _window);
 	virtual void DeInit();
-	virtual void HandleEvent(sf::Event& _event);
+	virtual void HandleEvent(const sf::Event& _event);
 	virtual void Update(float _deltaTime);
 	virtual void Draw(sf::RenderTarget& _target);
 

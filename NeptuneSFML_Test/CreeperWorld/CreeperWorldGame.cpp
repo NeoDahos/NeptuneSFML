@@ -10,7 +10,7 @@ void CreeperWorldGame::DeInit()
 {
 }
 
-void CreeperWorldGame::HandleEvent(sf::Event & _event)
+void CreeperWorldGame::HandleEvent(const sf::Event & _event)
 {
 }
 

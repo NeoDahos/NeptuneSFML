@@ -10,7 +10,7 @@ void IsaacGame::DeInit()
 {
 }
 
-void IsaacGame::HandleEvent(sf::Event& _event)
+void IsaacGame::HandleEvent(const sf::Event& _event)
 {
 	if (_event.type == sf::Event::KeyPressed)
 	{

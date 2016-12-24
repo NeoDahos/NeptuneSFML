@@ -19,14 +19,12 @@ void main()
 	sf::Event event;
 	sf::Clock timer;
 	sf::Text fpsText;
-	sf::Font defaultFont;
 	float deltaTime;
 	
 	window.create(sf::VideoMode(800, 600), "NeptuneSFML Test");
 	window.setFramerateLimit(60);
 	
-	defaultFont.loadFromFile("../Data/Font/arial.ttf");
-	fpsText.setFont(defaultFont);
+	fpsText.setFont(nep::FontMng.GetFont("default"));
 	fpsText.setFillColor(sf::Color::White);
 	fpsText.setPosition(550.f, 0.f);
 	

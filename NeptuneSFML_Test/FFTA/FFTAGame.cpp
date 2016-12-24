@@ -26,7 +26,7 @@ void FFTAGame::DeInit()
 	m_battle.DeInit();
 }
 
-void FFTAGame::HandleEvent(sf::Event& _event)
+void FFTAGame::HandleEvent(const sf::Event& _event)
 {
 	m_battle.HandleEvent(_event);
 }

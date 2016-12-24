@@ -12,7 +12,7 @@ namespace nep
 	public:
 		virtual void Init(sf::RenderWindow& _window) = 0;
 		virtual void DeInit() = 0;
-		virtual void HandleEvent(sf::Event& _event) = 0;
+		virtual void HandleEvent(const sf::Event & _event) = 0;
 		virtual void Update(float _deltaTime) = 0;
 		virtual void Draw(sf::RenderTarget& _target) = 0;
 	};

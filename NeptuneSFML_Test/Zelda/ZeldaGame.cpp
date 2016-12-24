@@ -18,7 +18,7 @@ void ZeldaGame::DeInit()
 	nep::TileSetMng.EraseTileSet("Temple Green");
 }
 
-void ZeldaGame::HandleEvent(sf::Event& _event)
+void ZeldaGame::HandleEvent(const sf::Event& _event)
 {
 }
 

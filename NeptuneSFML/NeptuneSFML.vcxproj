@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Manager\FontManager.cpp" />
     <ClCompile Include="src\Particles\Effectors\LoopZone.cpp" />
     <ClCompile Include="src\Particles\Effectors\ParticleEffector.cpp" />
     <ClCompile Include="src\Particles\Effectors\ColorByVelocity.cpp" />
@@ -168,6 +169,8 @@
     <ClCompile Include="src\TiledMap\TileSet.cpp" />
     <ClCompile Include="src\Tools.cpp" />
     <ClCompile Include="src\EngineCore.cpp" />
+    <ClCompile Include="src\UI\Button.cpp" />
+    <ClCompile Include="src\UI\Widget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NeptuneSFML\Animation\Animation.h" />
@@ -178,6 +181,7 @@
     <ClInclude Include="include\NeptuneSFML\json.hpp" />
     <ClInclude Include="include\NeptuneSFML\Manager\ColliderManager.h" />
     <ClInclude Include="include\NeptuneSFML\Manager\DialogManager.h" />
+    <ClInclude Include="include\NeptuneSFML\Manager\FontManager.h" />
     <ClInclude Include="include\NeptuneSFML\Manager\TextureManager.h" />
     <ClInclude Include="include\NeptuneSFML\Manager\TileSetManager.h" />
     <ClInclude Include="include\NeptuneSFML\Object\Component.h" />
@@ -207,6 +211,8 @@
     <ClInclude Include="include\NeptuneSFML\Tools.h" />
     <ClInclude Include="include\NeptuneSFML\EngineCore.h" />
     <ClInclude Include="include\NeptuneSFML\Export.h" />
+    <ClInclude Include="include\NeptuneSFML\UI\Button.h" />
+    <ClInclude Include="include\NeptuneSFML\UI\Widget.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\NeptuneSFML\Object\ObjectPool.inl" />

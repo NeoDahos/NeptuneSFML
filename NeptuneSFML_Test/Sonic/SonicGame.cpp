@@ -21,7 +21,7 @@ void SonicGame::DeInit()
 {
 }
 
-void SonicGame::HandleEvent(sf::Event& _event)
+void SonicGame::HandleEvent(const sf::Event& _event)
 {
 }
 

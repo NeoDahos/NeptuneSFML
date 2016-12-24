@@ -48,7 +48,7 @@ void FFTABattle::DeInit()
 	m_highligthedTiles.clear();
 }
 
-void FFTABattle::HandleEvent(sf::Event & _event)
+void FFTABattle::HandleEvent(const sf::Event & _event)
 {
 	if (_event.type == sf::Event::KeyPressed)
 	{
@@ -141,7 +141,7 @@ bool FFTABattle::SortCharacters(FFTACharacter * _left, FFTACharacter * _rigth)
 		|| (leftDrawPriority == rigthDrawPriority && leftTilePosition.y == rigthTilePosition.y && leftTilePosition.x < rigthTilePosition.x);
 }
 
-void FFTABattle::HandleEvent_SelectDispatchCharacter(sf::Event & _event)
+void FFTABattle::HandleEvent_SelectDispatchCharacter(const sf::Event & _event)
 {
 	if (_event.key.code == sf::Keyboard::Left)
 	{
@@ -209,7 +209,7 @@ void FFTABattle::HandleEvent_SelectDispatchCharacter(sf::Event & _event)
 		m_state = BattleState::DispatchCharacter;
 }
 
-void FFTABattle::HandleEvent_DispatchCharacter(sf::Event & _event)
+void FFTABattle::HandleEvent_DispatchCharacter(const sf::Event & _event)
 {
 	if (_event.key.code == sf::Keyboard::Up)
 		m_cursor.MoveInHighlightedTile(0, -1, m_highligthedTiles);
@@ -225,7 +225,7 @@ void FFTABattle::HandleEvent_DispatchCharacter(sf::Event & _event)
 	m_selectedCharacter->SetPosition(m_cursor.GetTilePosition());
 }
 
-void FFTABattle::HandleEvent_OrientDispatchCharacter(sf::Event & _event)
+void FFTABattle::HandleEvent_OrientDispatchCharacter(const sf::Event & _event)
 {
 	if (_event.key.code == sf::Keyboard::Up)
 		m_selectedCharacter->SetDirection(FFTACharacter::Direction::TR);
@@ -282,7 +282,7 @@ void FFTABattle::HandleEvent_OrientDispatchCharacter(sf::Event & _event)
 	}
 }
 
-void FFTABattle::HandleEvent_ViewMode(sf::Event & _event)
+void FFTABattle::HandleEvent_ViewMode(const sf::Event & _event)
 {
 	if (_event.key.code == sf::Keyboard::Up)
 		m_cursor.Move(0, -1);

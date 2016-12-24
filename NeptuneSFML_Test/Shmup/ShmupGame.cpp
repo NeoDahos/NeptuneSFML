@@ -15,7 +15,7 @@ void ShmupGame::DeInit()
 	nep::TextureMng.EraseTexture("bullet");
 }
 
-void ShmupGame::HandleEvent(sf::Event& _event)
+void ShmupGame::HandleEvent(const sf::Event& _event)
 {
 	if (_event.type == sf::Event::MouseButtonPressed)
 		m_player.OnMouseButtonPressed(_event.mouseButton);
