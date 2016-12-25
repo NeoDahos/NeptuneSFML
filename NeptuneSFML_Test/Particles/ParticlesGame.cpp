@@ -78,4 +78,5 @@ void ParticlesGame::Draw(sf::RenderTarget& _target)
 void ParticlesGame::ButtonOnClick(sf::Event::MouseButtonEvent _buttonEvent)
 {
 	printf("Click !\n");
+	m_vertexParticleSystem.SetActive(false);
 }

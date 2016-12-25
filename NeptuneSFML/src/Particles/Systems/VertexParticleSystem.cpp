@@ -16,21 +16,21 @@ namespace nep
 		m_threadDataCopy.Stop();
 		m_threadDataUpdate.Stop();
 
-		int particleCount = static_cast<int>(m_particles.size());
-		for (int i = 0; i < particleCount; i++)
-			delete m_particles[i];
-
-		m_particles.clear();
+		KillAllParticles();
 	}
 
-	void VertexParticleSystem::Init(const sf::Vector2f& _position, int _maxParticleCount)
+	void VertexParticleSystem::Init(const sf::Vector2f& _position, int _maxParticleCount, bool _startActive)
 	{
 		m_position = _position;
 		m_maxParticleCount = _maxParticleCount;
+		m_isActive = _startActive;
 	}
 
 	void VertexParticleSystem::Update(float _deltaTime)
 	{
+		if (!m_isActive)
+			return;
+
 		size_t effectorCount = m_effectors.size();
 		const int particleCount = static_cast<int>(m_particles.size());
 		const int emitterCount = static_cast<int>(m_emitters.size());
@@ -57,8 +57,10 @@ namespace nep
 
 	void VertexParticleSystem::Draw(sf::RenderTarget & _target)
 	{
-		int particleCount = static_cast<int>(m_particles.size());
+		if (!m_isActive)
+			return;
 
+		size_t particleCount = m_particles.size();
 		if (particleCount > 0)
 		{
 			m_vertices.resize(particleCount);
@@ -71,15 +73,18 @@ namespace nep
 		}
 	}
 
-	void VertexParticleSystem::AddParticle(const sf::Vector2f & _position, const sf::Vector2f & _initialForce, float _mass, const sf::Color & _color)
+	bool VertexParticleSystem::AddParticle(const sf::Vector2f & _position, const sf::Vector2f & _initialForce, float _mass, const sf::Color & _color)
 	{
-		if (m_particles.size() < m_maxParticleCount)
+		if (m_isActive && m_particles.size() < m_maxParticleCount)
 		{
 			VertexParticle* newParticle = new VertexParticle();
 			newParticle->Init(m_position + _position, _initialForce, _mass);
 			newParticle->color = _color;
 			m_particles.push_back(newParticle);
+			return true;
 		}
+
+		return false;
 	}
 
 	void VertexParticleSystem::AddForce(sf::Vector2f _force)
@@ -87,6 +92,15 @@ namespace nep
 		size_t particleCount = m_particles.size();
 		for (size_t i = 0; i < particleCount; i++)
 			m_particles[i]->AddForce(_force);
+	}
+
+	void VertexParticleSystem::KillAllParticles()
+	{
+		int particleCount = static_cast<int>(m_particles.size());
+		for (int i = 0; i < particleCount; i++)
+			delete m_particles[i];
+
+		m_particles.clear();
 	}
 
 	size_t VertexParticleSystem::GetParticleCount() const

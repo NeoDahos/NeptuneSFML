@@ -17,13 +17,13 @@ namespace nep
 		SpriteParticleSystem() {}
 		virtual ~SpriteParticleSystem();
 
-		void Init(const sf::Vector2f& _position, const sf::String& _texturename);
+		void Init(const sf::Vector2f& _position, const sf::String& _texturename, bool _startActive = true);
 		virtual void Update(float _deltaTime);
 		virtual void Draw(sf::RenderTarget& _target);
 
-		virtual void AddParticle(const sf::Vector2f & _position = sf::Vector2f(), const sf::Vector2f & _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::Color & _color = sf::Color::White);
-
+		virtual bool AddParticle(const sf::Vector2f & _position = sf::Vector2f(), const sf::Vector2f & _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::Color & _color = sf::Color::White);
 		virtual void AddForce(sf::Vector2f _force);
+		virtual void KillAllParticles();
 
 		virtual size_t GetParticleCount() const;
 

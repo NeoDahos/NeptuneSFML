@@ -20,13 +20,13 @@ namespace nep
 		VertexParticleSystem();
 		virtual ~VertexParticleSystem();
 
-		void Init(const sf::Vector2f& _position, int _maxParticleCount);
+		void Init(const sf::Vector2f& _position, int _maxParticleCount, bool _startActive = true);
 		virtual void Update(float _deltaTime);
 		virtual void Draw(sf::RenderTarget& _target);
 
-		virtual void AddParticle(const sf::Vector2f & _position = sf::Vector2f(), const sf::Vector2f & _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::Color & _color = sf::Color::White);
-
+		virtual bool AddParticle(const sf::Vector2f & _position = sf::Vector2f(), const sf::Vector2f & _initialForce = sf::Vector2f(), float _mass = 1.f, const sf::Color & _color = sf::Color::White);
 		virtual void AddForce(sf::Vector2f _force);
+		virtual void KillAllParticles();
 
 		virtual size_t GetParticleCount() const;
 
@@ -93,7 +93,6 @@ namespace nep
 		sf::VertexArray m_vertices;
 		ThreadData<4> m_threadDataCopy;
 		ThreadData<4> m_threadDataUpdate;
-		int m_maxParticleCount;
 	};
 
 	template<int ThreadCount>

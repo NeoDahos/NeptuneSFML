@@ -8,21 +8,21 @@ namespace nep
 {
 	SpriteParticleSystem::~SpriteParticleSystem()
 	{
-		int particleCount = m_particles.size();
-		for (int i = 0; i < particleCount; i++)
-			delete m_particles[i];
-
-		m_particles.clear();
+		KillAllParticles();
 	}
 
-	void SpriteParticleSystem::Init(const sf::Vector2f & _position, const sf::String& _texturename)
+	void SpriteParticleSystem::Init(const sf::Vector2f & _position, const sf::String& _texturename, bool _startActive)
 	{
 		m_position = _position;
 		m_texture = &TextureMng.GetTexture(_texturename);
+		m_isActive = _startActive;
 	}
 
 	void SpriteParticleSystem::Update(float _deltaTime)
 	{
+		if (!m_isActive)
+			return;
+
 		const size_t effectorCount = m_effectors.size();
 		const int particleCount = static_cast<int>(m_particles.size());
 		const int emitterCount = static_cast<int>(m_emitters.size());
@@ -47,16 +47,25 @@ namespace nep
 
 	void SpriteParticleSystem::Draw(sf::RenderTarget & _target)
 	{
+		if (!m_isActive)
+			return;
+
 		SpriteBatch::GetInstance().Draw<SpriteParticle>(_target, m_particles, m_texture);
 	}
 
-	void SpriteParticleSystem::AddParticle(const sf::Vector2f & _position, const sf::Vector2f & _initialForce, float _mass, const sf::Color & _color)
+	bool SpriteParticleSystem::AddParticle(const sf::Vector2f & _position, const sf::Vector2f & _initialForce, float _mass, const sf::Color & _color)
 	{
-		SpriteParticle* newParticle = new SpriteParticle();
-		newParticle->Init(m_position + _position, _initialForce, _mass);
-		newParticle->setTexture(*m_texture);
-		newParticle->setColor(_color);
-		m_particles.push_back(newParticle);
+		if (m_isActive && m_particles.size() < m_maxParticleCount)
+		{
+			SpriteParticle* newParticle = new SpriteParticle();
+			newParticle->Init(m_position + _position, _initialForce, _mass);
+			newParticle->setTexture(*m_texture);
+			newParticle->setColor(_color);
+			m_particles.push_back(newParticle);
+			return true;
+		}
+
+		return false;
 	}
 
 	void SpriteParticleSystem::AddForce(sf::Vector2f _force)
@@ -64,6 +73,15 @@ namespace nep
 		size_t particleCount = m_particles.size();
 		for (size_t i = 0; i < particleCount; i++)
 			m_particles[i]->AddForce(_force);
+	}
+
+	void SpriteParticleSystem::KillAllParticles()
+	{
+		int particleCount = m_particles.size();
+		for (int i = 0; i < particleCount; i++)
+			delete m_particles[i];
+
+		m_particles.clear();
 	}
 
 	size_t SpriteParticleSystem::GetParticleCount() const

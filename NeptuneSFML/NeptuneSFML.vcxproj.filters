@@ -96,9 +96,6 @@
     <ClCompile Include="src\Particles\Effectors\ColorByVelocity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Particles\Effectors\ParticleEffector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Particles\Effectors\LoopZone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

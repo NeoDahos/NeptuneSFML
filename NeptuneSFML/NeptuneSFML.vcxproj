@@ -140,7 +140,6 @@
   <ItemGroup>
     <ClCompile Include="src\Manager\FontManager.cpp" />
     <ClCompile Include="src\Particles\Effectors\LoopZone.cpp" />
-    <ClCompile Include="src\Particles\Effectors\ParticleEffector.cpp" />
     <ClCompile Include="src\Particles\Effectors\ColorByVelocity.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="src\Animation\AnimationSheet.cpp" />

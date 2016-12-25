@@ -1,10 +1,11 @@
+#include "..\..\include\NeptuneSFML\Particles\Emitter.h"
 #include <NeptuneSFML\Particles\Emitter.h>
 #include <NeptuneSFML\Particles\Systems\ParticleSystem.h>
 #include <NeptuneSFML\Tools.h>
 
 namespace nep
 {
-	void Emitter::Init(ParticleSystem * _particleSystem, float _minInitialForce, float _maxInitialForce)
+	void Emitter::Init(ParticleSystem * _particleSystem, float _minInitialForce, float _maxInitialForce, bool _startActive)
 	{
 		m_particleSystem = _particleSystem;
 		m_minInitialForce = _minInitialForce;
@@ -15,37 +16,49 @@ namespace nep
 		m_shapeData.point.position.x = 0.f;
 		m_shapeData.point.position.y = 0.f;
 		m_typeData.spawnRate = 1.f;
+		m_isActive = _startActive;
 	}
 
 	void Emitter::Update(float _deltaTime)
 	{
+		if (!m_isActive)
+			return;
+
 		m_timeSinceLastEmission += _deltaTime;
 		if (m_type == EmitterType::Continuous)
 		{
 			while (m_timeSinceLastEmission >= m_typeData.spawnRate)
 			{
-				if (m_shape == EmitterShape::Point)
-					EmitPoint(1);
-				else if (m_shape == EmitterShape::Line)
-					EmitLine(1);
-				else if (m_shape == EmitterShape::Circle)
-					EmitCircle(1);
-
 				m_timeSinceLastEmission -= m_typeData.spawnRate;
+				if (m_shape == EmitterShape::Point)
+				{
+					if (!EmitPoint(1))
+						break;
+				}
+				else if (m_shape == EmitterShape::Line)
+				{
+					if (!EmitLine(1))
+						break;
+				}
+				else if (m_shape == EmitterShape::Circle)
+				{
+					if (!EmitCircle(1))
+						break;
+				}
 			}
 		}
 		else if (m_type == EmitterType::Pulse)
 		{
 			if (m_timeSinceLastEmission >= m_typeData.pulseRate)
 			{
+				m_timeSinceLastEmission = 0.f;
+
 				if (m_shape == EmitterShape::Point)
 					EmitPoint(m_typeData.quantity);
 				else if (m_shape == EmitterShape::Line)
 					EmitLine(m_typeData.quantity);
 				else if (m_shape == EmitterShape::Circle)
 					EmitCircle(m_typeData.quantity);
-
-				m_timeSinceLastEmission = 0.f;
 			}
 		}
 	}
@@ -84,7 +97,12 @@ namespace nep
 		m_shapeData.circle.radius = _radius;
 	}
 
-	void Emitter::EmitPoint(int _count)
+	void Emitter::SetActive(bool _activate)
+	{
+		m_isActive = _activate;
+	}
+
+	bool Emitter::EmitPoint(int _count)
 	{
 		std::uniform_real_distribution<float> randForce(m_minInitialForce, m_maxInitialForce);
 		std::uniform_real_distribution<float> randAngle(0.f, TWO_PI);
@@ -95,11 +113,14 @@ namespace nep
 		{
 			force = randForce(m_randGenerator);
 			angle = randAngle(m_randGenerator);
-			m_particleSystem->AddParticle(m_shapeData.point.position, {cos(angle) * force, sin(angle) * force });
+			if (!m_particleSystem->AddParticle(m_shapeData.point.position, { cos(angle) * force, sin(angle) * force }))
+				return false;
 		}
+
+		return true;
 	}
 
-	void Emitter::EmitLine(int _count)
+	bool Emitter::EmitLine(int _count)
 	{
 		sf::Vector2f line = m_shapeData.line.end - m_shapeData.line.start;
 		sf::Vector2f linePerpendicular;
@@ -115,11 +136,14 @@ namespace nep
 		for (int i = 0; i < _count; i++)
 		{
 			force = randForce(m_randGenerator);
-			m_particleSystem->AddParticle(m_shapeData.line.start + line * randPosition(m_randGenerator), linePerpendicular * force);
+			if (!m_particleSystem->AddParticle(m_shapeData.line.start + line * randPosition(m_randGenerator), linePerpendicular * force))
+				return false;
 		}
+
+		return true;
 	}
 
-	void Emitter::EmitCircle(int _count)
+	bool Emitter::EmitCircle(int _count)
 	{
 		std::uniform_real_distribution<float> randForce(m_minInitialForce, m_maxInitialForce);
 		std::uniform_real_distribution<float> randAngle(0.f, TWO_PI);
@@ -134,7 +158,10 @@ namespace nep
 			position.x = m_shapeData.circle.center.x + cos(angle) * m_shapeData.circle.radius;
 			position.y = m_shapeData.circle.center.x + sin(angle) * m_shapeData.circle.radius;
 
-			m_particleSystem->AddParticle(position, { cos(angle) * force, sin(angle) * force });
+			if (!m_particleSystem->AddParticle(position, { cos(angle) * force, sin(angle) * force }))
+				return false;
 		}
+
+		return true;
 	}
 }

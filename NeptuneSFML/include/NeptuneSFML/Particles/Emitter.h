@@ -16,7 +16,7 @@ namespace nep
 		enum EmitterShape { Point = 0, Line, Circle };
 		enum EmitterType { Continuous = 0, Pulse };
 
-		void Init(ParticleSystem * _particleSystem, float _minInitialForce, float _maxInitialForce);
+		void Init(ParticleSystem * _particleSystem, float _minInitialForce, float _maxInitialForce, bool _startActive = true);
 		void Update(float _deltaTime);
 
 		void SetTypeContinuous(float _spawnRate);
@@ -26,10 +26,12 @@ namespace nep
 		void SetShapeLine(const sf::Vector2f & _lineStart, const sf::Vector2f & _lineEnd);
 		void SetShapeCircle(const sf::Vector2f & _center, float _radius);
 
+		void SetActive(bool _activate = true);
+
 	private:
-		void EmitPoint(int _count);
-		void EmitLine(int _count);
-		void EmitCircle(int _count);
+		bool EmitPoint(int _count);
+		bool EmitLine(int _count);
+		bool EmitCircle(int _count);
 
 		union ShapeData
 		{
@@ -77,6 +79,7 @@ namespace nep
 		EmitterShape m_shape;
 		EmitterType m_type;
 		ParticleSystem * m_particleSystem;
+		bool m_isActive;
 	};
 }
 

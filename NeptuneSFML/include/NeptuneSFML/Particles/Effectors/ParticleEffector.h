@@ -8,7 +8,10 @@ namespace nep
 	{
 	public:
 		virtual void Apply(class Particle * const _particle) = 0;
-		void Activate(bool _activate = true);
+		void Activate(bool _activate = true)
+		{
+			m_isActive = _activate;
+		}
 
 	protected:
 		bool m_isActive = true;
