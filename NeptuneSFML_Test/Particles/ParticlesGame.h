@@ -9,6 +9,7 @@
 #include <NeptuneSFML\Particles\Effectors\LoopZone.h>
 
 #include <NeptuneSFML\UI\Button.h>
+#include <NeptuneSFML\UI\Slider.h>
 
 class ParticlesGame : public nep::Game
 {
@@ -21,6 +22,7 @@ public:
 
 private:
 	void ButtonOnClick(sf::Event::MouseButtonEvent _buttonEvent);
+	void SliderOnValueChange(float _newValue);
 
 	nep::Emitter m_emitter;
 	nep::Repeller m_repeller;
@@ -28,6 +30,7 @@ private:
 	nep::LoopZone m_loopZone;
 	nep::VertexParticleSystem m_vertexParticleSystem;
 	nep::Button m_button;
+	nep::Slider m_slider;
 	sf::RenderWindow * m_window;
 };
 

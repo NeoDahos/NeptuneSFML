@@ -111,6 +111,12 @@
     <ClCompile Include="src\UI\Widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\RangeWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Slider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NeptuneSFML\Physic\RigidBody.h">
@@ -231,6 +237,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NeptuneSFML\UI\Widget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeptuneSFML\UI\RangeWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeptuneSFML\UI\Slider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

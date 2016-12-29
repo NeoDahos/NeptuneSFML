@@ -7,8 +7,6 @@
 #include <SFML\Graphics\Text.hpp>
 #include <SFML\Graphics\ConvexShape.hpp>
 
-#include <functional>
-
 namespace nep
 {
 	class NEPTUNE_API Button : public Widget
@@ -32,12 +30,14 @@ namespace nep
 		inline void SetShapeOutlineColor(const sf::Color & _color);
 		inline void SetShapeOutlineThickness(float _thickness);
 
-		void SetPosition(const sf::Vector2f & _position);
+		virtual void SetPosition(const sf::Vector2f & _position);
 
 		virtual bool HandleEvent(const sf::Event& _event);
 		virtual void Draw(sf::RenderTarget& _target);
 
 	private:
+		static unsigned int  s_instanceCount;
+
 		sf::ConvexShape m_shape;
 		sf::Text m_text;
 	};

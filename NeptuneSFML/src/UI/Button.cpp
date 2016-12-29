@@ -3,18 +3,23 @@
 
 namespace nep
 {
+	unsigned int  Button::s_instanceCount = 0;
+
 	Button::Button()
 	{
+		s_instanceCount++;
+		m_name = "Button" + std::to_string(s_instanceCount);
+
 		m_text.setFont(FontMng.GetFont("default"));
-		m_text.setString("Button");
+		m_text.setString(m_name);
 		const sf::FloatRect textBounds = m_text.getLocalBounds();
 		m_text.setOrigin(textBounds.left + (textBounds.width / 2.f), textBounds.top + (textBounds.height / 2.f));
-		m_text.setPosition(50.f, 25.f);
+		m_text.setPosition(60.f, 25.f);
 
 		m_shape.setPointCount(4);
 		m_shape.setPoint(0, { 0.f, 0.f });
-		m_shape.setPoint(1, { 100.f, 0.f });
-		m_shape.setPoint(2, { 100.f, 50.f });
+		m_shape.setPoint(1, { 120.f, 0.f });
+		m_shape.setPoint(2, { 120.f, 50.f });
 		m_shape.setPoint(3, { 0.f, 50.f });
 		m_shape.setFillColor(sf::Color(150, 150, 150));
 		m_shape.setOutlineColor(sf::Color(200, 200, 200));
@@ -23,6 +28,7 @@ namespace nep
 
 	Button::~Button()
 	{
+		s_instanceCount--;
 	}
 
 	void Button::SetTextString(const sf::String & _string)
@@ -106,7 +112,11 @@ namespace nep
 		{
 			if (_event.type == sf::Event::MouseMoved)
 			{
-				if (m_shape.getGlobalBounds().contains(static_cast<float>(_event.mouseMove.x), static_cast<float>(_event.mouseMove.y)))
+				bool mouseIn = m_renderTarget ?
+					m_shape.getGlobalBounds().contains(m_renderTarget->mapPixelToCoords({ _event.mouseMove.x, _event.mouseMove.y })) :
+					m_shape.getGlobalBounds().contains(static_cast<float>(_event.mouseMove.x), static_cast<float>(_event.mouseMove.y));
+
+				if (mouseIn)
 				{
 					if (!m_isMouseIn)
 					{

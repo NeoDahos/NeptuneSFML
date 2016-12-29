@@ -18,14 +18,18 @@ namespace nep
 
 		virtual ~Widget();
 
-		void SetState(WidgetState _state);
-		WidgetState GetState() const;
-		void SetVisiblity(bool _isVisible);
-		bool GetVisibility() const;
+		inline void SetRenderTarger(sf::RenderTarget * _renderTarget);
+		inline void SetVisiblity(bool _isVisible);
 
-		void SetOnMouseEnterFct(const std::function<void(sf::Event::MouseMoveEvent)> & _fct);
-		void SetOnMouseLeaveFct(const std::function<void(sf::Event::MouseMoveEvent)> & _fct);
-		void SetOnClickFct(const std::function<void(sf::Event::MouseButtonEvent)> & _fct);
+		inline WidgetState GetState() const;
+		inline bool GetVisibility() const;
+
+		virtual void SetPosition(const sf::Vector2f & _position);
+
+		inline void SetOnMouseEnterFct(const std::function<void(sf::Event::MouseMoveEvent)> & _fct);
+		inline void SetOnMouseLeaveFct(const std::function<void(sf::Event::MouseMoveEvent)> & _fct);
+		inline void SetOnMouseMoveFct(const std::function<void(sf::Event::MouseMoveEvent)> & _fct);
+		inline void SetOnClickFct(const std::function<void(sf::Event::MouseButtonEvent)> & _fct);
 
 		virtual bool HandleEvent(const sf::Event& _event) = 0;
 		virtual void Draw(sf::RenderTarget& _target) = 0;
@@ -35,13 +39,17 @@ namespace nep
 
 		virtual void HandleMouseEnter(int _x, int _y);
 		virtual void HandleMouseLeave(int _x, int _y);
+		virtual void HandleMouseMove(int _x, int _y);
 		virtual void HandleMouseButtonEvent(sf::Mouse::Button _button, bool _isPressed, int _x, int _y);
 
 		std::function<void(sf::Event::MouseMoveEvent)> m_onMouseEnterFct;
 		std::function<void(sf::Event::MouseMoveEvent)> m_onMouseLeaveFct;
+		std::function<void(sf::Event::MouseMoveEvent)> m_onMouseMoveFct;
 		std::function<void(sf::Event::MouseButtonEvent)> m_onClickFct;
 
+		sf::String m_name;
 		sf::Vector2f m_position;
+		sf::RenderTarget* m_renderTarget;
 		WidgetState m_state;
 		bool m_isMouseIn;
 		bool m_isVisible;
