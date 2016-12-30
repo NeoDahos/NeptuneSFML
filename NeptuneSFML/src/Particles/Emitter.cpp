@@ -33,17 +33,26 @@ namespace nep
 				if (m_shape == EmitterShape::Point)
 				{
 					if (!EmitPoint(1))
+					{
+						m_timeSinceLastEmission = 0.f;
 						break;
+					}
 				}
 				else if (m_shape == EmitterShape::Line)
 				{
 					if (!EmitLine(1))
+					{
+						m_timeSinceLastEmission = 0.f;
 						break;
+					}
 				}
 				else if (m_shape == EmitterShape::Circle)
 				{
 					if (!EmitCircle(1))
+					{
+						m_timeSinceLastEmission = 0.f;
 						break;
+					}
 				}
 			}
 		}
@@ -67,6 +76,7 @@ namespace nep
 	{
 		m_type = EmitterType::Continuous;
 		m_typeData.spawnRate = _spawnRate;
+		m_timeSinceLastEmission = _spawnRate;
 	}
 
 	void Emitter::SetTypePulse(float _pulseRate, int _quantity)

@@ -150,6 +150,7 @@ namespace nep
 		// Condition's mutex.
 		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
 		VertexParticle** currentParticle = nullptr;
+		int particleCount;
 		int particleCountPerThread;
 		int indexStart;
 
@@ -164,11 +165,12 @@ namespace nep
 				return;
 
 			// Otherwise process the particles.
-			particleCountPerThread = _data.particles.size() / ThreadCount;
+			particleCount = _data.particles.size();
+			particleCountPerThread = particleCount / ThreadCount + 1;
 			indexStart = particleCountPerThread * _idThread;
 			currentParticle = _data.particles.data() + indexStart;
 
-			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
+			for (int i = indexStart; i < indexStart + particleCountPerThread && i < particleCount; i++)
 			{
 				_data.varray[i] = **currentParticle;
 				currentParticle++;
@@ -186,6 +188,7 @@ namespace nep
 		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
 		VertexParticle** currentParticle = nullptr;
 		size_t effectorCount;
+		int particleCount;
 		int particleCountPerThread;
 		int indexStart;
 
@@ -201,11 +204,12 @@ namespace nep
 
 			// Otherwise process the particles.
 			effectorCount = _data.effectors.size();
-			particleCountPerThread = _data.particles.size() / ThreadCount;
+			particleCount = _data.particles.size();
+			particleCountPerThread = particleCount / ThreadCount + 1;
 			indexStart = particleCountPerThread * _idThread;
 			currentParticle = _data.particles.data() + indexStart;
 
-			for (int i = indexStart; i < indexStart + particleCountPerThread; i++)
+			for (int i = indexStart; i < indexStart + particleCountPerThread && i < particleCount; i++)
 			{
 				(*currentParticle)->Update(_data.deltaTime);
 				for (size_t j = 0; j < effectorCount; j++)

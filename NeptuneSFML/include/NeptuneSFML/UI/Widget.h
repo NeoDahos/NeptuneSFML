@@ -7,8 +7,6 @@
 
 #include <functional>
 
-// http://sfgui.sfml-dev.de/
-
 namespace nep
 {
 	class NEPTUNE_API Widget

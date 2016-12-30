@@ -14,6 +14,7 @@ namespace nep
 		RangeWidget();
 		virtual ~RangeWidget();
 
+		void Configure(float _littleStep, float _bigStep, float _minValue, float _maxValue, float _value);
 		inline void SetLittleStep(float _step);
 		inline void SetBigStep(float _step);
 		virtual void SetMinValue(float _value);
@@ -40,6 +41,8 @@ namespace nep
 	
 	protected:
 		static unsigned int  s_instanceCount;
+
+		virtual void HandleConfigurationChange();
 
 		std::function<void(float)> m_onValueChangeFct;
 		float m_littleStep;

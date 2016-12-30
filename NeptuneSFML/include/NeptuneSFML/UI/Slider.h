@@ -28,6 +28,7 @@ namespace nep
 		virtual void Draw(sf::RenderTarget& _target);
 
 	private:
+		virtual void HandleConfigurationChange();
 		virtual void HandleMouseMove(int _x, int _y);
 		virtual void HandleMouseButtonEvent(sf::Mouse::Button _button, bool _isPressed, int _x, int _y);
 

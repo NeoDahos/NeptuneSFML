@@ -14,7 +14,7 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 
 	m_emitter.Init(&m_vertexParticleSystem, 5.f, 15.f);
 	m_emitter.SetTypeContinuous(0.001f);
-	//m_emitter.SetTypePulse(0.5f, 10000);
+	//m_emitter.SetTypePulse(0.5f, 1000);
 	m_emitter.SetShapePoint({ 0.f, 0.f });
 	//m_emitter.SetShapeCircle({ 0.f, 0.f }, 50.f);
 	//m_emitter.SetShapeLine({ -100.f, 50.f }, { 100.f, -50.f });
@@ -29,13 +29,44 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_loopZone.Init(sf::FloatRect({ 0.f, 0.f }, windowSize));
 	m_vertexParticleSystem.AddEffector(&m_loopZone);
 
-	m_button.SetRenderTarger(m_window);
-	m_button.SetPosition({ 50.f, 100.f });
-	m_button.SetOnClickFct(std::bind(&ParticlesGame::ButtonOnClick, this, std::placeholders::_1));
+	// UI
+	m_applyBtn.SetRenderTarger(m_window);
+	m_applyBtn.SetPosition({ 50.f, 100.f });
+	m_applyBtn.SetTextString("Apply");
+	m_applyBtn.SetOnClickFct(std::bind(&ParticlesGame::ApplyBtn_OnClick, this, std::placeholders::_1));
+	m_widgets.push_back(&m_applyBtn);
 
-	m_slider.SetRenderTarger(m_window);
-	m_slider.SetPosition({50.f, 170.f});
-	m_slider.SetOnValueChangeFct(std::bind(&ParticlesGame::SliderOnValueChange, this, std::placeholders::_1));
+	m_particleCountSdr.SetRenderTarger(m_window);
+	m_particleCountSdr.SetPosition({50.f, 170.f});
+	m_particleCountSdr.Configure(100.f, 1000.f, 10000.f, 100000.f, 10000.f);
+	m_particleCountSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
+	m_widgets.push_back(&m_particleCountSdr);
+
+	m_emitterTypeSdr.SetRenderTarger(m_window);
+	m_emitterTypeSdr.SetPosition({ 50.f, 200.f });
+	m_emitterTypeSdr.Configure(1.f, 1.f, 0.f, 1.f, 0.f);
+	m_emitterTypeSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::EmitterTypeSdr_OnValueChange, this, std::placeholders::_1));
+	m_widgets.push_back(&m_emitterTypeSdr);
+
+	m_emitterSpawnRateSdr.SetRenderTarger(m_window);
+	m_emitterSpawnRateSdr.SetPosition({ 50.f, 230.f });
+	m_emitterSpawnRateSdr.Configure(0.001f, 0.01f, 0.001f, 0.1f, 0.001f);
+	m_emitterSpawnRateSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
+	m_widgets.push_back(&m_emitterSpawnRateSdr);
+
+	m_emitterPulseRateSdr.SetRenderTarger(m_window);
+	m_emitterPulseRateSdr.SetPosition({ 50.f, 230.f });
+	m_emitterPulseRateSdr.Configure(0.1f, 0.5f, 0.1f, 10.f, 5.0f);
+	m_emitterPulseRateSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
+	m_emitterPulseRateSdr.SetVisiblity(false);
+	m_widgets.push_back(&m_emitterPulseRateSdr);
+
+	m_emitterQuantitySdr.SetRenderTarger(m_window);
+	m_emitterQuantitySdr.SetPosition({ 50.f, 260.f });
+	m_emitterQuantitySdr.Configure(1.f, 100.f, 1.f, 1000.f, 100.f);
+	m_emitterQuantitySdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
+	m_emitterQuantitySdr.SetVisiblity(false);
+	m_widgets.push_back(&m_emitterQuantitySdr);
 }
 
 void ParticlesGame::DeInit()
@@ -44,11 +75,14 @@ void ParticlesGame::DeInit()
 
 void ParticlesGame::HandleEvent(const sf::Event & _event)
 {
-	bool isEventConsumed = m_button.HandleEvent(_event);
-	if (isEventConsumed)
-		m_slider.HandleEvent(_event);
-	else
-		isEventConsumed = m_slider.HandleEvent(_event);
+	bool isEventConsumed = false;
+	for (size_t i = 0; i < m_widgets.size(); i++)
+	{
+		if (isEventConsumed)
+			m_widgets[i]->HandleEvent(_event);
+		else
+			isEventConsumed = m_widgets[i]->HandleEvent(_event);
+	}
 
 	if (_event.type == sf::Event::KeyPressed)
 	{
@@ -81,18 +115,45 @@ void ParticlesGame::Draw(sf::RenderTarget& _target)
 {
 	m_vertexParticleSystem.Draw(_target);
 
-	m_button.Draw(_target);
-	m_slider.Draw(_target);
+	for (size_t i = 0; i < m_widgets.size(); i++)
+		m_widgets[i]->Draw(_target);
 }
 
-void ParticlesGame::ButtonOnClick(sf::Event::MouseButtonEvent _buttonEvent)
+void ParticlesGame::ApplyBtn_OnClick(sf::Event::MouseButtonEvent _buttonEvent)
 {
-	printf("Click !\n");
-	m_slider.SetBigStep(25.f);
-	m_slider.SetMinValue(25.f);
+	printf("Apply !\n");
+
+	if (static_cast<int>(m_emitterTypeSdr.GetValue()) == 0)
+	{
+		m_emitter.SetTypeContinuous(m_emitterSpawnRateSdr.GetValue());
+	}
+	else
+	{
+		m_emitter.SetTypePulse(m_emitterPulseRateSdr.GetValue(), static_cast<int>(m_emitterQuantitySdr.GetValue()));
+	}
+
+	m_vertexParticleSystem.SetMaxParticle(static_cast<unsigned int>(m_particleCountSdr.GetValue()));
 }
 
-void ParticlesGame::SliderOnValueChange(float _newValue)
+void ParticlesGame::Sliders_OnValueChange(float _newValue)
 {
-	printf("Slider value : %f\n", _newValue);
+	printf("New slider value : %f\n", _newValue);
+}
+
+void ParticlesGame::EmitterTypeSdr_OnValueChange(float _newValue)
+{
+	Sliders_OnValueChange(_newValue);
+
+	if (static_cast<int>(_newValue) == 0)
+	{
+		m_emitterSpawnRateSdr.SetVisiblity(true);
+		m_emitterPulseRateSdr.SetVisiblity(false);
+		m_emitterQuantitySdr.SetVisiblity(false);
+	}
+	else
+	{
+		m_emitterSpawnRateSdr.SetVisiblity(false);
+		m_emitterPulseRateSdr.SetVisiblity(true);
+		m_emitterQuantitySdr.SetVisiblity(true);
+	}
 }

@@ -23,6 +23,15 @@ namespace nep
 		s_instanceCount--;
 	}
 
+	void RangeWidget::Configure(float _littleStep, float _bigStep, float _minValue, float _maxValue, float _value)
+	{
+		m_littleStep = _littleStep;
+		m_bigStep = _bigStep;
+		m_minValue = _minValue;
+		m_maxValue = _maxValue;
+		SetValue(_value);
+	}
+
 	inline void RangeWidget::SetLittleStep(float _step)
 	{
 		m_littleStep = _step;
@@ -50,6 +59,10 @@ namespace nep
 	void RangeWidget::SetValue(float _value)
 	{
 		m_value = _value;
+		if (m_value < m_minValue)
+			m_value = m_minValue;
+		else if (m_value > m_maxValue)
+			m_value = m_maxValue;
 	}
 
 	void RangeWidget::SetOrientation(RangeWidgetOrientation _orientation)
@@ -123,5 +136,9 @@ namespace nep
 	bool RangeWidget::HandleEvent(const sf::Event & _event)
 	{
 		return false;
+	}
+
+	void RangeWidget::HandleConfigurationChange()
+	{
 	}
 }

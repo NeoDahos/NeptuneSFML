@@ -32,19 +32,17 @@ namespace nep
 			return;
 
 		size_t effectorCount = m_effectors.size();
-		const int particleCount = static_cast<int>(m_particles.size());
-		const int emitterCount = static_cast<int>(m_emitters.size());
 		sf::Vector2f newPosition;
 		m_threadDataUpdate.deltaTime = _deltaTime;
 
-		for (int i = 0; i < emitterCount; i++)
+		for (int i = 0; i < static_cast<int>(m_emitters.size()); i++)
 			m_emitters[i]->Update(_deltaTime);
 
 		m_threadDataUpdate.Process();
 		while (m_threadDataUpdate.IsProcessing())
 			sf::sleep(sf::microseconds(10));
 
-		for (int i = particleCount - 1; i >= 0; i--)
+		for (int i = static_cast<int>(m_particles.size()) - 1; i >= 0; i--)
 		{
 			if (m_particles[i]->IsDead())
 			{

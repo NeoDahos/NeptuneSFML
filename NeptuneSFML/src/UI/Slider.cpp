@@ -25,9 +25,6 @@ namespace nep
 
 	inline void Slider::SetMinValue(float _value)
 	{
-		if (_value > m_maxValue)
-			return;
-
 		m_minValue = _value;
 		if (m_value < m_minValue)
 		{
@@ -41,9 +38,6 @@ namespace nep
 
 	inline void Slider::SetMaxValue(float _value)
 	{
-		if (_value < m_minValue)
-			return;
-
 		m_maxValue = _value;
 		if (m_value > m_maxValue)
 		{
@@ -189,8 +183,16 @@ namespace nep
 
 	void Slider::Draw(sf::RenderTarget & _target)
 	{
-		_target.draw(m_bar);
-		_target.draw(m_indicator);
+		if (m_isVisible)
+		{
+			_target.draw(m_bar);
+			_target.draw(m_indicator);
+		}
+	}
+
+	void Slider::HandleConfigurationChange()
+	{
+		PlaceIndicator();
 	}
 
 	void Slider::HandleMouseMove(int _x, int _y)
@@ -199,20 +201,42 @@ namespace nep
 		{
 			const sf::Vector2f mousePosition = m_renderTarget ? m_renderTarget->mapPixelToCoords({ _x, _y }) : sf::Vector2f(static_cast<float>(_x), static_cast<float>(_y));
 			const sf::Vector2f barSize = m_bar.getSize();
-			float value = mousePosition.x - m_bar.getGlobalBounds().left - m_bar.getOutlineThickness();
+			float value;
 
-			if (value >= 0.f)
+			if (m_orientation == RangeWidgetOrientation::OrientationHorizontal)
 			{
-				if (value <= barSize.x)
+				value = mousePosition.x - m_bar.getGlobalBounds().left - m_bar.getOutlineThickness();
+				if (value >= 0.f)
 				{
-					value = ((m_maxValue - m_minValue) * (value / barSize.x)) + m_minValue;
-					SetValue(value);
+					if (value <= barSize.x)
+					{
+						value = ((m_maxValue - m_minValue) * (value / barSize.x)) + m_minValue;
+						value = value - fmod(value, m_littleStep);
+						SetValue(value);
+					}
+					else
+						SetValue(m_maxValue);
 				}
 				else
-					SetValue(m_maxValue);
+					SetValue(m_minValue);
 			}
 			else
-				SetValue(m_minValue);
+			{
+				value = mousePosition.y - m_bar.getGlobalBounds().top - m_bar.getOutlineThickness();
+				if (value >= 0.f)
+				{
+					if (value <= barSize.y)
+					{
+						value = ((m_maxValue - m_minValue) * (value / barSize.y)) + m_minValue;
+						value = value - fmod(value, m_littleStep);
+						SetValue(value);
+					}
+					else
+						SetValue(m_maxValue);
+				}
+				else
+					SetValue(m_minValue);
+			}
 		}
 
 		if (m_onMouseMoveFct)

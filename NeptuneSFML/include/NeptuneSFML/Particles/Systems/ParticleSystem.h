@@ -43,9 +43,20 @@ namespace nep
 			KillAllParticles();
 		}
 
+		void SetMaxParticle(unsigned int _max)
+		{
+			m_maxParticleCount = _max;
+			KillAllParticles();
+		}
+
 		inline sf::Vector2f GetPosition() const
 		{
 			return m_position;
+		}
+
+		inline unsigned int GetMaxParticle() const
+		{
+			return m_maxParticleCount;
 		}
 
 		virtual size_t GetParticleCount() const = 0;
@@ -54,7 +65,7 @@ namespace nep
 		std::vector<Emitter *> m_emitters;
 		std::vector<ParticleEffector *> m_effectors;
 		sf::Vector2f m_position;
-		size_t m_maxParticleCount;
+		unsigned int m_maxParticleCount;
 		bool m_isActive;
 	};
 }

@@ -21,17 +21,25 @@ public:
 	virtual void Draw(sf::RenderTarget& _target);
 
 private:
-	void ButtonOnClick(sf::Event::MouseButtonEvent _buttonEvent);
-	void SliderOnValueChange(float _newValue);
+	void ApplyBtn_OnClick(sf::Event::MouseButtonEvent _buttonEvent);
+	void Sliders_OnValueChange(float _newValue);
+	void EmitterTypeSdr_OnValueChange(float _newValue);
 
 	nep::Emitter m_emitter;
 	nep::Repeller m_repeller;
 	nep::ColorByVelocity m_colorByVelocity;
 	nep::LoopZone m_loopZone;
 	nep::VertexParticleSystem m_vertexParticleSystem;
-	nep::Button m_button;
-	nep::Slider m_slider;
 	sf::RenderWindow * m_window;
+
+	// UI
+	std::vector<nep::Widget *> m_widgets;
+	nep::Button m_applyBtn;
+	nep::Slider m_particleCountSdr;
+	nep::Slider m_emitterTypeSdr;
+	nep::Slider m_emitterSpawnRateSdr;
+	nep::Slider m_emitterPulseRateSdr;
+	nep::Slider m_emitterQuantitySdr;
 };
 
 #endif //PARTICLES_GAME_H
