@@ -170,6 +170,7 @@
     <ClCompile Include="src\EngineCore.cpp" />
     <ClCompile Include="src\UI\Button.cpp" />
     <ClCompile Include="src\UI\Container.cpp" />
+    <ClCompile Include="src\UI\Label.cpp" />
     <ClCompile Include="src\UI\RangeWidget.cpp" />
     <ClCompile Include="src\UI\Slider.cpp" />
     <ClCompile Include="src\UI\Widget.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="include\NeptuneSFML\Export.h" />
     <ClInclude Include="include\NeptuneSFML\UI\Button.h" />
     <ClInclude Include="include\NeptuneSFML\UI\Container.h" />
+    <ClInclude Include="include\NeptuneSFML\UI\Label.h" />
     <ClInclude Include="include\NeptuneSFML\UI\RangeWidget.h" />
     <ClInclude Include="include\NeptuneSFML\UI\Slider.h" />
     <ClInclude Include="include\NeptuneSFML\UI\Widget.h" />

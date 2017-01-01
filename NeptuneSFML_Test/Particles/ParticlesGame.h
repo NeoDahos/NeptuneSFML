@@ -11,6 +11,7 @@
 #include <NeptuneSFML\UI\Container.h>
 #include <NeptuneSFML\UI\Button.h>
 #include <NeptuneSFML\UI\Slider.h>
+#include <NeptuneSFML\UI\Label.h>
 
 class ParticlesGame : public nep::Game
 {
@@ -32,6 +33,7 @@ private:
 	nep::LoopZone m_loopZone;
 	nep::VertexParticleSystem m_vertexParticleSystem;
 	sf::RenderWindow * m_window;
+	bool m_isMenuOpen;
 
 	// UI
 	std::vector<nep::Widget *> m_widgets;
@@ -43,6 +45,12 @@ private:
 	nep::Slider m_emitterSpawnRateSdr;
 	nep::Slider m_emitterPulseRateSdr;
 	nep::Slider m_emitterQuantitySdr;
+	nep::Label m_particleCountLbl;
+	nep::Label m_emitterShapeLbl;
+	nep::Label m_emitterTypeLbl;
+	nep::Label m_emitterSpawnRateLbl;
+	nep::Label m_emitterPulseRateLbl;
+	nep::Label m_emitterQuantityLbl;
 };
 
 #endif //PARTICLES_GAME_H

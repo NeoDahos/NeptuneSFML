@@ -16,7 +16,6 @@ namespace nep
 		
 		virtual void SetPosition(const sf::Vector2f & _position);
 		void SetSize(const sf::Vector2f & _size);
-		virtual void SetActive(bool _isActive);
 
 		void AddChild(Widget * _child);
 		void RemoveChild(Widget * _child);

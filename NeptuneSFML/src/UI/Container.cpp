@@ -36,15 +36,6 @@ namespace nep
 		m_zone.setSize(_size);
 	}
 
-	void Container::SetActive(bool _isActive)
-	{
-		const size_t childrenCount = m_children.size();
-
-		Widget::SetActive(_isActive);
-		for (size_t i = 0; i < childrenCount; i++)
-			m_children[i]->SetActive(_isActive);
-	}
-
 	void Container::AddChild(Widget * _child)
 	{
 		if (std::find(m_children.begin(), m_children.end(), _child) == m_children.end())
@@ -84,8 +75,19 @@ namespace nep
 
 	bool Container::HandleEvent(const sf::Event & _event)
 	{
+		bool isEventConsumed = false;
 		if (m_state != WidgetState::Inactive)
 		{
+			const size_t childrenCount = m_children.size();
+
+			for (size_t i = 0; i < childrenCount; i++)
+			{
+				if (isEventConsumed)
+					m_children[i]->HandleEvent(_event);
+				else
+					isEventConsumed = m_children[i]->HandleEvent(_event);
+			}
+
 			if (_event.type == sf::Event::MouseMoved)
 			{
 				const bool mouseIn = m_renderTarget ?
@@ -95,12 +97,10 @@ namespace nep
 				if (mouseIn && !m_isMouseIn)
 				{
 					HandleMouseEnter(_event.mouseMove.x, _event.mouseMove.y);
-					return false;
 				}
 				else if (!mouseIn && m_isMouseIn)
 				{
 					HandleMouseLeave(_event.mouseMove.x, _event.mouseMove.y);
-					return false;
 				}
 			}
 			else if (_event.type == sf::Event::MouseButtonPressed)
@@ -108,17 +108,23 @@ namespace nep
 				if (m_isMouseIn)
 				{
 					HandleMouseButtonEvent(_event.mouseButton.button, true, _event.mouseButton.x, _event.mouseButton.y);
-					return true;
+					isEventConsumed = true;
 				}
 			}
 		}
 
-		return false;
+		return isEventConsumed;
 	}
 
 	void Container::Draw(sf::RenderTarget & _target)
 	{
-		if(m_isVisible)
+		if (m_isVisible)
+		{
+			const size_t childrenCount = m_children.size();
 			_target.draw(m_zone);
+			
+			for (size_t i = 0; i < childrenCount; i++)
+				m_children[i]->Draw(_target);
+		}
 	}
 }

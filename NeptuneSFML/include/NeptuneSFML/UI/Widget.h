@@ -20,8 +20,8 @@ namespace nep
 		virtual ~Widget();
 
 		void SetRenderTarger(sf::RenderTarget * _renderTarget);
-		void SetVisiblity(bool _isVisible);
-		virtual void SetPosition(const sf::Vector2f & _position);
+		virtual void SetVisiblity(bool _isVisible);
+		virtual void SetPosition(const sf::Vector2f & _position) = 0;
 		void SetRelativePosition(const sf::Vector2f & _position);
 		void SetParent(Container * _parent);
 		virtual void SetActive(bool _isActive);

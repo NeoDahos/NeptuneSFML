@@ -120,6 +120,9 @@
     <ClCompile Include="src\UI\Container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\Label.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NeptuneSFML\Physic\RigidBody.h">
@@ -249,6 +252,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NeptuneSFML\UI\Container.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeptuneSFML\UI\Label.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
