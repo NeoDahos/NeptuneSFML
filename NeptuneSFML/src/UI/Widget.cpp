@@ -1,8 +1,9 @@
 #include <NeptuneSFML\UI\Widget.h>
+#include <NeptuneSFML\UI\Container.h>
 
 namespace nep
 {
-	Widget::Widget() : m_renderTarget(nullptr), m_state(WidgetState::Normal), m_isVisible(true), m_isMouseIn(false),
+	Widget::Widget() : m_renderTarget(nullptr), m_parent(nullptr), m_state(WidgetState::Normal), m_isVisible(true), m_isMouseIn(false),
 		m_onMouseEnterFct(nullptr), m_onMouseLeaveFct(nullptr), m_onMouseMoveFct(nullptr), m_onClickFct(nullptr)
 	{
 	}
@@ -11,12 +12,7 @@ namespace nep
 	{
 	}
 
-	inline Widget::WidgetState Widget::GetState() const
-	{
-		return m_state;
-	}
-
-	inline void Widget::SetRenderTarger(sf::RenderTarget * _renderTarget)
+	void Widget::SetRenderTarger(sf::RenderTarget * _renderTarget)
 	{
 		m_renderTarget = _renderTarget;
 	}
@@ -33,34 +29,70 @@ namespace nep
 			m_state = WidgetState::Normal;
 	}
 
-	inline bool Widget::GetVisibility() const
-	{
-		return m_isVisible;
-	}
-
 	void Widget::SetPosition(const sf::Vector2f & _position)
 	{
 		m_position = _position;
 	}
 
-	inline void Widget::SetOnMouseEnterFct(const std::function<void(sf::Event::MouseMoveEvent)>& _fct)
+	void Widget::SetRelativePosition(const sf::Vector2f & _position)
+	{
+		if (m_parent)
+			SetPosition(m_parent->GetPosition() + _position);
+		else
+			SetPosition(_position);
+	}
+
+	void Widget::SetParent(Container * _parent)
+	{
+		m_parent = _parent;
+	}
+
+	void Widget::SetActive(bool _isActive)
+	{
+		if(_isActive)
+			m_state = WidgetState::Normal;
+		else
+			m_state = WidgetState::Inactive;
+	}
+
+	void Widget::SetOnMouseEnterFct(const std::function<void(sf::Event::MouseMoveEvent)>& _fct)
 	{
 		m_onMouseEnterFct = _fct;
 	}
 
-	inline void Widget::SetOnMouseLeaveFct(const std::function<void(sf::Event::MouseMoveEvent)>& _fct)
+	void Widget::SetOnMouseLeaveFct(const std::function<void(sf::Event::MouseMoveEvent)>& _fct)
 	{
 		m_onMouseLeaveFct = _fct;
 	}
 
-	inline void Widget::SetOnMouseMoveFct(const std::function<void(sf::Event::MouseMoveEvent)>& _fct)
+	void Widget::SetOnMouseMoveFct(const std::function<void(sf::Event::MouseMoveEvent)>& _fct)
 	{
 		m_onMouseMoveFct = _fct;
 	}
 
-	inline void Widget::SetOnClickFct(const std::function<void(sf::Event::MouseButtonEvent)> & _fct)
+	void Widget::SetOnClickFct(const std::function<void(sf::Event::MouseButtonEvent)> & _fct)
 	{
 		m_onClickFct = _fct;
+	}
+
+	Widget::WidgetState Widget::GetState() const
+	{
+		return m_state;
+	}
+
+	bool Widget::GetVisibility() const
+	{
+		return m_isVisible;
+	}
+
+	sf::Vector2f Widget::GetPosition() const
+	{
+		return m_position;
+	}
+
+	Container * Widget::GetParent() const
+	{
+		return m_parent;
 	}
 
 	void Widget::HandleMouseEnter(int _x, int _y)

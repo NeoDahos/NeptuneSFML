@@ -23,7 +23,7 @@ namespace nep
 	{
 	}
 
-	inline void Slider::SetMinValue(float _value)
+	void Slider::SetMinValue(float _value)
 	{
 		m_minValue = _value;
 		if (m_value < m_minValue)
@@ -36,7 +36,7 @@ namespace nep
 		PlaceIndicator();
 	}
 
-	inline void Slider::SetMaxValue(float _value)
+	void Slider::SetMaxValue(float _value)
 	{
 		m_maxValue = _value;
 		if (m_value > m_maxValue)
@@ -49,18 +49,21 @@ namespace nep
 		PlaceIndicator();
 	}
 
-	inline void Slider::SetValue(float _value)
+	void Slider::SetValue(float _value)
 	{
-		m_value = _value;
-		if (m_value < m_minValue)
-			m_value = m_minValue;
-		else if (m_value > m_maxValue)
-			m_value = m_maxValue;
+		if (m_value != _value)
+		{
+			m_value = _value;
+			if (m_value < m_minValue)
+				m_value = m_minValue;
+			else if (m_value > m_maxValue)
+				m_value = m_maxValue;
 
-		if (m_onValueChangeFct)
-			m_onValueChangeFct(m_value);
+			if (m_onValueChangeFct)
+				m_onValueChangeFct(m_value);
 
-		PlaceIndicator();
+			PlaceIndicator();
+		}
 	}
 
 	void Slider::SetOrientation(RangeWidgetOrientation _orientation)
@@ -84,6 +87,11 @@ namespace nep
 		m_position = _position;
 		m_bar.move(offset);
 		m_indicator.move(offset);
+	}
+
+	void Slider::SetSize(const sf::Vector2f _size)
+	{
+		m_bar.setSize(_size);
 	}
 
 	void Slider::LittleIncrement()
@@ -211,7 +219,12 @@ namespace nep
 					if (value <= barSize.x)
 					{
 						value = ((m_maxValue - m_minValue) * (value / barSize.x)) + m_minValue;
-						value = value - fmod(value, m_littleStep);
+						const float mod = fmod(value, m_littleStep);
+						if(mod <= m_littleStep / 2.f)
+							value = value - fmod(value, m_littleStep);
+						else
+							value = value - fmod(value, m_littleStep) + m_littleStep;
+
 						SetValue(value);
 					}
 					else
@@ -228,7 +241,11 @@ namespace nep
 					if (value <= barSize.y)
 					{
 						value = ((m_maxValue - m_minValue) * (value / barSize.y)) + m_minValue;
-						value = value - fmod(value, m_littleStep);
+						const float mod = fmod(value, m_littleStep);
+						if (mod <= m_littleStep / 2.f)
+							value = value - fmod(value, m_littleStep);
+						else
+							value = value - fmod(value, m_littleStep) + m_littleStep;
 						SetValue(value);
 					}
 					else

@@ -16,19 +16,19 @@ namespace nep
 		virtual ~Button();
 
 		void SetTextString(const sf::String & _string);
-		inline void SetTextCharacterSize(unsigned int _size);
-		inline void SetTextStyle(sf::Uint32 _style);
-		inline void SetTextFont(const sf::Font & _font);
-		inline void SetTextFillColor(const sf::Color & _color);
-		inline void SetTextOutlineColor(const sf::Color & _color);
-		inline void SetTextOutlineThickness(float _thickness);
-		inline void SetTextPosition(const sf::Vector2f & _position);
+		void SetTextCharacterSize(unsigned int _size);
+		void SetTextStyle(sf::Uint32 _style);
+		void SetTextFont(const sf::Font & _font);
+		void SetTextFillColor(const sf::Color & _color);
+		void SetTextOutlineColor(const sf::Color & _color);
+		void SetTextOutlineThickness(float _thickness);
+		void SetTextPosition(const sf::Vector2f & _position);
 
-		inline void SetShapePointcount(size_t _count);
-		inline void SetShapePoint(size_t _index, const sf::Vector2f & _position);
-		inline void SetShapeFillColor(const sf::Color & _color);
-		inline void SetShapeOutlineColor(const sf::Color & _color);
-		inline void SetShapeOutlineThickness(float _thickness);
+		void SetShapePointcount(size_t _count);
+		void SetShapePoint(size_t _index, const sf::Vector2f & _position);
+		void SetShapeFillColor(const sf::Color & _color);
+		void SetShapeOutlineColor(const sf::Color & _color);
+		void SetShapeOutlineThickness(float _thickness);
 
 		virtual void SetPosition(const sf::Vector2f & _position);
 

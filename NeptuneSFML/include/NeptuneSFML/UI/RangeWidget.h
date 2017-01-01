@@ -15,21 +15,23 @@ namespace nep
 		virtual ~RangeWidget();
 
 		void Configure(float _littleStep, float _bigStep, float _minValue, float _maxValue, float _value);
-		inline void SetLittleStep(float _step);
-		inline void SetBigStep(float _step);
+		void SetLittleStep(float _step);
+		void SetBigStep(float _step);
 		virtual void SetMinValue(float _value);
 		virtual void SetMaxValue(float _value);
 		virtual void SetValue(float _value);
 		virtual void SetOrientation(RangeWidgetOrientation _orientation);
 		virtual void SetPosition(const sf::Vector2f & _position) = 0;
-		inline void SetOnValueChangeFct(const std::function<void(float)> & _fct);
+		virtual void SetSize(const sf::Vector2f _size) = 0;
 
-		inline float GetLittleStep() const;
-		inline float GetBigStep() const;
-		inline float GetMinValue() const;
-		inline float GetMaxValue() const;
-		inline float GetValue() const;
-		inline RangeWidgetOrientation GetOrientation() const;
+		void SetOnValueChangeFct(const std::function<void(float)> & _fct);
+
+		float GetLittleStep() const;
+		float GetBigStep() const;
+		float GetMinValue() const;
+		float GetMaxValue() const;
+		float GetValue() const;
+		RangeWidgetOrientation GetOrientation() const;
 
 		virtual void LittleIncrement();
 		virtual void LittleDecrement();
@@ -40,7 +42,7 @@ namespace nep
 		virtual void Draw(sf::RenderTarget& _target) = 0;
 	
 	protected:
-		static unsigned int  s_instanceCount;
+		static unsigned int s_instanceCount;
 
 		virtual void HandleConfigurationChange();
 

@@ -4,7 +4,7 @@ namespace nep
 {
 	unsigned int RangeWidget::s_instanceCount = 0;
 
-	RangeWidget::RangeWidget()
+	RangeWidget::RangeWidget() : Widget()
 	{
 		s_instanceCount++;
 		m_name = "RangeWidget" + std::to_string(s_instanceCount);
@@ -32,12 +32,12 @@ namespace nep
 		SetValue(_value);
 	}
 
-	inline void RangeWidget::SetLittleStep(float _step)
+	void RangeWidget::SetLittleStep(float _step)
 	{
 		m_littleStep = _step;
 	}
 
-	inline void RangeWidget::SetBigStep(float _step)
+	void RangeWidget::SetBigStep(float _step)
 	{
 		m_bigStep = _step;
 	}
@@ -70,37 +70,37 @@ namespace nep
 		m_orientation = _orientation;
 	}
 
-	inline void RangeWidget::SetOnValueChangeFct(const std::function<void(float)>& _fct)
+	void RangeWidget::SetOnValueChangeFct(const std::function<void(float)>& _fct)
 	{
 		m_onValueChangeFct = _fct;
 	}
 
-	inline float RangeWidget::GetLittleStep() const
+	float RangeWidget::GetLittleStep() const
 	{
 		return m_littleStep;
 	}
 
-	inline float RangeWidget::GetBigStep() const
+	float RangeWidget::GetBigStep() const
 	{
 		return m_bigStep;
 	}
 
-	inline float RangeWidget::GetMinValue() const
+	float RangeWidget::GetMinValue() const
 	{
 		return m_minValue;
 	}
 
-	inline float RangeWidget::GetMaxValue() const
+	float RangeWidget::GetMaxValue() const
 	{
 		return m_maxValue;
 	}
 
-	inline float RangeWidget::GetValue() const
+	float RangeWidget::GetValue() const
 	{
 		return m_value;
 	}
 
-	inline RangeWidget::RangeWidgetOrientation RangeWidget::GetOrientation() const
+	RangeWidget::RangeWidgetOrientation RangeWidget::GetOrientation() const
 	{
 		return m_orientation;;
 	}

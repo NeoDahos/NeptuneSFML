@@ -5,7 +5,7 @@ namespace nep
 {
 	unsigned int  Button::s_instanceCount = 0;
 
-	Button::Button()
+	Button::Button() : Widget()
 	{
 		s_instanceCount++;
 		m_name = "Button" + std::to_string(s_instanceCount);
@@ -38,62 +38,62 @@ namespace nep
 		m_text.setOrigin(textBounds.left + (textBounds.width / 2.f), textBounds.top + (textBounds.height / 2.f));
 	}
 
-	inline void Button::SetTextCharacterSize(unsigned int _size)
+	void Button::SetTextCharacterSize(unsigned int _size)
 	{
 		m_text.setCharacterSize(_size);
 	}
 
-	inline void Button::SetTextStyle(sf::Uint32 _style)
+	void Button::SetTextStyle(sf::Uint32 _style)
 	{
 		m_text.setStyle(_style);
 	}
 
-	inline void Button::SetTextFont(const sf::Font & _font)
+	void Button::SetTextFont(const sf::Font & _font)
 	{
 		m_text.setFont(_font);
 	}
 
-	inline void Button::SetTextFillColor(const sf::Color & _color)
+	void Button::SetTextFillColor(const sf::Color & _color)
 	{
 		m_text.setFillColor(_color);
 	}
 
-	inline void Button::SetTextOutlineColor(const sf::Color & _color)
+	void Button::SetTextOutlineColor(const sf::Color & _color)
 	{
 		m_text.setOutlineColor(_color);
 	}
 
-	inline void Button::SetTextOutlineThickness(float _thickness)
+	void Button::SetTextOutlineThickness(float _thickness)
 	{
 		m_text.setOutlineThickness(_thickness);
 	}
 
-	inline void Button::SetTextPosition(const sf::Vector2f & _position)
+	void Button::SetTextPosition(const sf::Vector2f & _position)
 	{
 		m_text.setPosition(m_position + _position);
 	}
 
-	inline void Button::SetShapePointcount(size_t _count)
+	void Button::SetShapePointcount(size_t _count)
 	{
 		m_shape.setPointCount(_count);
 	}
 
-	inline void Button::SetShapePoint(size_t _index, const sf::Vector2f & _position)
+	void Button::SetShapePoint(size_t _index, const sf::Vector2f & _position)
 	{
 		m_shape.setPoint(_index, _position);
 	}
 
-	inline void Button::SetShapeFillColor(const sf::Color & _color)
+	void Button::SetShapeFillColor(const sf::Color & _color)
 	{
 		m_shape.setFillColor(_color);
 	}
 
-	inline void Button::SetShapeOutlineColor(const sf::Color & _color)
+	void Button::SetShapeOutlineColor(const sf::Color & _color)
 	{
 		m_shape.setOutlineColor(_color);
 	}
 
-	inline void Button::SetShapeOutlineThickness(float _thickness)
+	void Button::SetShapeOutlineThickness(float _thickness)
 	{
 		m_shape.setOutlineThickness(_thickness);
 	}

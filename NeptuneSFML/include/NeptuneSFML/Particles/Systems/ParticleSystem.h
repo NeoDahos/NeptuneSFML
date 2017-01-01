@@ -23,12 +23,12 @@ namespace nep
 		virtual void AddForce(sf::Vector2f _force) = 0;
 		virtual void KillAllParticles() = 0;
 
-		inline void AddEmitter(Emitter * const _emitter)
+		void AddEmitter(Emitter * const _emitter)
 		{
 			m_emitters.push_back(_emitter);
 		}
 		
-		inline void AddEffector(ParticleEffector * const _effector)
+		void AddEffector(ParticleEffector * const _effector)
 		{
 			m_effectors.push_back(_effector);
 		}
@@ -49,12 +49,12 @@ namespace nep
 			KillAllParticles();
 		}
 
-		inline sf::Vector2f GetPosition() const
+		sf::Vector2f GetPosition() const
 		{
 			return m_position;
 		}
 
-		inline unsigned int GetMaxParticle() const
+		unsigned int GetMaxParticle() const
 		{
 			return m_maxParticleCount;
 		}

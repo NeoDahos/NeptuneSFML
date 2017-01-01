@@ -8,6 +8,7 @@
 #include <NeptuneSFML\Particles\Effectors\ColorByVelocity.h>
 #include <NeptuneSFML\Particles\Effectors\LoopZone.h>
 
+#include <NeptuneSFML\UI\Container.h>
 #include <NeptuneSFML\UI\Button.h>
 #include <NeptuneSFML\UI\Slider.h>
 
@@ -34,8 +35,10 @@ private:
 
 	// UI
 	std::vector<nep::Widget *> m_widgets;
+	nep::Container m_container;
 	nep::Button m_applyBtn;
 	nep::Slider m_particleCountSdr;
+	nep::Slider m_emitterShapeSdr;
 	nep::Slider m_emitterTypeSdr;
 	nep::Slider m_emitterSpawnRateSdr;
 	nep::Slider m_emitterPulseRateSdr;

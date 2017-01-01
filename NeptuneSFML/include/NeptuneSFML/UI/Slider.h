@@ -18,6 +18,7 @@ namespace nep
 		virtual void SetValue(float _value);
 		virtual void SetOrientation(RangeWidgetOrientation _orientation);
 		virtual void SetPosition(const sf::Vector2f & _position);
+		virtual void SetSize(const sf::Vector2f _size);
 
 		virtual void LittleIncrement();
 		virtual void LittleDecrement();

@@ -13,11 +13,7 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_vertexParticleSystem.Init(windowSize / 2.f, 100000);
 
 	m_emitter.Init(&m_vertexParticleSystem, 5.f, 15.f);
-	m_emitter.SetTypeContinuous(0.001f);
-	//m_emitter.SetTypePulse(0.5f, 1000);
-	m_emitter.SetShapePoint({ 0.f, 0.f });
-	//m_emitter.SetShapeCircle({ 0.f, 0.f }, 50.f);
-	//m_emitter.SetShapeLine({ -100.f, 50.f }, { 100.f, -50.f });
+	m_emitter.SetTypeContinuous(0.01f);
 	m_vertexParticleSystem.AddEmitter(&m_emitter);
 
 	m_repeller.Init(static_cast<sf::Vector2f>(_window.getSize()) / 2.f, -15.f, false);
@@ -30,39 +26,56 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_vertexParticleSystem.AddEffector(&m_loopZone);
 
 	// UI
+	m_container.SetPosition({ 10.f, 10.f });
+	m_container.SetSize({ 220.f, 220.f });
+	m_widgets.push_back(&m_container);
+
+	m_container.AddChild(&m_applyBtn);
+	m_applyBtn.SetRelativePosition({ 10.f, 10.f });
 	m_applyBtn.SetRenderTarger(m_window);
-	m_applyBtn.SetPosition({ 50.f, 100.f });
 	m_applyBtn.SetTextString("Apply");
 	m_applyBtn.SetOnClickFct(std::bind(&ParticlesGame::ApplyBtn_OnClick, this, std::placeholders::_1));
 	m_widgets.push_back(&m_applyBtn);
 
+	m_container.AddChild(&m_particleCountSdr);
+	m_particleCountSdr.SetRelativePosition({ 10.f, 80.f });
 	m_particleCountSdr.SetRenderTarger(m_window);
-	m_particleCountSdr.SetPosition({50.f, 170.f});
 	m_particleCountSdr.Configure(100.f, 1000.f, 10000.f, 100000.f, 10000.f);
 	m_particleCountSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
 	m_widgets.push_back(&m_particleCountSdr);
 
+	m_container.AddChild(&m_emitterShapeSdr);
+	m_emitterShapeSdr.SetRelativePosition({ 10.f, 110.f });
+	m_emitterShapeSdr.SetRenderTarger(m_window);
+	m_emitterShapeSdr.Configure(1.f, 1.f, 0.f, 2.f, 0.f);
+	m_emitterShapeSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
+	m_widgets.push_back(&m_emitterShapeSdr);
+
+	m_container.AddChild(&m_emitterTypeSdr);
+	m_emitterTypeSdr.SetRelativePosition({ 10.f, 140.f });
 	m_emitterTypeSdr.SetRenderTarger(m_window);
-	m_emitterTypeSdr.SetPosition({ 50.f, 200.f });
 	m_emitterTypeSdr.Configure(1.f, 1.f, 0.f, 1.f, 0.f);
 	m_emitterTypeSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::EmitterTypeSdr_OnValueChange, this, std::placeholders::_1));
 	m_widgets.push_back(&m_emitterTypeSdr);
 
+	m_container.AddChild(&m_emitterSpawnRateSdr);
+	m_emitterSpawnRateSdr.SetRelativePosition({ 10.f, 170.f });
 	m_emitterSpawnRateSdr.SetRenderTarger(m_window);
-	m_emitterSpawnRateSdr.SetPosition({ 50.f, 230.f });
 	m_emitterSpawnRateSdr.Configure(0.001f, 0.01f, 0.001f, 0.1f, 0.001f);
 	m_emitterSpawnRateSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
 	m_widgets.push_back(&m_emitterSpawnRateSdr);
 
+	m_container.AddChild(&m_emitterPulseRateSdr);
+	m_emitterPulseRateSdr.SetRelativePosition({ 10.f, 170.f });
 	m_emitterPulseRateSdr.SetRenderTarger(m_window);
-	m_emitterPulseRateSdr.SetPosition({ 50.f, 230.f });
 	m_emitterPulseRateSdr.Configure(0.1f, 0.5f, 0.1f, 10.f, 5.0f);
 	m_emitterPulseRateSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
 	m_emitterPulseRateSdr.SetVisiblity(false);
 	m_widgets.push_back(&m_emitterPulseRateSdr);
 
+	m_container.AddChild(&m_emitterQuantitySdr);
+	m_emitterQuantitySdr.SetRelativePosition({ 10.f, 200.f });
 	m_emitterQuantitySdr.SetRenderTarger(m_window);
-	m_emitterQuantitySdr.SetPosition({ 50.f, 260.f });
 	m_emitterQuantitySdr.Configure(1.f, 100.f, 1.f, 1000.f, 100.f);
 	m_emitterQuantitySdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
 	m_emitterQuantitySdr.SetVisiblity(false);
@@ -123,14 +136,20 @@ void ParticlesGame::ApplyBtn_OnClick(sf::Event::MouseButtonEvent _buttonEvent)
 {
 	printf("Apply !\n");
 
-	if (static_cast<int>(m_emitterTypeSdr.GetValue()) == 0)
-	{
+	int emitterShape = static_cast<int>(m_emitterShapeSdr.GetValue());
+	int emitterType = static_cast<int>(m_emitterTypeSdr.GetValue());
+
+	if (emitterShape == 0)
+		m_emitter.SetShapePoint({ 0.f, 0.f });
+	else if(emitterShape == 1)
+		m_emitter.SetShapeCircle({ 0.f, 0.f }, 50.f);
+	else if(emitterShape == 2)
+		m_emitter.SetShapeLine({ -100.f, 0.f }, { 100.f, 0.f });
+
+	if (emitterType == 0)
 		m_emitter.SetTypeContinuous(m_emitterSpawnRateSdr.GetValue());
-	}
-	else
-	{
+	else if(emitterType == 1)
 		m_emitter.SetTypePulse(m_emitterPulseRateSdr.GetValue(), static_cast<int>(m_emitterQuantitySdr.GetValue()));
-	}
 
 	m_vertexParticleSystem.SetMaxParticle(static_cast<unsigned int>(m_particleCountSdr.GetValue()));
 }
