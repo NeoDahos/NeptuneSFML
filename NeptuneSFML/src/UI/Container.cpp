@@ -9,9 +9,9 @@ namespace nep
 		s_instanceCount++;
 		m_name = "Container" + std::to_string(s_instanceCount);
 
-		m_zone.setFillColor(sf::Color(240, 240, 240, 100));
+		m_zone.setFillColor(sf::Color(40, 40, 40));
 		m_zone.setOutlineThickness(2);
-		m_zone.setOutlineColor(sf::Color(220, 220, 220, 100));
+		m_zone.setOutlineColor(sf::Color(20, 20, 20));
 		m_zone.setSize({ 100.f, 100.f });
 	}
 

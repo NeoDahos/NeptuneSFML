@@ -10,10 +10,10 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_window = &_window;
 	m_isMenuOpen = false;
 
-	m_vertexParticleSystem.Init(windowSize / 2.f, 100000);
+	m_vertexParticleSystem.Init(windowSize / 2.f, 10000);
 
 	m_emitter.Init(&m_vertexParticleSystem, 5.f, 15.f);
-	m_emitter.SetTypeContinuous(0.01f);
+	m_emitter.SetTypeContinuous(0.001f);
 	m_vertexParticleSystem.AddEmitter(&m_emitter);
 
 	m_repeller.Init(static_cast<sf::Vector2f>(_window.getSize()) / 2.f, -15.f, false);
@@ -37,36 +37,31 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_applyBtn.SetRenderTarger(m_window);
 	m_applyBtn.SetTextString("Apply");
 	m_applyBtn.SetOnClickFct(std::bind(&ParticlesGame::ApplyBtn_OnClick, this, std::placeholders::_1));
-	//m_widgets.push_back(&m_applyBtn);
 
 	// Sliders
 	m_container.AddChild(&m_particleCountSdr);
 	m_particleCountSdr.SetRelativePosition({ 10.f, 80.f });
 	m_particleCountSdr.SetRenderTarger(m_window);
-	m_particleCountSdr.Configure(100.f, 1000.f, 100.f, 100000.f, 1000.f);
+	m_particleCountSdr.Configure(1000.f, 10000.f, 10000.f, 100000.f, 10000.f);
 	m_particleCountSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
-	//m_widgets.push_back(&m_particleCountSdr);
 
 	m_container.AddChild(&m_emitterShapeSdr);
 	m_emitterShapeSdr.SetRelativePosition({ 10.f, 110.f });
 	m_emitterShapeSdr.SetRenderTarger(m_window);
 	m_emitterShapeSdr.Configure(1.f, 1.f, 0.f, 2.f, 0.f);
 	m_emitterShapeSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
-	//m_widgets.push_back(&m_emitterShapeSdr);
 
 	m_container.AddChild(&m_emitterTypeSdr);
 	m_emitterTypeSdr.SetRelativePosition({ 10.f, 140.f });
 	m_emitterTypeSdr.SetRenderTarger(m_window);
 	m_emitterTypeSdr.Configure(1.f, 1.f, 0.f, 1.f, 0.f);
 	m_emitterTypeSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::EmitterTypeSdr_OnValueChange, this, std::placeholders::_1));
-	//m_widgets.push_back(&m_emitterTypeSdr);
 
 	m_container.AddChild(&m_emitterSpawnRateSdr);
 	m_emitterSpawnRateSdr.SetRelativePosition({ 10.f, 170.f });
 	m_emitterSpawnRateSdr.SetRenderTarger(m_window);
 	m_emitterSpawnRateSdr.Configure(0.001f, 0.01f, 0.001f, 0.1f, 0.001f);
 	m_emitterSpawnRateSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
-	//m_widgets.push_back(&m_emitterSpawnRateSdr);
 
 	m_container.AddChild(&m_emitterPulseRateSdr);
 	m_emitterPulseRateSdr.SetRelativePosition({ 10.f, 170.f });
@@ -74,7 +69,6 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_emitterPulseRateSdr.Configure(0.1f, 0.5f, 0.1f, 10.f, 5.0f);
 	m_emitterPulseRateSdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
 	m_emitterPulseRateSdr.SetVisiblity(false);
-	//m_widgets.push_back(&m_emitterPulseRateSdr);
 
 	m_container.AddChild(&m_emitterQuantitySdr);
 	m_emitterQuantitySdr.SetRelativePosition({ 10.f, 200.f });
@@ -82,26 +76,22 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_emitterQuantitySdr.Configure(10.f, 100.f, 10.f, 1000.f, 100.f);
 	m_emitterQuantitySdr.SetOnValueChangeFct(std::bind(&ParticlesGame::Sliders_OnValueChange, this, std::placeholders::_1));
 	m_emitterQuantitySdr.SetVisiblity(false);
-	//m_widgets.push_back(&m_emitterQuantitySdr);
 
 	// Labels
 	m_container.AddChild(&m_particleCountLbl);
 	m_particleCountLbl.SetTextString("Count : " + std::to_string(static_cast<int>(m_particleCountSdr.GetValue())));
 	m_particleCountLbl.SetTextCharacterSize(15);
 	m_particleCountLbl.SetRelativePosition({ 220.f, 75.f });
-	//m_widgets.push_back(&m_particleCountLbl);
 
 	m_container.AddChild(&m_emitterShapeLbl);
 	m_emitterShapeLbl.SetTextString("Shape : Point");
 	m_emitterShapeLbl.SetTextCharacterSize(15);
 	m_emitterShapeLbl.SetRelativePosition({ 220.f, 105.f });
-	//m_widgets.push_back(&m_emitterShapeLbl);
 
 	m_container.AddChild(&m_emitterTypeLbl);
 	m_emitterTypeLbl.SetTextString("Type : Continuous");
 	m_emitterTypeLbl.SetTextCharacterSize(15);
 	m_emitterTypeLbl.SetRelativePosition({ 220.f, 135.f });
-	//m_widgets.push_back(&m_emitterTypeLbl);
 
 	m_container.AddChild(&m_emitterSpawnRateLbl);
 	std::stringstream formatStr;
@@ -109,7 +99,6 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_emitterSpawnRateLbl.SetTextString(formatStr.str());
 	m_emitterSpawnRateLbl.SetTextCharacterSize(15);
 	m_emitterSpawnRateLbl.SetRelativePosition({ 220.f, 165.f });
-	//m_widgets.push_back(&m_emitterSpawnRateLbl);
 
 	m_container.AddChild(&m_emitterPulseRateLbl);
 	formatStr.str("");
@@ -118,14 +107,12 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_emitterPulseRateLbl.SetTextCharacterSize(15);
 	m_emitterPulseRateLbl.SetRelativePosition({ 220.f, 165.f });
 	m_emitterPulseRateLbl.SetVisiblity(false);
-	//m_widgets.push_back(&m_emitterPulseRateLbl);
 
 	m_container.AddChild(&m_emitterQuantityLbl);
 	m_emitterQuantityLbl.SetTextString("Quantity : " + std::to_string(static_cast<int>(m_emitterQuantitySdr.GetValue())));
 	m_emitterQuantityLbl.SetTextCharacterSize(15);
 	m_emitterQuantityLbl.SetRelativePosition({ 220.f, 195.f });
 	m_emitterQuantityLbl.SetVisiblity(false);
-	//m_widgets.push_back(&m_emitterQuantityLbl);
 
 	m_container.SetActive(m_isMenuOpen);
 	m_container.SetVisiblity(m_isMenuOpen);
