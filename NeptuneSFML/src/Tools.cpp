@@ -28,6 +28,11 @@ namespace nep
 		return (_vector1.x * _vector2.y) - (_vector1.y * _vector2.x);
 	}
 
+	float DotProduct(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2)
+	{
+		return (_vector1.x * _vector2.x) + (_vector1.y * _vector2.y);
+	}
+
 	float VectorLength(const sf::Vector2f& _v)
 	{
 		return sqrtf(SQUARE(_v.x) + SQUARE(_v.y));

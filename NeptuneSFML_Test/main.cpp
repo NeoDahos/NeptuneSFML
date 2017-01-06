@@ -12,6 +12,7 @@
 #include "Particles\ParticlesGame.h"
 //#include "PathFinding\PathFindingGame.h"
 //#include "FFTA\FFTAGame.h"
+//#include "SoftBodySimulation\SoftBodyGame.h"
 
 void main()
 {

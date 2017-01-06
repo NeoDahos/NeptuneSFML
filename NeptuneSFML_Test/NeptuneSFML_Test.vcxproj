@@ -141,6 +141,8 @@
     <ClCompile Include="Shmup\ShmupGame.cpp" />
     <ClCompile Include="Shmup\Shot\DoubleShot.cpp" />
     <ClCompile Include="Shmup\Shot\SimpleShot.cpp" />
+    <ClCompile Include="SoftBodySimulation\SoftBodyObject.cpp" />
+    <ClCompile Include="SoftBodySimulation\SoftBodyGame.cpp" />
     <ClCompile Include="Sonic\Level.cpp" />
     <ClCompile Include="Sonic\Sonic.cpp" />
     <ClCompile Include="Sonic\SonicGame.cpp" />
@@ -170,6 +172,8 @@
     <ClInclude Include="Shmup\Shot\DoubleShot.h" />
     <ClInclude Include="Shmup\Shot\ShotInterface.h" />
     <ClInclude Include="Shmup\Shot\SimpleShot.h" />
+    <ClInclude Include="SoftBodySimulation\SoftBodyObject.h" />
+    <ClInclude Include="SoftBodySimulation\SoftBodyGame.h" />
     <ClInclude Include="Sonic\Level.h" />
     <ClInclude Include="Sonic\Sonic.h" />
     <ClInclude Include="Sonic\SonicGame.h" />

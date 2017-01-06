@@ -7,7 +7,7 @@
 
 namespace nep
 {
-const float PI = 3.14159265359f;;
+const float PI = 3.14159265359f;
 const float PI2 = PI / 2.f;
 const float TWO_PI = 2.f * PI;
 const float EPSILON = 0.00001f;
@@ -18,6 +18,7 @@ const float EPSILON = 0.00001f;
 	NEPTUNE_API float VectorAngle(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);
 	NEPTUNE_API float VectorOrientedAngle(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);
 	NEPTUNE_API float CrossProduct(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);
+	NEPTUNE_API float DotProduct(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);
 
 	NEPTUNE_API float VectorLength(const sf::Vector2f& _v);
 	NEPTUNE_API float VectorLengthSq(const sf::Vector2f& _v);

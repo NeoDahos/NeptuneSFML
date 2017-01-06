@@ -123,6 +123,9 @@
     <ClCompile Include="src\UI\Label.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Particles\Effectors\LifeTime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NeptuneSFML\Physic\RigidBody.h">
@@ -255,6 +258,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NeptuneSFML\UI\Label.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeptuneSFML\Particles\Effectors\LifeTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

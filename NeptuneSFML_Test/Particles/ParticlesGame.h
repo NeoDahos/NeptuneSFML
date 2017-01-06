@@ -7,6 +7,7 @@
 #include <NeptuneSFML\Particles\Effectors\Repeller.h>
 #include <NeptuneSFML\Particles\Effectors\ColorByVelocity.h>
 #include <NeptuneSFML\Particles\Effectors\LoopZone.h>
+#include <NeptuneSFML\Particles\Effectors\LifeTime.h>
 
 #include <NeptuneSFML\UI\Container.h>
 #include <NeptuneSFML\UI\Button.h>
@@ -31,6 +32,7 @@ private:
 	nep::Repeller m_repeller;
 	nep::ColorByVelocity m_colorByVelocity;
 	nep::LoopZone m_loopZone;
+	nep::LifeTime m_lifeTime;
 	nep::VertexParticleSystem m_vertexParticleSystem;
 	sf::RenderWindow * m_window;
 	bool m_isMenuOpen;

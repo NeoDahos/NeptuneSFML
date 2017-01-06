@@ -34,6 +34,11 @@ namespace nep
 		return !m_isAlive;
 	}
 
+	void Particle::Kill()
+	{
+		m_isAlive = false;
+	}
+
 	void Particle::SetPosition(const sf::Vector2f & _newPosition)
 	{
 		m_position = _newPosition;
@@ -47,5 +52,15 @@ namespace nep
 	sf::Vector2f Particle::GetVelocity() const
 	{
 		return m_velocity;
+	}
+
+	void Particle::SetColor(const sf::Color & _color)
+	{
+		m_color = _color;
+	}
+
+	float Particle::GetLifeTime() const
+	{
+		return m_lifeTime;
 	}
 }

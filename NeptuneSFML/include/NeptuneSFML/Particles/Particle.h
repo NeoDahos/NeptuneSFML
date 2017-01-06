@@ -19,15 +19,18 @@ namespace nep
 		void AddForce(sf::Vector2f _force);
 
 		bool IsDead() const;
+		void Kill();
 		virtual void SetPosition(const sf::Vector2f& _newPosition);
 		virtual sf::Vector2f GetPosition() const;
 		sf::Vector2f GetVelocity() const;
-		virtual void SetColor(const sf::Color& _color) {}
+		virtual void SetColor(const sf::Color& _color);
+		float GetLifeTime() const;
 
 	protected:
 		sf::Vector2f m_acceleration;
 		sf::Vector2f m_velocity;
 		sf::Vector2f m_position;
+		sf::Color m_color;
 		float m_mass;
 		float m_lifeTime;
 		bool m_isAlive;

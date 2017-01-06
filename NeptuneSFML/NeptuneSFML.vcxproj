@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Manager\FontManager.cpp" />
+    <ClCompile Include="src\Particles\Effectors\LifeTime.cpp" />
     <ClCompile Include="src\Particles\Effectors\LoopZone.cpp" />
     <ClCompile Include="src\Particles\Effectors\ColorByVelocity.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="include\NeptuneSFML\Object\SpriteBatch.h" />
     <ClInclude Include="include\NeptuneSFML\Object\Transform.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\Effectors\ColorByVelocity.h" />
+    <ClInclude Include="include\NeptuneSFML\Particles\Effectors\LifeTime.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\Effectors\LoopZone.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\Effectors\ParticleEffector.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\Effectors\Repeller.h" />
