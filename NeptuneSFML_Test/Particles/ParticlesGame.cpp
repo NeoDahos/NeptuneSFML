@@ -1,6 +1,6 @@
 #include "ParticlesGame.h"
 
-#include <NeptuneSFML\Particles\VertexParticle.h>
+#include <NeptuneSFML\Particles\Particle.h>
 #include <NeptuneSFML\EngineCore.h>
 #include <NeptuneSFML\Tools.h>
 
@@ -25,7 +25,7 @@ void ParticlesGame::Init(sf::RenderWindow& _window)
 	m_loopZone.Init(sf::FloatRect({ 0.f, 0.f }, windowSize));
 	m_vertexParticleSystem.AddEffector(&m_loopZone);
 
-	m_lifeTime.Init(3.f);
+	m_lifeTime.Init(10.f);
 	m_vertexParticleSystem.AddEffector(&m_lifeTime);
 
 	//--------------------------------------------------------------------------------------------------------

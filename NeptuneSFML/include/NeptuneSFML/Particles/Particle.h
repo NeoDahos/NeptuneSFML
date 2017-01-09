@@ -7,14 +7,14 @@
 
 namespace nep
 {
-	class NEPTUNE_API Particle
+	class NEPTUNE_API Particle : public sf::Vertex
 	{
 	public:
 		virtual ~Particle() {}
 
 		virtual void Init(const sf::Vector2f& _position, const sf::Vector2f& _initialForce = sf::Vector2f(), float _mass = 1.f);
 		virtual void Update(float _deltaTime);
-		virtual void Draw(sf::RenderTarget& _target) = 0;
+		virtual void Draw(sf::RenderTarget& _target);
 
 		void AddForce(sf::Vector2f _force);
 
@@ -29,8 +29,6 @@ namespace nep
 	protected:
 		sf::Vector2f m_acceleration;
 		sf::Vector2f m_velocity;
-		sf::Vector2f m_position;
-		sf::Color m_color;
 		float m_mass;
 		float m_lifeTime;
 		bool m_isAlive;

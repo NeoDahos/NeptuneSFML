@@ -4,7 +4,8 @@ namespace nep
 {
 	void Particle::Init(const sf::Vector2f & _position, const sf::Vector2f& _initialForce, float _mass)
 	{
-		m_position = _position;
+		position = _position;
+		color = sf::Color::White;
 
 		m_mass = _mass;
 		if (_mass <= 0.f)
@@ -19,9 +20,14 @@ namespace nep
 		m_lifeTime += _deltaTime;
 
 		m_velocity += (m_acceleration * _deltaTime);
-		m_position += (m_velocity * _deltaTime);
+		position += (m_velocity * _deltaTime);
 
 		m_acceleration = { 0.f, 0.f };
+	}
+
+	void Particle::Draw(sf::RenderTarget & _target)
+	{
+		_target.draw(this, 1, sf::PrimitiveType::Points);
 	}
 
 	void Particle::AddForce(sf::Vector2f _force)
@@ -41,12 +47,12 @@ namespace nep
 
 	void Particle::SetPosition(const sf::Vector2f & _newPosition)
 	{
-		m_position = _newPosition;
+		position = _newPosition;
 	}
 
 	sf::Vector2f Particle::GetPosition() const
 	{
-		return m_position;
+		return position;
 	}
 
 	sf::Vector2f Particle::GetVelocity() const
@@ -56,7 +62,7 @@ namespace nep
 
 	void Particle::SetColor(const sf::Color & _color)
 	{
-		m_color = _color;
+		color = _color;
 	}
 
 	float Particle::GetLifeTime() const

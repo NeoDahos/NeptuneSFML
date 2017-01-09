@@ -1,5 +1,5 @@
 #include <NeptuneSFML\Particles\Systems\VertexParticleSystem.h>
-#include <NeptuneSFML\Particles\VertexParticle.h>
+#include <NeptuneSFML\Particles\Particle.h>
 
 #include <SFML\System\Sleep.hpp>
 
@@ -75,7 +75,7 @@ namespace nep
 	{
 		if (m_isActive && m_particles.size() < m_maxParticleCount)
 		{
-			VertexParticle* newParticle = new VertexParticle();
+			Particle* newParticle = new Particle();
 			newParticle->Init(m_position + _position, _initialForce, _mass);
 			newParticle->color = _color;
 			m_particles.push_back(newParticle);

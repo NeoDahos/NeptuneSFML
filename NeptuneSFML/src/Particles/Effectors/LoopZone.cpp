@@ -1,5 +1,5 @@
 #include <NeptuneSFML\Particles\Effectors\LoopZone.h>
-#include <NeptuneSFML\Particles\VertexParticle.h>
+#include <NeptuneSFML\Particles\Particle.h>
 
 void nep::LoopZone::Init(const sf::FloatRect & _zone, bool _activated)
 {

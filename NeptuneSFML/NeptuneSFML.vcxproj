@@ -153,7 +153,6 @@
     <ClCompile Include="src\Particles\SpriteParticle.cpp" />
     <ClCompile Include="src\Particles\Systems\SpriteParticleSystem.cpp" />
     <ClCompile Include="src\Particles\Systems\VertexParticleSystem.cpp" />
-    <ClCompile Include="src\Particles\VertexParticle.cpp" />
     <ClCompile Include="src\Physic\CircleCollider.cpp" />
     <ClCompile Include="src\Physic\Collider.cpp" />
     <ClCompile Include="src\Manager\DialogManager.cpp" />
@@ -204,7 +203,6 @@
     <ClInclude Include="include\NeptuneSFML\Particles\Systems\ParticleSystem.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\Systems\SpriteParticleSystem.h" />
     <ClInclude Include="include\NeptuneSFML\Particles\Systems\VertexParticleSystem.h" />
-    <ClInclude Include="include\NeptuneSFML\Particles\VertexParticle.h" />
     <ClInclude Include="include\NeptuneSFML\Physic\CircleCollider.h" />
     <ClInclude Include="include\NeptuneSFML\Physic\Collider.h" />
     <ClInclude Include="include\NeptuneSFML\Physic\CollisionInfos.h" />

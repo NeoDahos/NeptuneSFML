@@ -9,10 +9,10 @@
 //#include "Isaac\IsaacGame.h"
 //#include "CreeperWorld\CreeperWorldGame.h"
 //#include "Sonic\SonicGame.h"
-//#include "Particles\ParticlesGame.h"
+#include "Particles\ParticlesGame.h"
 //#include "PathFinding\PathFindingGame.h"
 //#include "FFTA\FFTAGame.h"
-#include "SoftBodySimulation\SoftBodyGame.h"
+//#include "SoftBodySimulation\SoftBodyGame.h"
 
 void main()
 {
@@ -29,7 +29,7 @@ void main()
 	fpsText.setFillColor(sf::Color::White);
 	fpsText.setPosition(550.f, 0.f);
 	
-	SoftBodyGame game;
+	ParticlesGame game;
 	game.Init(window);
 
 	timer.restart();

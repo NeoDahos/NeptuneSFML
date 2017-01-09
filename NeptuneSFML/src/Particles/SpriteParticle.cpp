@@ -16,7 +16,7 @@ namespace nep
 	void SpriteParticle::Update(float _deltaTime)
 	{
 		Particle::Update(_deltaTime);
-		setPosition(Particle::m_position);
+		setPosition(Particle::position);
 	}
 
 	void SpriteParticle::Draw(sf::RenderTarget& _target)
@@ -26,8 +26,8 @@ namespace nep
 
 	void SpriteParticle::SetPosition(const sf::Vector2f & _newPosition)
 	{
-		Particle::m_position = _newPosition;
-		setPosition(Particle::m_position);
+		Particle::position = _newPosition;
+		setPosition(Particle::position);
 	}
 
 	void SpriteParticle::SetColor(const sf::Color & _color)

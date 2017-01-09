@@ -11,7 +11,7 @@
 
 namespace nep
 {
-	class VertexParticle;
+	class Particle;
 	class ParticleEffector;
 
 	class NEPTUNE_API VertexParticleSystem : public ParticleSystem
@@ -40,7 +40,7 @@ namespace nep
 			* The threads will be blocked by default at the entry of the threaded function.
 			* Call signal after set restartThread to true to start a process.
 			*/
-			ThreadData(sf::VertexArray& _array, std::vector<VertexParticle*>& _particles, std::vector<ParticleEffector*>& _effectors, void(*_fct)(int _idThread, ThreadData<ThreadCount>& _data));
+			ThreadData(sf::VertexArray& _array, std::vector<Particle*>& _particles, std::vector<ParticleEffector*>& _effectors, void(*_fct)(int _idThread, ThreadData<ThreadCount>& _data));
 			~ThreadData();
 
 			/**
@@ -83,20 +83,20 @@ namespace nep
 
 			// Data (we are not the owner, we just keep references ).
 			sf::VertexArray& varray;
-			std::vector<VertexParticle*>& particles;
+			std::vector<Particle*>& particles;
 			std::vector<ParticleEffector *>& effectors;
 		};
 		// -----------------------------------------------------------------------------------------------
 
 	private:
-		std::vector<VertexParticle *> m_particles;
+		std::vector<Particle *> m_particles;
 		sf::VertexArray m_vertices;
 		ThreadData<4> m_threadDataCopy;
 		ThreadData<4> m_threadDataUpdate;
 	};
 
 	template<int ThreadCount>
-	VertexParticleSystem::ThreadData<ThreadCount>::ThreadData(sf::VertexArray & _array, std::vector<VertexParticle*>& _particles, std::vector<ParticleEffector*>& _effectors,
+	VertexParticleSystem::ThreadData<ThreadCount>::ThreadData(sf::VertexArray & _array, std::vector<Particle*>& _particles, std::vector<ParticleEffector*>& _effectors,
 		void(*_fct)(int _idThread, ThreadData<ThreadCount>&_data)) : varray(_array), particles(_particles), effectors(_effectors), stopThreads(false)
 	{
 		for (int i = 0; i < ThreadCount; i++)
@@ -149,7 +149,7 @@ namespace nep
 	{
 		// Condition's mutex.
 		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
-		VertexParticle** currentParticle = nullptr;
+		Particle** currentParticle = nullptr;
 		int particleCount;
 		int particleCountPerThread;
 		int indexStart;
@@ -186,7 +186,7 @@ namespace nep
 	{
 		// Condition's mutex.
 		std::unique_lock<std::mutex> lock(_data.mutexes[_idThread]);
-		VertexParticle** currentParticle = nullptr;
+		Particle** currentParticle = nullptr;
 		size_t effectorCount;
 		int particleCount;
 		int particleCountPerThread;

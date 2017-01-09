@@ -81,9 +81,6 @@
     <ClCompile Include="src\Particles\SpriteParticle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Particles\VertexParticle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Particles\Systems\VertexParticleSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -210,9 +207,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NeptuneSFML\Particles\SpriteParticle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\NeptuneSFML\Particles\VertexParticle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NeptuneSFML\Particles\Systems\VertexParticleSystem.h">
