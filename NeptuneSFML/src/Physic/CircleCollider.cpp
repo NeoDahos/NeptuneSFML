@@ -20,6 +20,11 @@ namespace nep
 	{
 	}
 
+	Component * CircleCollider::Clone() const
+	{
+		return new CircleCollider(*this);
+	}
+
 	void CircleCollider::SetPosition(const sf::Vector2f& _position)
 	{
 		m_centerPosition = _position;

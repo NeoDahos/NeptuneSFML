@@ -43,24 +43,24 @@ void SoftBodyObject::Update(float _deltaTime)
 	ComputeSpringForce();
 	ComputePressureForce();
 
-	IntegrateEuler(0.016f);
+	IntegrateEuler(_deltaTime);
 }
 
 void SoftBodyObject::Draw(sf::RenderTarget & _target)
 {
-	sf::VertexArray pointsVertices(sf::PrimitiveType::Points, m_points.size());
-	sf::VertexArray springsVertices(sf::PrimitiveType::Lines, (m_springs.size() + 1) * 2);
+	//sf::VertexArray pointsVertices(sf::PrimitiveType::Points, m_points.size());
+	sf::VertexArray springsVertices(sf::PrimitiveType::Lines, (m_springs.size()) * 2);
 	sf::VertexArray normalsVertices(sf::PrimitiveType::Lines, m_springs.size() * 2);
 	sf::VertexArray velocitiesVertices(sf::PrimitiveType::Lines, m_points.size() * 2);
 	size_t i;
 
-	for (i = 0; i < m_points.size(); i++)
+	if (s_drawVelocities)
 	{
-		pointsVertices[i].position = m_points[i].position;
-		pointsVertices[i].color = sf::Color::Red;
-
-		if (s_drawVelocities)
+		for (i = 0; i < m_points.size(); i++)
 		{
+			//pointsVertices[i].position = m_points[i].position;
+			//pointsVertices[i].color = sf::Color::Red;
+
 			velocitiesVertices[(i * 2)].position = m_points[i].position;
 			velocitiesVertices[(i * 2)].color = sf::Color::Red;
 			velocitiesVertices[(i * 2) + 1].position = m_points[i].position + (m_points[i].velocity / 10.f);
@@ -85,7 +85,7 @@ void SoftBodyObject::Draw(sf::RenderTarget & _target)
 	}
 
 	_target.draw(springsVertices);
-	_target.draw(pointsVertices);
+	//_target.draw(pointsVertices);
 
 	if (s_drawNormals)
 		_target.draw(normalsVertices);
@@ -118,7 +118,7 @@ void SoftBodyObject::ComputeSpringForce()
 	sf::Vector2f forceVector; // force vector
 	sf::Vector2f velocity; // velocity of start & end points
 	float endToStartLength; // length of p1 - p2 vector
-	float hookeForce; // hooke force value
+	sf::Vector2f hookeForce; // hooke force value
 
 	for (size_t i = 0; i < m_springs.size(); i++)
 	{
@@ -134,10 +134,13 @@ void SoftBodyObject::ComputeSpringForce()
 			velocity = m_points[m_springs[i].start].velocity - m_points[m_springs[i].end].velocity;
 
 			// calculate force value
-			hookeForce = (endToStartLength - m_springs[i].length) * m_springElasticity + nep::DotProduct(velocity, (endToStart / endToStartLength)) * m_springDamping;
+			//hookeForce = m_springElasticity * (endToStartLength - m_springs[i].length) + m_springDamping * nep::DotProduct(velocity, (endToStart / endToStartLength));
+			hookeForce.x = m_springElasticity * (endToStartLength - m_springs[i].length) + m_springDamping * (velocity.x * (endToStart / endToStartLength).x);
+			hookeForce.y = m_springElasticity * (endToStartLength - m_springs[i].length) + m_springDamping * (velocity.y * (endToStart / endToStartLength).y);
 
 			// force vector
-			forceVector = (endToStart / endToStartLength) * hookeForce;
+			forceVector.x = (endToStart / endToStartLength).x * hookeForce.x;
+			forceVector.y = (endToStart / endToStartLength).y * hookeForce.y;
 
 			// accumulate force for starting point
 			m_points[m_springs[i].start].forceAccumulator -= forceVector;
@@ -213,53 +216,38 @@ void SoftBodyObject::IntegrateEuler(float _deltaTime)
 		m_points[i].velocity.x += (m_points[i].forceAccumulator.x / m_mass) * _deltaTime;
 		dr.x = m_points[i].velocity.x * _deltaTime;
 
+		/* y */
+		m_points[i].velocity.y += (m_points[i].forceAccumulator.y / m_mass) * _deltaTime;
+		dr.y = m_points[i].velocity.y * _deltaTime;
+
 		/* Boundaries  X */
 		if (m_points[i].position.x + dr.x < s_bounds.left)
 		{
 			dr.x = s_bounds.left - m_points[i].position.x;
-			m_points[i].velocity.x = -0.1f * m_points[i].velocity.x;
-			m_points[i].velocity.y = 0.95f * m_points[i].velocity.y;
+			m_points[i].velocity.x = 0.f;// -0.1f * m_points[i].velocity.x;
+			//m_points[i].velocity.y = 0.95f * m_points[i].velocity.y;
 		}
 		else if (m_points[i].position.x + dr.x > s_bounds.left + s_bounds.width)
 		{
 			dr.x = (s_bounds.left + s_bounds.width) - m_points[i].position.x;
-			m_points[i].velocity.x = -0.1f * m_points[i].velocity.x;
-			m_points[i].velocity.y = 0.95f * m_points[i].velocity.y;
+			m_points[i].velocity.x = 0.f;// -0.1f * m_points[i].velocity.x;
+			//m_points[i].velocity.y = 0.95f * m_points[i].velocity.y;
 		}
-
-		/* y */
-		m_points[i].velocity.y += (m_points[i].forceAccumulator.y / m_mass) * _deltaTime;
-		dr.y = m_points[i].velocity.y * _deltaTime;
 
 		/* Boundaries  Y */
 		if (m_points[i].position.y + dr.y < s_bounds.top)
 		{
 			dr.y = s_bounds.left - m_points[i].position.y;
-			m_points[i].velocity.y = -0.1f * m_points[i].velocity.y;
-			m_points[i].velocity.x = 0.95f * m_points[i].velocity.x;
+			m_points[i].velocity.y = 0.f;// -0.1f * m_points[i].velocity.y;
+			//m_points[i].velocity.x = 0.95f * m_points[i].velocity.x;
 		}
 		else if (m_points[i].position.y + dr.y > s_bounds.top + s_bounds.height)
 		{
 			dr.y = s_bounds.top + s_bounds.height - m_points[i].position.y;
-			m_points[i].velocity.y = -0.1f * m_points[i].velocity.y;
-			m_points[i].velocity.x = 0.95f * m_points[i].velocity.x;
+			m_points[i].velocity.y = 0.f;// -0.1f * m_points[i].velocity.y;
+			//m_points[i].velocity.x = 0.95f * m_points[i].velocity.x;
 		}
 
-		m_points[i].position.x += dr.x;
-
-		
-
-		m_points[i].position.y += dr.y;
-
-
-		/* fast chek if outside */
-		if (m_points[i].position.x > s_bounds.left + s_bounds.width)
-			m_points[i].position.x = s_bounds.left + s_bounds.width;
-		if (m_points[i].position.y > s_bounds.top + s_bounds.height)
-			m_points[i].position.y = s_bounds.top + s_bounds.height;
-		if (m_points[i].position.x < s_bounds.left)
-			m_points[i].position.x = s_bounds.left;
-		if (m_points[i].position.y < s_bounds.top)
-			m_points[i].position.y = s_bounds.top;
+		m_points[i].position += dr;
 	}
 }

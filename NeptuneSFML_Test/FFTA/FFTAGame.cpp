@@ -36,7 +36,7 @@ void FFTAGame::Update(float _deltaTime)
 	m_battle.Update(_deltaTime);
 }
 
-void FFTAGame::Draw(sf::RenderTarget& _target)
+void FFTAGame::Draw(sf::RenderTarget& _target, const sf::RenderStates& _states)
 {
 	m_battle.Draw(_target);
 }

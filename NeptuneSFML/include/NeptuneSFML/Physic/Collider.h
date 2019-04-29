@@ -23,6 +23,8 @@ namespace nep
 		Collider(Object* const _parent, bool _isTrigger = false);
 		Collider(const Collider& _other);
 
+		virtual Component * Clone() const = 0;
+
 		unsigned short GetId() const;
 		ColliderType GetColliderType() const;
 		virtual void SetPosition(const sf::Vector2f& _position) = 0;
@@ -35,7 +37,6 @@ namespace nep
 	protected:
 		void ManageCollision(Collider* const _other, bool _isColliding);
 		
-
 		std::list<unsigned short> m_collidingIds;
 		ColliderType m_colliderType;
 		unsigned short m_id;

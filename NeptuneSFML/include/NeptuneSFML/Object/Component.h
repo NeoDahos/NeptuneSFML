@@ -11,17 +11,20 @@ namespace nep
 	class NEPTUNE_API Component abstract
 	{
 	public:
-		enum ComponentType { TransformComponent, CircleColliderComponent };
+		enum ComponentCategory { PhysicComponent, MiscComponent };
 
-		Component(Object* const _parent);
+		Component(Object* const _parent = nullptr);
+		Component(const Component & _other);
 		virtual ~Component();
 
-		ComponentType GetComponentType();
+		virtual Component * Clone() const = 0;
+
+		ComponentCategory GetComponentCategory();
 		void SetParent(Object* const _parent);
 
 	protected:
 		Object* m_parent;
-		ComponentType m_componentType;
+		ComponentCategory m_componentCategory;
 		bool m_isUnique;
 	};
 }

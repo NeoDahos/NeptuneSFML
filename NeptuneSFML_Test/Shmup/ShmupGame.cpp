@@ -5,7 +5,7 @@ void ShmupGame::Init(sf::RenderWindow& _window)
 	nep::TextureMng.AddTexture("ship", "../Data/Sprites/Shmup/ship.png");
 	nep::TextureMng.AddTexture("bullet", "../Data/Sprites/Shmup/bullet.png");
 
-	m_player.Init("ship", static_cast<sf::Vector2f>(_window.getSize()) / 2.f, 5.f, 500.f, 200.f, ShotInterface::ShotType::Shot_Simple, &m_bulletsManager);
+	m_player.Init("ship", static_cast<sf::Vector2f>(_window.getSize()) / 2.f, 5.f, 500.f, 200.f, ShotInterface::ShotType::Shot_SpriralAroundCircle, &m_bulletsManager);
 	m_bulletsManager.Init();
 }
 
@@ -32,7 +32,7 @@ void ShmupGame::Update(float _deltaTime)
 	m_player.Update(_deltaTime);
 }
 
-void ShmupGame::Draw(sf::RenderTarget& _target)
+void ShmupGame::Draw(sf::RenderTarget& _target, const sf::RenderStates& _states)
 {
 	m_player.Draw(_target);
 }

@@ -15,6 +15,8 @@ namespace nep
 		CircleCollider(const CircleCollider& _other);
 		virtual ~CircleCollider();
 
+		virtual Component * Clone() const;
+
 		virtual void SetPosition(const sf::Vector2f& _position);
 		virtual sf::Vector2f GetPosition() const;
 

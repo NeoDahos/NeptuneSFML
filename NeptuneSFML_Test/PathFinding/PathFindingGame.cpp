@@ -96,7 +96,7 @@ void PathFindingGame::Update(float _deltaTime)
 	}
 }
 
-void PathFindingGame::Draw(sf::RenderTarget & _target)
+void PathFindingGame::Draw(sf::RenderTarget & _target, const sf::RenderStates& _states)
 {
 	m_map.Draw(_target);
 	m_astar.Draw(_target);

@@ -3,8 +3,20 @@
 
 namespace nep
 {
-	RigidBody::RigidBody(float _mass) : m_mass(_mass)
+	RigidBody::RigidBody(Object* const _parent, float _mass) : Component(_parent), m_mass(_mass), m_isAffectedByGravity(true)
 	{
+	}
+
+	RigidBody::RigidBody(const RigidBody & _other) : Component(_other)
+	{
+		m_force = sf::Vector2f();
+		m_mass = _other.m_mass;
+		m_isAffectedByGravity = _other.m_isAffectedByGravity;
+	}
+
+	Component * RigidBody::Clone() const
+	{
+		return new RigidBody(*this);
 	}
 
 	sf::Vector2f RigidBody::GetForce() const

@@ -5,8 +5,9 @@
 #include <SFML\System\String.hpp>
 #include <SFML\System\Vector2.hpp>
 #include <SFML\Graphics\RenderStates.hpp>
+#include <SFML\Graphics\Vertex.hpp>
 
-#include <list>
+#include <vector>
 
 namespace sf
 {
@@ -44,13 +45,13 @@ namespace nep
 		virtual void OnTriggerStay(const CollisionInfos& _collisionInfos);
 		virtual void OnTriggerExit(const CollisionInfos& _collisionInfos);
 
-
+	public:
 		static unsigned short s_instanceCount;
-
-		sf::String m_tag;
-		
+				
 	protected:
-		std::list<Component*> m_components;
+		std::vector<Component*> m_components;
+		sf::String m_tag;
+		sf::Vertex m_positionGizmo;
 		Transform* m_transform;
 		unsigned short m_id;
 	};

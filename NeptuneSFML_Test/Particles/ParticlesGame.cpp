@@ -169,7 +169,7 @@ void ParticlesGame::Update(float _deltaTime)
 	m_vertexParticleSystem.Update(_deltaTime);
 }
 
-void ParticlesGame::Draw(sf::RenderTarget& _target)
+void ParticlesGame::Draw(sf::RenderTarget& _target, const sf::RenderStates& _states)
 {
 	m_vertexParticleSystem.Draw(_target);
 

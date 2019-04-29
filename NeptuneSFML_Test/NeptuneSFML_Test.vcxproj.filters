@@ -18,12 +18,6 @@
     <ClCompile Include="CreeperWorld\CreeperMap\CreeperMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Isaac\Room.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Isaac\Floor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shmup\Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,28 +33,13 @@
     <ClCompile Include="Shmup\Shot\SimpleShot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Zelda\ZeldaGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shmup\ShmupGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Isaac\IsaacGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CreeperWorld\CreeperWorldGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Sonic\SonicGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sonic\Sonic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Particles\ParticlesGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sonic\Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PathFinding\PathFindingGame.cpp">
@@ -102,15 +81,15 @@
     <ClCompile Include="SoftBodySimulation\SoftBodyObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameOfLife\GameOfLifeGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOfLife\GameOfLifeWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreeperWorld\CreeperMap\CreeperMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Isaac\Room.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Isaac\Floor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shmup\Bullet.h">
@@ -131,28 +110,13 @@
     <ClInclude Include="Shmup\Shot\SimpleShot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Zelda\ZeldaGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Shmup\ShmupGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Isaac\IsaacGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CreeperWorld\CreeperWorldGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sonic\SonicGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sonic\Sonic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Particles\ParticlesGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sonic\Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PathFinding\PathFindingGame.h">
@@ -189,6 +153,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SoftBodySimulation\SoftBodyObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOfLife\GameOfLifeGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOfLife\GameOfLifeWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

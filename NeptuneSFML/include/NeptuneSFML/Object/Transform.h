@@ -13,6 +13,8 @@ namespace nep
 		Transform(Object* const _parent);
 		Transform(const Transform& _other);
 		~Transform();
+
+		virtual Component * Clone() const;
 	};
 }
 

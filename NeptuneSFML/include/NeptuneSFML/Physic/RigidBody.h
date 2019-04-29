@@ -2,14 +2,19 @@
 #define RIGID_BODY_H
 #include <NeptuneSFML\Export.h>
 
+#include <NeptuneSFML\Object\Component.h>
+
 #include <SFML\System\Vector2.hpp>
 
 namespace nep
 {
-	class NEPTUNE_API RigidBody
+	class NEPTUNE_API RigidBody : public Component
 	{
 	public:
-		RigidBody(float _mass);
+		RigidBody(Object* const _parent, float _mass = 1.0f);
+		RigidBody(const RigidBody & _other);
+
+		virtual Component * Clone() const;
 
 		sf::Vector2f GetForce() const;
 		void SetIsAffectedByGravity(bool _isAffected);
@@ -21,8 +26,8 @@ namespace nep
 
 	private:
 		sf::Vector2f m_force;
-		float m_mass = 1.0f;
-		bool m_isAffectedByGravity = true;
+		float m_mass;
+		bool m_isAffectedByGravity;
 	};
 }
 

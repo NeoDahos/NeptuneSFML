@@ -17,10 +17,14 @@ namespace nep
 		ColliderMng.AddCollider(this);
 	}
 
-	Collider::Collider(const Collider& _other) : Collider(_other.m_parent, _other.m_isTrigger)
+	Collider::Collider(const Collider& _other) : Component(_other)
 	{
-		m_componentType = _other.m_componentType;
+		m_id = s_instanceCount;
+		s_instanceCount++;
 		m_colliderType = _other.m_colliderType;
+		m_isTrigger = _other.m_isTrigger;
+
+		ColliderMng.AddCollider(this);
 	}
 
 	unsigned short Collider::GetId() const

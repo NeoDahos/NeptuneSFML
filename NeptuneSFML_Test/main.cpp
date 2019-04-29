@@ -4,15 +4,13 @@
 
 #include <NeptuneSFML\EngineCore.h>
 
-//#include "Zelda\ZeldaGame.h"
 //#include "Shmup\ShmupGame.h"
-//#include "Isaac\IsaacGame.h"
-//#include "CreeperWorld\CreeperWorldGame.h"
-//#include "Sonic\SonicGame.h"
-#include "Particles\ParticlesGame.h"
+#include "CreeperWorld\CreeperWorldGame.h"
+//#include "Particles\ParticlesGame.h"
 //#include "PathFinding\PathFindingGame.h"
 //#include "FFTA\FFTAGame.h"
 //#include "SoftBodySimulation\SoftBodyGame.h"
+//#include "GameOfLife\GameOfLifeGame.h"
 
 void main()
 {
@@ -23,13 +21,13 @@ void main()
 	float deltaTime;
 	
 	window.create(sf::VideoMode(800, 600), "NeptuneSFML Test");
-	window.setFramerateLimit(60);
+	//window.setFramerateLimit(60);
 	
 	fpsText.setFont(nep::FontMng.GetFont("default"));
 	fpsText.setFillColor(sf::Color::White);
 	fpsText.setPosition(550.f, 0.f);
 	
-	ParticlesGame game;
+	CreeperWorldGame game;
 	game.Init(window);
 
 	timer.restart();

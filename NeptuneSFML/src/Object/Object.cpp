@@ -15,28 +15,24 @@ namespace nep
 	{
 		m_transform = new Transform(this);
 		m_components.push_back(m_transform);
+		m_positionGizmo.color = sf::Color::Red;
 
 		m_id = s_instanceCount;
 		s_instanceCount++;
 	}
 
-	Object::Object(const Object& _other) : Object()
+	Object::Object(const Object& _other)
 	{
+		m_id = s_instanceCount;
+		s_instanceCount++;
 		m_tag = _other.m_tag;
 
 		for (auto&& component : _other.m_components)
 		{
-			switch (component->GetComponentType())
-			{
-			case Component::TransformComponent:
-				(*m_transform) = (*static_cast<Transform*>(component));
-				m_transform->SetParent(this);
-				break;
-			case Component::CircleColliderComponent:
-				m_components.push_back(new CircleCollider(*static_cast<CircleCollider*>(component)));
-				break;
-			}
+			m_components.push_back(component->Clone());
 		}
+
+		m_transform = static_cast<Transform*>(m_components[0]);
 	}
 
 	Object::~Object()
@@ -64,6 +60,7 @@ namespace nep
 
 	void Object::Draw(sf::RenderTarget& _target, const sf::RenderStates& _states)
 	{
+		_target.draw(&m_positionGizmo, 1, sf::PrimitiveType::Points, m_transform->getTransform());
 	}
 
 	void Object::OnCollisionEnter(const CollisionInfos& _collisionInfos)
