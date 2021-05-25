@@ -39,6 +39,7 @@ public:
 
 	void AddEmitter(int _posX, int _posY, float _startTime, float _rate, float _quantity);
 	void Zoom(float _delta, int _mousePositionX, int _mousePositionY);
+	void SetZoom(float _zoomValue);
 	void StartMoveMap(int _mousePositionX, int _mousePositionY);
 	void StopMoveMap();
 	void MoveMap(int _mousePositionX, int _mousePositionY);

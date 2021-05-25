@@ -39,8 +39,6 @@ void CreeperMap::Init(const sf::Vector2i& _windowSize, const sf::String& _path)
 
 	Load(_path);
 
-	m_scale = 0.25f;
-
 	m_creeperTilesTexture.loadFromFile("../Data/Sprites/Creeper World/creeper.png");
 	//m_creeperTilesTexture.loadFromFile("../Data/Sprites/Creeper World/creeperNoAlpha.png");
 	m_terrainMaskTexture.loadFromFile("../Data/Sprites/Creeper World/mask.png");
@@ -63,12 +61,12 @@ void CreeperMap::Init(const sf::Vector2i& _windowSize, const sf::String& _path)
 
 	m_terrainLimit.setFillColor(sf::Color::Transparent);
 	m_terrainLimit.setOutlineColor(sf::Color::Red);
-	m_terrainLimit.setOutlineThickness(2);
+	m_terrainLimit.setOutlineThickness(5);
 	m_terrainLimit.setSize(sf::Vector2f((float)(m_mapWidth * TILE_SIZE), (float)(m_mapHeight * TILE_SIZE)));
 
 	m_terrainMaskSprite.setTexture(m_terrainMaskTexture);
 	
-	Zoom(0.f, 0, 0);
+	SetZoom(0.25f);
 	DrawTerrain();
 
 	AddEmitter(64, 0, 2.f, 0.25f, 1000.f);
@@ -167,14 +165,28 @@ void CreeperMap::Zoom(float _delta, int _mousePositionX, int _mousePositionY)
 	m_scale = nep::Clamp(m_scale, 0.25f, 1.f);
 
 	//m_terrainSprite.setScale(m_scale, m_scale);
-	m_terrainLimit.setScale(m_scale, m_scale);
 	//m_terrainTileSprite.setScale(m_scale, m_scale);
+	m_terrainLimit.setScale(m_scale, m_scale);
+	m_terrainMaskSprite.setScale(m_scale, m_scale);
 	m_creeperSprite.setScale(m_scale, m_scale);
 
 	float deltaX = (m_mapPosition.x - _mousePositionX) * (zoomFactor - 1);
 	float deltaY = (m_mapPosition.y - _mousePositionY) * (zoomFactor - 1);
 
 	LimitMapMovement(deltaX, deltaY);
+}
+
+void CreeperMap::SetZoom(float _zoomValue)
+{
+	m_scale = nep::Clamp(_zoomValue, 0.25f, 1.f);
+
+	//m_terrainSprite.setScale(m_scale, m_scale);
+	//m_terrainTileSprite.setScale(m_scale, m_scale);
+	m_terrainLimit.setScale(m_scale, m_scale);
+	m_terrainMaskSprite.setScale(m_scale, m_scale);
+	m_creeperSprite.setScale(m_scale, m_scale);
+
+	LimitMapMovement(0.f, 0.f);
 }
 
 void CreeperMap::StartMoveMap(int _mousePositionX, int _mousePositionY)
@@ -294,10 +306,8 @@ void CreeperMap::DrawTerrain()
 	const int tileSize = TILE_SIZE;
 
 	sf::RenderTexture terrainRenderTextureTmp;
-	sf::Vector2i tilePos;
 
 	terrainRenderTextureTmp.create(m_mapWidth * tileSize, m_mapHeight * tileSize);
-
 	m_terrainRenderTexture.clear(sf::Color::Transparent);
 
 	for (int layer = 1; layer < 11; layer++)
@@ -308,30 +318,25 @@ void CreeperMap::DrawTerrain()
 		{
 			for (x = 1; x <= m_mapWidth; x++)
 			{
-				//tilePos.x = (int)(m_mapPosition.x) + x;
-				//tilePos.y = (int)(m_mapPosition.y) + y;
-				tilePos.x = x;
-				tilePos.y = y;
-
-				if (m_nodes[IX(tilePos.x, tilePos.y)].height >= layer)
+				if (m_nodes[IX(x, y)].height >= layer)
 				{
-					m_nodes[IX(tilePos.x, tilePos.y)].index = 0;
+					m_nodes[IX(x, y)].index = 0;
 
 					// Right
-					if (tilePos.x <= m_mapWidth && layer <= m_nodes[IX(tilePos.x + 1, tilePos.y)].height)
-						m_nodes[IX(tilePos.x, tilePos.y)].index += 1;
+					if (x <= m_mapWidth && layer <= m_nodes[IX(x + 1, y)].height)
+						m_nodes[IX(x, y)].index += 1;
 					// Up
-					if (tilePos.y > 0 && layer <= m_nodes[IX(tilePos.x, tilePos.y - 1)].height)
-						m_nodes[IX(tilePos.x, tilePos.y)].index += 2;
+					if (y > 0 && layer <= m_nodes[IX(x, y - 1)].height)
+						m_nodes[IX(x, y)].index += 2;
 					// Left
-					if (tilePos.x > 0 && layer <= m_nodes[IX(tilePos.x - 1, tilePos.y)].height)
-						m_nodes[IX(tilePos.x, tilePos.y)].index += 4;
+					if (x > 0 && layer <= m_nodes[IX(x - 1, y)].height)
+						m_nodes[IX(x, y)].index += 4;
 					// Down
-					if (tilePos.y <= m_mapHeight && layer <= m_nodes[IX(tilePos.x, tilePos.y + 1)].height)
-						m_nodes[IX(tilePos.x, tilePos.y)].index += 8;
+					if (y <= m_mapHeight && layer <= m_nodes[IX(x, y + 1)].height)
+						m_nodes[IX(x, y)].index += 8;
 
-					m_terrainMaskSprite.setTextureRect({ m_nodes[IX(tilePos.x, tilePos.y)].index * tileSize, 0, tileSize, tileSize });
-					m_terrainMaskSprite.setPosition((float)((x - 1) * tileSize), (float)((y - 1) * tileSize));
+					m_terrainMaskSprite.setTextureRect({ m_nodes[IX(x, y)].index * tileSize, 0, tileSize, tileSize });
+					m_terrainMaskSprite.setPosition((x - 1) * tileSize * m_scale, (y - 1) * tileSize * m_scale);
 					terrainRenderTextureTmp.draw(m_terrainMaskSprite);
 				}
 			}
@@ -347,8 +352,6 @@ void CreeperMap::DrawTerrain()
 	}
 
 	m_terrainRenderTexture.display();
-
-	//m_terrainSprite.setScale(m_scale, m_scale);
 	m_terrainSprite.setTexture(m_terrainRenderTexture.getTexture());
 }
 
