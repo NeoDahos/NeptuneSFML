@@ -20,7 +20,7 @@ public:
 private:
 	CreeperMap m_map;
 
-	bool m_isLeftMouseButtonDown;
+	bool m_isLeftMouseButtonDown = false;
 };
 
 #endif // CREEPER_WORLD_GAME_H

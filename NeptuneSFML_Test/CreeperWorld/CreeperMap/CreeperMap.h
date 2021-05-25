@@ -54,7 +54,7 @@ protected:
 
 protected:
 	std::vector<CreeperEmiter> m_emitters;
-	sf::Vertex* m_creeperVertices;
+	sf::Vertex* m_creeperVertices = nullptr;
 	sf::VertexBuffer m_creeperVerticesBuffer;
 	sf::RenderStates m_creeperRenderStates;
 
@@ -76,16 +76,16 @@ protected:
 	sf::Vector2i m_windowSize;
 
 	const float m_diffusionRate = 0.35f;
-	float m_scale;
-	float m_updateTimer;
+	float m_scale = 1.f;
+	float m_updateTimer = 0.f;
 
-	Node* m_nodes;
+	Node* m_nodes = nullptr;
 
-	int m_mapWidth;
-	int m_mapHeight;
-	int m_mapSize;
-	int x;
-	int y;
+	int m_mapWidth = 1;
+	int m_mapHeight = 1;
+	int m_mapSize = 0;
+	int x = 0;
+	int y = 0;
 
-	bool m_movingMap;
+	bool m_movingMap = false;
 };
