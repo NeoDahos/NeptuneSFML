@@ -16,7 +16,7 @@ void nep::ColorByVelocity::Apply(Particle * const _particle)
 	if (m_isActive)
 	{
 		float velocityMagnitudeSq = VectorLengthSq(_particle->GetVelocity());
-		velocityMagnitudeSq = Clamp(velocityMagnitudeSq / SQUARE(m_minVelocity + m_maxVelocity), 0.f, 1.f);
+		velocityMagnitudeSq = Clamp(velocityMagnitudeSq / Square(m_minVelocity + m_maxVelocity), 0.f, 1.f);
 
 		_particle->SetColor(LerpColor(m_startColor, m_endColor, velocityMagnitudeSq));
 	}

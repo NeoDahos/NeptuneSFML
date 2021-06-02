@@ -130,6 +130,10 @@
     <ClCompile Include="GameOfLife\GameOfLifeGame.cpp" />
     <ClCompile Include="GameOfLife\GameOfLifeWorld.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Noita\NoitaChunkParticleManager.cpp" />
+    <ClCompile Include="Noita\NoitaParticle.cpp" />
+    <ClCompile Include="Noita\NoitaParticleChunk.cpp" />
+    <ClCompile Include="Noita\NoitaGame.cpp" />
     <ClCompile Include="Particles\ParticlesGame.cpp" />
     <ClCompile Include="PathFinding\AStar.cpp" />
     <ClCompile Include="PathFinding\Map.cpp" />
@@ -155,6 +159,10 @@
     <ClInclude Include="FFTA\Battle\FFTABattleCursor.h" />
     <ClInclude Include="GameOfLife\GameOfLifeGame.h" />
     <ClInclude Include="GameOfLife\GameOfLifeWorld.h" />
+    <ClInclude Include="Noita\NoitaChunkParticleManager.h" />
+    <ClInclude Include="Noita\NoitaParticleChunk.h" />
+    <ClInclude Include="Noita\NoitaParticle.h" />
+    <ClInclude Include="Noita\NoitaGame.h" />
     <ClInclude Include="Particles\ParticlesGame.h" />
     <ClInclude Include="PathFinding\AStar.h" />
     <ClInclude Include="PathFinding\Map.h" />

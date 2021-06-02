@@ -14,7 +14,7 @@ DoubleShot::~DoubleShot()
 void DoubleShot::Fire(const sf::Vector2f& _position, const sf::Vector2f& _direction, float _speed, const sf::Color& _color)
 {
 	sf::Vector2f bulletOffset = _direction * 10.f;
-	nep::VectorRotation<float>(bulletOffset, DegToRad(90));
+	nep::VectorRotation<float>(bulletOffset, nep::DegToRad(90.f));
 
 	m_bulletsManager->AddBullet(_position + bulletOffset, _direction, _speed, _color);
 	m_bulletsManager->AddBullet(_position - bulletOffset, _direction, _speed, _color);

@@ -222,6 +222,7 @@
     <ClInclude Include="include\NeptuneSFML\UI\Widget.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="include\NeptuneSFML\Object\ObjectPool.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

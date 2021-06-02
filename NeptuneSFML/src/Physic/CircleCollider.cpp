@@ -37,7 +37,7 @@ namespace nep
 
 	bool CircleCollider::TestCollision(CircleCollider* const _other)
 	{
-		bool isColliding = VectorLengthSq(_other->GetPosition() - GetPosition()) <= SQUARE(m_radius + _other->m_radius);
+		bool isColliding = VectorLengthSq(_other->GetPosition() - GetPosition()) <= Square(m_radius + _other->m_radius);
 
 		ManageCollision(_other, isColliding);
 

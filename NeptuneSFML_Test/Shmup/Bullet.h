@@ -30,6 +30,6 @@ public:
 private:
 	sf::Vector2f m_direction;
 	sf::Color m_color;
-	float m_speed;
+	float m_speed = 0.f;
 };
 

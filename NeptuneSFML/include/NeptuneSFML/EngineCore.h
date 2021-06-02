@@ -9,7 +9,6 @@
 #include <NeptuneSFML\Manager\FontManager.h>
 
 #include <SFML\System\NonCopyable.hpp>
-
 namespace nep
 {
 	class NEPTUNE_API EngineCore : public sf::NonCopyable

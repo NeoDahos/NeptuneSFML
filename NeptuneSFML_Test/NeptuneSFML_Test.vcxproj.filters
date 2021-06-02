@@ -87,6 +87,18 @@
     <ClCompile Include="GameOfLife\GameOfLifeWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Noita\NoitaGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Noita\NoitaParticleChunk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Noita\NoitaChunkParticleManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Noita\NoitaParticle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreeperWorld\CreeperMap\CreeperMap.h">
@@ -159,6 +171,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameOfLife\GameOfLifeWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\NoitaGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\NoitaParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\NoitaParticleChunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\NoitaChunkParticleManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

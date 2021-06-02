@@ -262,5 +262,6 @@
     <None Include="include\NeptuneSFML\Object\ObjectPool.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
