@@ -59,15 +59,15 @@ void NoitaGame::HandleEvent(const sf::Event& _event)
 		switch (_event.key.code)
 		{
 		case sf::Keyboard::Num1:
-			m_particleTypeToSpawn = NoitaParticle::Type::Sand;
+			m_particleTypeToSpawn = NoitaElementCommon::Type::Sand;
 			m_particleToSpawnText.setString("Particle type : Sand");
 			break;
 		case sf::Keyboard::Num2:
-			m_particleTypeToSpawn = NoitaParticle::Type::Water;
+			m_particleTypeToSpawn = NoitaElementCommon::Type::Water;
 			m_particleToSpawnText.setString("Particle type : Water");
 			break;
 		case sf::Keyboard::Num3:
-			m_particleTypeToSpawn = NoitaParticle::Type::Wood;
+			m_particleTypeToSpawn = NoitaElementCommon::Type::Wood;
 			m_particleToSpawnText.setString("Particle type : Wood");
 			break;
 		case sf::Keyboard::Left:
@@ -130,7 +130,7 @@ void NoitaGame::Update(float _deltaTime)
 		sf::Vector2i mouseWindowPosition = sf::Mouse::getPosition(*m_windowRef);
 		sf::Vector2i mouseWorldPosition = sf::Vector2i(m_windowRef->mapPixelToCoords(mouseWindowPosition, m_view));
 		mouseWorldPosition.y *= -1;
-		SpawnParticles(mouseWorldPosition, NoitaParticle::Type::Empty);
+		SpawnParticles(mouseWorldPosition, NoitaElementCommon::Type::Empty);
 	}
 
 	m_chunkManager.Update(_deltaTime);
@@ -159,18 +159,18 @@ void NoitaGame::Draw(sf::RenderTarget& _target, const sf::RenderStates& _states)
 	_target.draw(m_particleToSpawnText);
 }
 
-void NoitaGame::SpawnParticles(const sf::Vector2i& center, NoitaParticle::Type typeToSpawn)
+void NoitaGame::SpawnParticles(const sf::Vector2i& center, NoitaElementCommon::Type typeToSpawn)
 {
 	NoitaParticle particle;
 	switch (typeToSpawn)
 	{
-	case NoitaParticle::Type::Sand:
+	case NoitaElementCommon::Type::Sand:
 		particle = NoitaParticle::SandParticle;
 		break;
-	case NoitaParticle::Type::Water:
+	case NoitaElementCommon::Type::Water:
 		particle = NoitaParticle::WaterParticle;
 		break;
-	case NoitaParticle::Type::Wood:
+	case NoitaElementCommon::Type::Wood:
 		particle = NoitaParticle::WoodParticle;
 		break;
 	default:

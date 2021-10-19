@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "NoitaParticleChunk.h"
+#include "Elements/NoitaElementCommon.h"
 
 class NoitaChunkParticleManager
 {
@@ -23,14 +24,11 @@ public:
 	NoitaParticleChunk* GetChunk(const sf::Vector2i& world);
 	NoitaParticleChunk* GetChunk(int worldX, int worldY);
 
-	const sf::Color& GetColor(NoitaParticle::Type type) const;
 	int GetChunksCount() const;
 	int GetTotalParticleCount() const;
 	int GetTotalDynamicParticleCount() const;
 
 private:
-	static const sf::Color ParticleColors[4];
-
 	static constexpr const float TimeBetweenNextStep = 0.f;
 	static constexpr const float FixedDeltaTime = 0.02f;
 	static constexpr const bool UseFixedDeltaTime = true;

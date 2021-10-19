@@ -4,8 +4,6 @@
 #include <cmath>
 #include <iostream>
 
-const sf::Color NoitaChunkParticleManager::ParticleColors[4] = { sf::Color::Transparent, sf::Color(255, 200, 0), sf::Color(0, 100, 255), sf::Color(110, 50, 25) };
-
 NoitaChunkParticleManager::~NoitaChunkParticleManager()
 {
 	for (NoitaParticleChunk* chunk : m_chunks)
@@ -72,11 +70,6 @@ NoitaParticleChunk* NoitaChunkParticleManager::GetChunk(int worldX, int worldY)
 	}
 
 	return *chunk;
-}
-
-const sf::Color& NoitaChunkParticleManager::GetColor(NoitaParticle::Type type) const
-{
-	return ParticleColors[(sf::Uint8)type];
 }
 
 int NoitaChunkParticleManager::GetChunksCount() const

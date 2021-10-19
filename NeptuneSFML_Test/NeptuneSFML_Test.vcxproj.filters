@@ -99,6 +99,21 @@
     <ClCompile Include="Noita\NoitaParticle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Noita\Elements\NoitaElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Noita\Elements\Solid\Movable\NoitaSand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Noita\Elements\Solid\Immovable\NoitaImmovableSolid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Noita\Elements\Solid\Movable\NoitaMovableSolid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Noita\Elements\Solid\NoitaSolid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreeperWorld\CreeperMap\CreeperMap.h">
@@ -183,6 +198,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Noita\NoitaChunkParticleManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\Elements\NoitaElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\Elements\NoitaElementCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\Elements\Solid\Movable\NoitaSand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\Elements\Solid\Immovable\NoitaImmovableSolid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\Elements\Solid\Movable\NoitaMovableSolid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noita\Elements\Solid\NoitaSolid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

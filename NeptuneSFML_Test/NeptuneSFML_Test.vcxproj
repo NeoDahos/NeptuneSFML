@@ -130,6 +130,11 @@
     <ClCompile Include="GameOfLife\GameOfLifeGame.cpp" />
     <ClCompile Include="GameOfLife\GameOfLifeWorld.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Noita\Elements\Solid\Immovable\NoitaImmovableSolid.cpp" />
+    <ClCompile Include="Noita\Elements\Solid\Movable\NoitaMovableSolid.cpp" />
+    <ClCompile Include="Noita\Elements\Solid\Movable\NoitaSand.cpp" />
+    <ClCompile Include="Noita\Elements\NoitaElement.cpp" />
+    <ClCompile Include="Noita\Elements\Solid\NoitaSolid.cpp" />
     <ClCompile Include="Noita\NoitaChunkParticleManager.cpp" />
     <ClCompile Include="Noita\NoitaParticle.cpp" />
     <ClCompile Include="Noita\NoitaParticleChunk.cpp" />
@@ -159,6 +164,12 @@
     <ClInclude Include="FFTA\Battle\FFTABattleCursor.h" />
     <ClInclude Include="GameOfLife\GameOfLifeGame.h" />
     <ClInclude Include="GameOfLife\GameOfLifeWorld.h" />
+    <ClInclude Include="Noita\Elements\Solid\Immovable\NoitaImmovableSolid.h" />
+    <ClInclude Include="Noita\Elements\Solid\Movable\NoitaMovableSolid.h" />
+    <ClInclude Include="Noita\Elements\Solid\NoitaSolid.h" />
+    <ClInclude Include="Noita\Elements\Solid\Movable\NoitaSand.h" />
+    <ClInclude Include="Noita\Elements\NoitaElement.h" />
+    <ClInclude Include="Noita\Elements\NoitaElementCommon.h" />
     <ClInclude Include="Noita\NoitaChunkParticleManager.h" />
     <ClInclude Include="Noita\NoitaParticleChunk.h" />
     <ClInclude Include="Noita\NoitaParticle.h" />

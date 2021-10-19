@@ -5,6 +5,7 @@
 #include <NeptuneSFML\Game.h>
 
 #include "NoitaChunkParticleManager.h"
+#include "Elements/NoitaElementCommon.h"
 
 /* Usefull links
 * https://blog.winter.dev/2020/falling-sand-games/
@@ -25,9 +26,8 @@ public:
 	virtual void Update(float _deltaTime);
 	virtual void Draw(sf::RenderTarget& _target, const sf::RenderStates& _states = sf::RenderStates::Default);
 
-
 private:
-	void SpawnParticles(const sf::Vector2i& center, NoitaParticle::Type typeToSpawn);
+	void SpawnParticles(const sf::Vector2i& center, NoitaElementCommon::Type typeToSpawn);
 	void SpawnParticlesInSquare(const sf::Vector2i& center, int radius, const NoitaParticle& particleToSpawn);
 	void SpawnParticlesInCircle(const sf::Vector2i& center, int radius, const NoitaParticle& particleToSpawn);
 
@@ -44,7 +44,7 @@ private:
 	float m_timeUntilNextUIUpdate{ TimeBetweenUIUpdate };
 	sf::RenderWindow* m_windowRef{};
 	int m_brushSize{ 2 };
-	NoitaParticle::Type m_particleTypeToSpawn{ NoitaParticle::Type::Sand };
+	NoitaElementCommon::Type m_particleTypeToSpawn{ NoitaElementCommon::Type::Sand };
 	bool m_isLeftMouseButtonClicked{};
 	bool m_isRightMouseButtonClicked{};
 	bool m_isViewMoving{};

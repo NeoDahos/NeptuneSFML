@@ -14,7 +14,7 @@ bool ParticleMovement::operator<(const ParticleMovement& other)
 
 int NoitaParticleChunk::CurrentRandValue = 0;
 
-NoitaParticleChunk::NoitaParticleChunk(NoitaChunkParticleManager& managerRef, int chunkWorldX, int chunkWorldY) :
+NoitaParticleChunk::NoitaParticleChunk(NoitaChunkParticleManager& managerRef, int chunkWorldX, int chunkWorldY, bool updateFlag) :
 	m_particleManager(managerRef)
 {
 	m_worldPosition.x = chunkWorldX * ChunkSize;
@@ -32,8 +32,8 @@ NoitaParticleChunk::NoitaParticleChunk(NoitaChunkParticleManager& managerRef, in
 	{
 		for (int x = 0; x < ChunkSize; x++, index++, colorIndex += 4)
 		{
-			m_particles[index] = NoitaParticle::EmptyParticle;
-			SetPixelsColor(NoitaParticle::Type::Empty, index);
+			m_elements[index] = new NoitaElement(updateFlag);
+			SetPixelsColor(NoitaElementCommon::Type::Empty, index);
 		}
 	}
 
@@ -50,35 +50,24 @@ NoitaParticleChunk::NoitaParticleChunk(NoitaChunkParticleManager& managerRef, in
 	m_outline.setOutlineThickness(1.f);
 }
 
-int NoitaParticleChunk::UpdateSimulation(sf::Uint16 simulationStepCount, float deltaTime)
+NoitaParticleChunk::~NoitaParticleChunk()
 {
-	m_currentSimulationStepCount = simulationStepCount;
+	for (int i = 0; i < ChunkSize * ChunkSize; i++)
+		delete m_elements[i];
+}
+
+int NoitaParticleChunk::UpdateSimulation(bool updateFlag, float deltaTime)
+{
 	CurrentRandValue = (int)(nep::GetRandomValue() * 100000.f);
 
-	int particleIndex;
 	int dynamicParticleCount = 0;
 	for (int y = 0; y < ChunkSize; y++)
 	{
 		for (int x = 0; x < ChunkSize; x++)
 		{
-			particleIndex = GetIndex(x, y);
-			NoitaParticle& currentParticle = m_particles[particleIndex];
-			if (currentParticle.m_isStatic || currentParticle.m_lastUpdateStep == m_currentSimulationStepCount)
-				continue;
-
-			dynamicParticleCount++;
-			switch (currentParticle.m_type)
-			{
-			case NoitaParticle::Type::Sand:
-				UpdateSandParticle(x, y, particleIndex, deltaTime, currentParticle);
-				break;
-			case NoitaParticle::Type::Water:
-				UpdateWaterParticle(x, y, particleIndex, deltaTime, currentParticle);
-				break;
-			default:
-				currentParticle.m_isStatic = true;
-				break;
-			}
+			int elementIndex = GetIndex(x, y);
+			NoitaElement* currentElement = m_elements[elementIndex];
+			currentElement->Update(*this, x, y, elementIndex, updateFlag);
 		}
 	}
 
@@ -97,21 +86,21 @@ void NoitaParticleChunk::ApplyChanges()
 		if (m_changes[i + 1].m_destinationIndex != m_changes[i].m_destinationIndex || m_changes[i + 1].m_sourceChunk == nullptr)
 		{
 			int rand = nep::GetRandomValue(previousChangeIndex, i);
-			NoitaParticle& sourceParticle = m_changes[rand].m_sourceChunk->m_particles[m_changes[rand].m_sourceIndex];
-			NoitaParticle& destinationParticle = m_particles[m_changes[rand].m_destinationIndex];
+			NoitaElement* sourceElement = m_changes[rand].m_sourceChunk->m_elements[m_changes[rand].m_sourceIndex];
+			NoitaElement* destinationElement = m_elements[m_changes[rand].m_destinationIndex];
 			sf::Uint8 allowedTypesToSwap = 0;
 
-			switch (sourceParticle.m_type)
+			switch (sourceElement->m_type)
 			{
-			case NoitaParticle::Type::Sand:
+			case NoitaElementCommon::Type::Sand:
 				allowedTypesToSwap = NoitaParticle::SandSwapAllowed;
 				break;
-			case NoitaParticle::Type::Water:
+			case NoitaElementCommon::Type::Water:
 				allowedTypesToSwap = NoitaParticle::WaterSwapAllowed;
 				break;
 			}
 
-			if (IsTypeInMask(destinationParticle.m_type, allowedTypesToSwap))
+			if (IsTypeInMask(destinationElement.m_type, allowedTypesToSwap))
 				m_changes[rand].m_sourceChunk->SwapParticles(m_changes[rand].m_sourceIndex, this, m_changes[rand].m_destinationIndex);
 
 			previousChangeIndex = i + 1;
@@ -130,43 +119,57 @@ void NoitaParticleChunk::Draw(sf::RenderTarget& target)
 
 bool NoitaParticleChunk::AddChange(int destX, int destY, int sourceIndex, sf::Uint8 allowedTypesToSwap)
 {
-	NoitaParticleChunk* destinationChunk;
-	int destinationIndex;
-	if (IsInBounds(destX, destY))
-	{
-		destinationChunk = this;
-		destinationIndex = GetIndex(destX, destY);
-	}
-	else
-	{
-		sf::Vector2i world = ComputeWorldPosition(destX, destY);
-		destinationChunk = m_particleManager.GetChunk(world.x, world.y);
-		sf::Vector2i local = destinationChunk->ComputeLocalPosition(world.x, world.y);
-		destinationIndex = destinationChunk->GetIndex(local.x, local.y);
-	}
+	NoitaElementCommon::ChunkElement destinationChunkElement = GetChunkElement(destX, destY);
 
-	NoitaParticle& destinationParticle = destinationChunk->m_particles[destinationIndex];
+	NoitaParticle& destinationParticle = destinationChunkElement.m_chunk->m_elements[destinationChunkElement.m_index];
 
 	if (IsTypeInMask(destinationParticle.m_type, allowedTypesToSwap))
 	{
-		destinationChunk->m_changes.push_back(ParticleMovement{ this, sourceIndex, destinationIndex });
+		destinationChunkElement.m_chunk->m_changes.push_back(ParticleMovement{ this, sourceIndex, destinationChunkElement.m_index });
 		return true;
 	}
 
 	return false;
 }
 
+void NoitaParticleChunk::AddChange(ParticleMovement&& particleMovement)
+{
+	m_changes.push_back(std::forward<ParticleMovement>(particleMovement));
+}
+
+NoitaElementCommon::ChunkElement NoitaParticleChunk::GetChunkElement(int destX, int destY)
+{
+	NoitaElementCommon::ChunkElement chunkElement;
+
+	if (IsInBounds(destX, destY))
+	{
+		chunkElement.m_chunk = this;
+		chunkElement.m_index = GetIndex(destX, destY);
+		chunkElement.m_element = &m_elements[chunkElement.m_index];
+	}
+	else
+	{
+		sf::Vector2i world = ComputeWorldPosition(destX, destY);
+		chunkElement.m_chunk = m_particleManager.GetChunk(world.x, world.y);
+		sf::Vector2i local = chunkElement.m_chunk->ComputeLocalPosition(world.x, world.y);
+		chunkElement.m_index = chunkElement.m_chunk->GetIndex(local.x, local.y);
+		chunkElement.m_element = &chunkElement.m_chunk->m_elements[chunkElement.m_index];
+	}
+
+	return chunkElement;
+}
+
 void NoitaParticleChunk::PhysicSwapAction_SandParticle(NoitaParticle& original, NoitaParticle& swapped)
 {
 	switch (swapped.m_type)
 	{
-	case NoitaParticle::Type::Water:
+	case NoitaElementCommon::Type::Water:
 		swapped.m_velocity.x = (CurrentRandValue & 1) == 0 ? -1.f : 1.f;
 		swapped.m_velocity.y = -original.m_velocity.y * 0.25f;
 		original.m_velocity.x = 0.f;
 		original.m_velocity.y = 0.f;
 		break;
-	case NoitaParticle::Type::Empty:
+	case NoitaElementCommon::Type::Empty:
 		break;
 	default:
 		original.m_velocity.x = 0.f;
@@ -226,9 +229,9 @@ bool NoitaParticleChunk::UpdateParticlePhysic(NoitaParticle& currentParticle, in
 			nextPosition.x = (int)(localPosition.x + i * velocityDirection.x + 0.5f);
 			nextPosition.y = (int)(localPosition.y + i * velocityDirection.y + 0.5f);
 
-			NoitaParticle::Type newType;
+			NoitaElementCommon::Type newType;
 			if (currentChunk->IsInBounds(nextPosition))
-				newType = currentChunk->m_particles[currentChunk->GetIndex(nextPosition)].m_type;
+				newType = currentChunk->m_elements[currentChunk->GetIndex(nextPosition)].m_type;
 			else
 			{
 				sf::Vector2i worldPosition = currentChunk->ComputeWorldPosition(nextPosition);
@@ -236,7 +239,7 @@ bool NoitaParticleChunk::UpdateParticlePhysic(NoitaParticle& currentParticle, in
 				nextPosition = currentChunk->ComputeLocalPosition(worldPosition);
 				localPosition = nextPosition;
 				int newIndex = currentChunk->GetIndex(nextPosition);
-				newType = currentChunk->m_particles[newIndex].m_type;
+				newType = currentChunk->m_elements[newIndex].m_type;
 			}
 
 			if (!IsTypeInMask(newType, allowedTypesToSwap))
@@ -287,42 +290,19 @@ void NoitaParticleChunk::SpawnParticle(int x, int y, const NoitaParticle& partic
 {
 	int index = GetIndex(x, y);
 
-	m_particles[index] = particleToSpawn;
-	SetPixelsColor(m_particles[index].m_type, index);
-}
-
-bool NoitaParticleChunk::TrySwapParticles(int index, int destX, int destY, sf::Uint8 allowedTypesToSwap, NoitaParticleChunk::SwapAction physicSwapAction)
-{
-	NoitaParticleChunk* newChunk;
-	int newIndex;
-
-	if (IsInBounds(destX, destY))
-	{
-		newChunk = this;
-		newIndex = GetIndex(destX, destY);
-	}
-	else
-	{
-		sf::Vector2i world = ComputeWorldPosition(destX, destY);
-		newChunk = m_particleManager.GetChunk(world.x, world.y);
-		sf::Vector2i local = newChunk->ComputeLocalPosition(world.x, world.y);
-		newIndex = newChunk->GetIndex(local.x, local.y);
-	}
-
-	if (IsTypeInMask(newChunk->m_particles[newIndex].m_type, allowedTypesToSwap))
-	{
-		SwapParticles(index, newChunk, newIndex);
-
-		if (physicSwapAction)
-			physicSwapAction(newChunk->m_particles[newIndex], m_particles[index]);
-
-		return true;
-	}
-
-	return false;
+	m_elements[index] = particleToSpawn;
+	SetPixelsColor(m_elements[index].m_type, index);
 }
 
 // Utility
+void NoitaParticleChunk::SwapParticles(int sourceIndex, NoitaParticleChunk* destinationChunk, int destinationIndex)
+{
+	std::swap(m_elements[sourceIndex], destinationChunk->m_elements[destinationIndex]);
+
+	SetPixelsColor(m_elements[sourceIndex]->GetType(), sourceIndex);
+	destinationChunk->SetPixelsColor(destinationChunk->m_elements[destinationIndex]->GetType(), destinationIndex);
+}
+
 sf::Vector2i NoitaParticleChunk::ComputeLocalPosition(const sf::Vector2i& world) const
 {
 	return ComputeLocalPosition(world.x, world.y);
@@ -368,27 +348,15 @@ constexpr bool NoitaParticleChunk::IsInBounds(int x, int y) const
 	return x >= 0 && x < ChunkSize&& y >= 0 && y < ChunkSize;
 }
 
-constexpr bool NoitaParticleChunk::IsTypeInMask(NoitaParticle::Type type, sf::Uint8 mask) const
+constexpr bool NoitaParticleChunk::IsTypeInMask(NoitaElementCommon::Type type, sf::Uint8 mask) const
 {
 	return ((1 << (sf::Uint8)type) & mask) != 0;
 }
 
-void NoitaParticleChunk::SwapParticles(int sourceIndex, NoitaParticleChunk* destinationChunk, int destinationIndex)
-{
-	NoitaParticle& sourceParticle = m_particles[sourceIndex];
-	NoitaParticle& destinationParticle = destinationChunk->m_particles[destinationIndex];
-
-	std::swap(sourceParticle, destinationParticle);
-	destinationParticle.m_lastUpdateStep = m_currentSimulationStepCount;
-
-	SetPixelsColor(sourceParticle.m_type, sourceIndex);
-	destinationChunk->SetPixelsColor(destinationParticle.m_type, destinationIndex);
-}
-
-void NoitaParticleChunk::SetPixelsColor(NoitaParticle::Type type, int particleIndex)
+void NoitaParticleChunk::SetPixelsColor(NoitaElementCommon::Type type, int particleIndex)
 {
 	int colorIndex = particleIndex * 4;
-	const sf::Color& newColor = m_particleManager.GetColor(type);
+	const sf::Color& newColor = NoitaElementCommon::ParticleColors[(sf::Uint8)type];
 	m_pixelsColor[colorIndex] = newColor.r;
 	m_pixelsColor[colorIndex + 1] = newColor.g;
 	m_pixelsColor[colorIndex + 2] = newColor.b;

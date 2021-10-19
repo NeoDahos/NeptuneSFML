@@ -2,13 +2,13 @@
 #include <SFML\System.hpp>
 #include <SFML\Config.hpp>
 
+#include "Elements/NoitaElementCommon.h"
+
 struct NoitaParticle
 {
 public:
-	enum class Type : sf::Uint8 { Empty, Sand, Water, Wood };
-
-	static constexpr sf::Uint8 SandSwapAllowed = 1 << (sf::Uint8)Type::Empty | 1 << (sf::Uint8)Type::Water;
-	static constexpr sf::Uint8 WaterSwapAllowed = 1 << (sf::Uint8)Type::Empty;
+	static constexpr sf::Uint8 SandSwapAllowed = 1 << (sf::Uint8)NoitaElementCommon::Type::Empty | 1 << (sf::Uint8)NoitaElementCommon::Type::Water;
+	static constexpr sf::Uint8 WaterSwapAllowed = 1 << (sf::Uint8)NoitaElementCommon::Type::Empty;
 
 	static const NoitaParticle EmptyParticle;
 	static const NoitaParticle SandParticle;
@@ -17,6 +17,6 @@ public:
 
 	sf::Vector2f m_velocity;
 	sf::Uint16 m_lastUpdateStep{};
-	Type m_type{};
+	NoitaElementCommon::Type m_type{};
 	bool m_isStatic{};
 };
