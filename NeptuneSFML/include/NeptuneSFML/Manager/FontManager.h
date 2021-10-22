@@ -13,6 +13,8 @@ namespace nep
 	class NEPTUNE_API FontManager : public sf::NonCopyable
 	{
 	public:
+		~FontManager();
+
 		bool AddFont(const sf::String& _name, const sf::String& _path);
 		sf::Font& GetFont(const sf::String& _name);
 		bool EraseFont(const sf::String& _name);

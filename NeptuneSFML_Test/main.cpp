@@ -12,7 +12,8 @@
 //#include "FFTA\FFTAGame.h"
 //#include "SoftBodySimulation\SoftBodyGame.h"
 //#include "GameOfLife\GameOfLifeGame.h"
-#include "Noita\NoitaGame.h"
+//#include "Noita\NoitaGame.h"
+#include "AsciiArtConverter\AsciiArtConverterGame.h"
 
 void main()
 {
@@ -30,7 +31,7 @@ void main()
 	fpsText.setPosition(550.f, 0.f);
 	fpsText.setCharacterSize(16);
 
-	NoitaGame game;
+	AsciiArtConverterGame game;
 	game.Init(window);
 
 	timer.restart();

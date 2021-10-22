@@ -19,20 +19,84 @@ namespace nep
 	constexpr const float TWO_PI = 2.f * PI;
 	constexpr const float EPSILON = 0.00001f;
 
-	NEPTUNE_API float VectorAngle(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);
-	NEPTUNE_API float VectorOrientedAngle(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);
-	NEPTUNE_API float CrossProduct(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);
-	NEPTUNE_API float DotProduct(const sf::Vector2f& _vector1, const sf::Vector2f& _vector2);
-
-	NEPTUNE_API float VectorLength(const sf::Vector2f& _v);
-	NEPTUNE_API float VectorLengthSq(const sf::Vector2f& _v);
-	NEPTUNE_API sf::Vector2f VectorNormalization(const sf::Vector2f& _v);
-	NEPTUNE_API void VectorNormalize(sf::Vector2f& _vector);
-
 	NEPTUNE_API sf::Color LerpColor(const sf::Color& _min, const sf::Color& _max, float _time);
 
 	NEPTUNE_API float GetRandomValue();
 	NEPTUNE_API int GetRandomValue(int min, int max);
+	NEPTUNE_API std::string OpenFilePicker();
+
+	template <typename T>
+	float VectorAngle(const sf::Vector2<T>& _vector1, const sf::Vector2<T>& _vector2)
+	{
+		float scalarProduct = _vector1.x * _vector2.x + _vector1.y * _vector2.y;
+		float lengthV1 = sqrtf(_vector1.x * _vector1.x + _vector1.y * _vector1.y);
+		float lengthV2 = sqrtf(_vector2.x * _vector2.x + _vector2.y * _vector2.y);
+
+		return (acosf(scalarProduct / (lengthV1 * lengthV2)) * 180.f) / PI;
+	}
+
+	template <typename T>
+	float VectorOrientedAngle(const sf::Vector2<T>& _vector1, const sf::Vector2<T>& _vector2)
+	{
+		float angle = VectorAngle(_vector1, _vector2);
+
+		if (CrossProduct(_vector1, _vector2) > 0)
+			return angle;
+		else
+			return -angle;
+	}
+
+	// Rotate vector by an angle (in Rad)
+	template <class T>
+	void VectorRotation(sf::Vector2<T>& _vector, float _angle)
+	{
+		T X = _vector.x * cos(_angle) - _vector.y * sin(_angle);
+		T Y = _vector.x * sin(_angle) + _vector.y * cos(_angle);
+
+		_vector.x = X;
+		_vector.y = Y;
+	}
+
+	template <typename T>
+	float CrossProduct(const sf::Vector2<T>& _vector1, const sf::Vector2<T>& _vector2)
+	{
+		return (_vector1.x * _vector2.y) - (_vector1.y * _vector2.x);
+	}
+
+	template <typename T>
+	float DotProduct(const sf::Vector2<T>& _vector1, const sf::Vector2<T>& _vector2)
+	{
+		return (_vector1.x * _vector2.x) + (_vector1.y * _vector2.y);
+	}
+
+	template <typename T>
+	float VectorLength(const sf::Vector2<T>& _v)
+	{
+		return sqrtf(Square(_v.x) + Square(_v.y));
+	}
+
+	template <typename T>
+	float VectorLengthSq(const sf::Vector2<T>& _v)
+	{
+		return Square(_v.x) + Square(_v.y);
+	}
+
+	template <typename T>
+	sf::Vector2<T> VectorNormalization(const sf::Vector2<T>& _v)
+	{
+		float length = VectorLength(_v);
+
+		if (length != 0.f)
+			return sf::Vector2<T>(_v.x / length, _v.y / length);
+		else
+			return _v;
+	}
+
+	template <typename T>
+	void VectorNormalize(sf::Vector2<T>& _vector)
+	{
+		_vector = VectorNormalization(_vector);
+	}
 
 	template<class T>
 	constexpr const T& Clamp(const T& _value, const T& _min, const T& _max)
@@ -74,17 +138,6 @@ namespace nep
 	constexpr const T RadToDeg(const T& _angle)
 	{
 		return static_cast<T>((_angle * 180.f) / nep::PI);
-	}
-
-	// Rotate vector by an angle (in Rad)
-	template <class T>
-	void VectorRotation(sf::Vector2<T>& _vector, float _angle)
-	{
-		T X = _vector.x * cos(_angle) - _vector.y * sin(_angle);
-		T Y = _vector.x * sin(_angle) + _vector.y * cos(_angle);
-
-		_vector.x = X;
-		_vector.y = Y;
 	}
 
 	// Thanks https://stackoverflow.com/a/26221725

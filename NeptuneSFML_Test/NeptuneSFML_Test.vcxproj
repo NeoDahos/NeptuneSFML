@@ -118,6 +118,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AsciiArtConverter\AsciiArtConverterGame.cpp" />
+    <ClCompile Include="AsciiArtConverter\AsciiIntensity.cpp" />
     <ClCompile Include="CreeperWorld\CreeperMap\CreeperMap.cpp" />
     <ClCompile Include="CreeperWorld\CreeperWorldGame.cpp" />
     <ClCompile Include="FFTA\Battle\FFTABattle.cpp" />
@@ -148,6 +150,8 @@
     <ClCompile Include="SoftBodySimulation\SoftBodyGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsciiArtConverter\AsciiArtConverterGame.h" />
+    <ClInclude Include="AsciiArtConverter\AsciiIntensity.h" />
     <ClInclude Include="CreeperWorld\CreeperMap\CreeperMap.h" />
     <ClInclude Include="CreeperWorld\CreeperWorldGame.h" />
     <ClInclude Include="FFTA\Battle\FFTABattle.h" />

@@ -2,6 +2,11 @@
 
 namespace nep
 {
+	FontManager::~FontManager()
+	{
+		ClearAllFonts();
+	}
+
 	bool FontManager::AddFont(const sf::String& _name, const sf::String& _path)
 	{
 		sf::Font* font = new sf::Font;
